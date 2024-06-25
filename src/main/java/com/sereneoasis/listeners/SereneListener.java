@@ -21,7 +21,9 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class SereneListener implements Listener {
 
@@ -46,22 +48,33 @@ public class SereneListener implements Listener {
 
     }
 
+    private final static Set<Player> PARRY_COOLDOWNS = new HashSet<>();
+
+
     @EventHandler
     public void onRightClickNPC(PlayerInteractEntityEvent event){
 
         Player player = event.getPlayer();
-        if (player.isSneaking()) {
-            if (SereneNPCs.plugin.getNpcs().stream().anyMatch(humanEntity -> humanEntity.getBukkitEntity().getUniqueId() == event.getRightClicked().getUniqueId())) {
-                NPCTypes npcTypes = SereneNPCs.plugin.getNpcs()
-                        .stream()
-                        .filter(humanEntity -> humanEntity.getBukkitEntity().getUniqueId() == event.getRightClicked().getUniqueId())
-                        .findAny().get().getNPCType();
+        if (player.isSneaking() ) {
+            if (!PARRY_COOLDOWNS.contains(player)) {
+                if (SereneNPCs.plugin.getNpcs().stream().anyMatch(humanEntity -> humanEntity.getBukkitEntity().getUniqueId() == event.getRightClicked().getUniqueId())) {
+                    NPCTypes npcTypes = SereneNPCs.plugin.getNpcs()
+                            .stream()
+                            .filter(humanEntity -> humanEntity.getBukkitEntity().getUniqueId() == event.getRightClicked().getUniqueId())
+                            .findAny().get().getNPCType();
 
 
-                ChatManager chatManager = new ChatManager();
-                ChatBuilder chatBuilder = chatManager.getChatBuilder(npcTypes);
+                    ChatManager chatManager = new ChatManager();
+                    ChatBuilder chatBuilder = chatManager.getChatBuilder(npcTypes);
 
-                ChatMaster chatMaster = new ChatMaster(player, chatBuilder);
+                    ChatMaster chatMaster = new ChatMaster(player, chatBuilder);
+
+                    PARRY_COOLDOWNS.add(player);
+                    Bukkit.getScheduler().runTaskLater(SereneNPCs.plugin, () -> {
+                        PARRY_COOLDOWNS.remove(player);
+                    }, 20L);
+
+                }
             }
         }
         else {

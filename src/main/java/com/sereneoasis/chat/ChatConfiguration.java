@@ -10,6 +10,8 @@ public class ChatConfiguration {
 
     public  ChatConfiguration(){
         Arrays.stream(NPCTypes.values()).forEach(npcTypes -> {
+
+
             ConfigFile chat = new ConfigFile(npcTypes.toString());
             FileConfiguration configuration = chat.getConfig();
             configuration.addDefault("0.TYPE", ChatTypes.STATEMENT.toString());
@@ -31,6 +33,7 @@ public class ChatConfiguration {
 
             configuration.addDefault("4.TYPE", ChatTypes.TERMINAL.toString());
             configuration.addDefault("4.TEXT", "Sorry to hear that.");
+
             chat.saveConfig();
         });
     }
