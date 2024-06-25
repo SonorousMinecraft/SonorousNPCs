@@ -12,16 +12,24 @@ However the Minecraft world is technically not stochastic so this doesn't serve 
 
 ## Features:
 > Chat system
-https://youtu.be/zny8CBAhqdQ
+
+[![Watch the video](https://img.youtube.com/vi/zny8CBAhqdQ/hqdefault.jpg)](https://www.youtube.com/embed/zny8CBAhqdQ)
+
 
 > Intelligent pathfinding
-https://youtu.be/hdZFQTGVb20
+
+[![Watch the video](https://img.youtube.com/vi/hdZFQTGVb20/hqdefault.jpg)](https://www.youtube.com/embed/hdZFQTGVb20)
 
 > Intuitive combat mechanics 
-https://youtu.be/8eV6QMIw-8c
+
+[![Watch the video](https://img.youtube.com/vi/8eV6QMIw-8c/hqdefault.jpg)](https://www.youtube.com/embed/8eV6QMIw-8c)
 
 > World interaction (it can locate and destroy blocks by itself)
-https://youtu.be/IqUGWj_aPhg
+
+
+[![Watch the video](https://img.youtube.com/vi/IqUGWj_aPhg/hqdefault.jpg)](https://www.youtube.com/embed/IqUGWj_aPhg)
 
 > Roams the world by itself 
-https://youtu.be/hdZFQTGVb20
+
+
+[![Watch the video](https://img.youtube.com/vi/hdZFQTGVb20/hqdefault.jpg)](https://www.youtube.com/embed/hdZFQTGVb20)
