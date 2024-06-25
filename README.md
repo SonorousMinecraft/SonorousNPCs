@@ -11,6 +11,9 @@ This is a type of weak AI (namely Reactive Machine AI) because it does not have 
 However the Minecraft world is technically not stochastic so this doesn't serve as that much of an issue.
 
 ## Features:
+> Chat system
+https://youtu.be/zny8CBAhqdQ
+
 > Intelligent pathfinding
 https://youtu.be/hdZFQTGVb20
 
