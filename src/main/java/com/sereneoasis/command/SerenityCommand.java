@@ -6,11 +6,13 @@ import com.sereneoasis.entity.AI.goal.basic.movement.MoveToBlock;
 import com.sereneoasis.entity.AI.goal.complex.MasterGoal;
 import com.sereneoasis.entity.AI.goal.complex.movement.NavigateToLocation;
 import com.sereneoasis.npc.storyline.Guide;
+import com.sereneoasis.npc.storyline.StorylineLocations;
 import com.sereneoasis.npc.storyline.StorylineNPC;
 import com.sereneoasis.utils.NPCUtils;
 import com.sereneoasis.utils.Vec3Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.core.BlockPos;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -40,10 +42,10 @@ public class SerenityCommand implements CommandExecutor {
                         player.spigot().sendMessage(bye);
                     }
                     case "walk_to" -> {
-//                        String uuid = strings[1];
+                        BlockPos goalPos = SereneNPCs.plugin.getStorylineLocations().getBlockPos( strings[1]);
                         StorylineNPC storylineNPC = ChatMaster.getNPC(player);
 
-                        MasterGoal navigateToLocation = new NavigateToLocation("navigate", storylineNPC, blockPos -> storylineNPC.distanceToSqr(blockPos.getCenter()) < 4);
+                        MasterGoal navigateToLocation = new NavigateToLocation("navigate", storylineNPC, blockPos -> goalPos.distSqr(blockPos) < 4, goalPos);
                         storylineNPC.getMasterGoalSelector().addMasterGoal(navigateToLocation);
 
                     }

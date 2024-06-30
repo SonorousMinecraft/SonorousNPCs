@@ -6,6 +6,7 @@ import com.sereneoasis.command.SerenityCommand;
 import com.sereneoasis.config.FileManager;
 import com.sereneoasis.listeners.SereneListener;
 import com.sereneoasis.npc.random.types.NPCMaster;
+import com.sereneoasis.npc.storyline.StorylineLocations;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -39,8 +40,11 @@ public class SereneNPCs extends JavaPlugin {
 
     private HashMap<UUID, ChestGui> uuidChestGuiHashMap = new HashMap<>();
 
+    private StorylineLocations storylineLocations;
 
-
+    public StorylineLocations getStorylineLocations() {
+        return storylineLocations;
+    }
 
     public void addNPC(NPCMaster npcMaster){
         npcs.add(npcMaster);
@@ -67,6 +71,7 @@ public class SereneNPCs extends JavaPlugin {
         this.getCommand("SereneNPCs").setExecutor(new SerenityCommand());
 
         new ChatConfiguration();
+        storylineLocations = new StorylineLocations();
     }
 
     private boolean setupEconomy() {
