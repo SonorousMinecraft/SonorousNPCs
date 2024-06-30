@@ -16,6 +16,7 @@
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/NPCStates.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/chat/ChatTypes.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/utils/EconUtils.java
+/home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/complex/movement/NavigateToLocation.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/random/types/butcher/ButcherEntity.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/HumanEntity.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/storyline/StorylineNPC.java
@@ -28,6 +29,7 @@
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/control/BodyRotationControl.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/random/types/NPCTypes.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/chat/ChatManager.java
+/home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/storyline/StorylineLocations.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/complex/combat/MasterCombat.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/inventory/InventoryTracker.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/basic/look/PeriodicallyRotate.java

@@ -56,7 +56,8 @@ public abstract class StorylineNPC extends HumanEntity {
                 }
                 case WALK_TO -> {
                     String walkTo = configuration.get(currentIndex + ".GOAL").toString();
-                    chatBuilder.addWalkTo(text, walkTo);
+                    int next = Integer.valueOf(configuration.get(currentIndex + ".NEXT").toString());
+                    chatBuilder.addWalkTo(text, walkTo, next);
                 }
 
             }

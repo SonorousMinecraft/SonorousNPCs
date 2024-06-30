@@ -76,8 +76,13 @@ public class SereneListener implements Listener {
                     }, 20L);
 
                 } else if (event.getRightClicked().getName().equals("Guide") ){
-
-                    new ChatMaster(player, StorylineNPC.getChat(event.getRightClicked().getUniqueId()), StorylineNPC.getInstance(event.getRightClicked().getUniqueId()));
+                    ChatMaster current = ChatMaster.getInstance(player);
+                    if (current == null) {
+                        new ChatMaster(player, StorylineNPC.getChat(event.getRightClicked().getUniqueId()), StorylineNPC.getInstance(event.getRightClicked().getUniqueId()));
+                    }
+                    else {
+                        current.next(player);
+                    }
                     CHAT_COOLDOWNS.add(player);
                     Bukkit.getScheduler().runTaskLater(SereneNPCs.plugin, () -> {
                         CHAT_COOLDOWNS.remove(player);

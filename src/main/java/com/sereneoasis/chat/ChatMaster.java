@@ -51,4 +51,8 @@ public class ChatMaster {
     public void next(Player player, int next){
         current.next(player, next);
     }
+
+    public void next(Player player){
+        current.next(player);
+    }
 }
