@@ -1,11 +1,11 @@
-package com.sereneoasis.npc.guis;
+package com.sereneoasis.npc.random.guis;
 
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.github.stefvanschie.inventoryframework.pane.OutlinePane;
 import com.github.stefvanschie.inventoryframework.pane.Pane;
-import com.sereneoasis.npc.guis.quests.QuestGUI;
-import com.sereneoasis.npc.guis.shops.ShopGUI;
+import com.sereneoasis.npc.random.guis.quests.QuestGUI;
+import com.sereneoasis.npc.random.guis.shops.ShopGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

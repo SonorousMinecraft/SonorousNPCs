@@ -10,7 +10,7 @@ public class MoveForward extends Movement{
     //private int lastGoalTicks;
 
     private boolean isStuck = true;
-    private boolean isFucked = false;
+    private boolean isBugged = false;
 
     public MoveForward(String name, HumanEntity npc, int priority, double requiredDistance) {
         super(name, npc, priority, null, requiredDistance);
@@ -19,7 +19,7 @@ public class MoveForward extends Movement{
 
     @Override
     public void tick() {
-     //   if (!isFucked) {
+     //   if (!isBugged) {
             //  if (npc.tickCount - lastGoalTicks > 4) {
             BlockPos floorBlock = npc.getOnPos();
 
@@ -40,9 +40,9 @@ public class MoveForward extends Movement{
                     }
                 }
                 if (!hasAnyValidLocation) {
-                    isFucked = true;
+                    isBugged = true;
                 } else {
-                    isFucked = false;
+                    isBugged = false;
                 }
             }
             //     lastGoalTicks = npc.tickCount;
@@ -95,11 +95,11 @@ public class MoveForward extends Movement{
         isStuck = stuck;
     }
 
-    public boolean isFucked() {
-        return isFucked;
+    public boolean isBugged() {
+        return isBugged;
     }
 
-    public void setFucked(boolean fucked) {
-        isFucked = fucked;
+    public void setBugged(boolean fucked) {
+        isBugged = fucked;
     }
 }

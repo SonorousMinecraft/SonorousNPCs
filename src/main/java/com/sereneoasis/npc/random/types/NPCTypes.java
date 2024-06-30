@@ -1,4 +1,4 @@
-package com.sereneoasis.npc.types;
+package com.sereneoasis.npc.random.types;
 
 public enum NPCTypes {
     ASSASSIN,

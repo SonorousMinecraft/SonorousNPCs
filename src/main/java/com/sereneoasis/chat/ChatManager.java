@@ -2,7 +2,7 @@ package com.sereneoasis.chat;
 
 import com.sereneoasis.chat.builders.ChatBuilder;
 import com.sereneoasis.config.ConfigFile;
-import com.sereneoasis.npc.types.NPCTypes;
+import com.sereneoasis.npc.random.types.NPCTypes;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;

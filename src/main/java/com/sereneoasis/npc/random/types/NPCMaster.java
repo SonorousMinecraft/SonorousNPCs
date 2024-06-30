@@ -1,10 +1,10 @@
-package com.sereneoasis.npc.types;
+package com.sereneoasis.npc.random.types;
 
 import com.mojang.authlib.GameProfile;
 import com.sereneoasis.entity.HumanEntity;
-import com.sereneoasis.npc.guis.MainGUI;
-import com.sereneoasis.npc.guis.quests.QuestGUI;
-import com.sereneoasis.npc.guis.shops.ShopGUI;
+import com.sereneoasis.npc.random.guis.MainGUI;
+import com.sereneoasis.npc.random.guis.quests.QuestGUI;
+import com.sereneoasis.npc.random.guis.shops.ShopGUI;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;

@@ -4,8 +4,9 @@ import com.sereneoasis.SereneNPCs;
 import com.sereneoasis.chat.ChatManager;
 import com.sereneoasis.chat.ChatMaster;
 import com.sereneoasis.chat.builders.ChatBuilder;
-import com.sereneoasis.npc.guis.quests.QuestGUI;
-import com.sereneoasis.npc.types.NPCTypes;
+import com.sereneoasis.npc.random.guis.quests.QuestGUI;
+import com.sereneoasis.npc.random.types.NPCTypes;
+import com.sereneoasis.npc.storyline.StorylineNPC;
 import com.sereneoasis.utils.ClientboundPlayerInfoUpdatePacketWrapper;
 import com.sereneoasis.utils.EconUtils;
 import com.sereneoasis.utils.PacketUtils;
@@ -48,7 +49,7 @@ public class SereneListener implements Listener {
 
     }
 
-    private final static Set<Player> PARRY_COOLDOWNS = new HashSet<>();
+    private final static Set<Player> CHAT_COOLDOWNS = new HashSet<>();
 
 
     @EventHandler
@@ -56,7 +57,7 @@ public class SereneListener implements Listener {
 
         Player player = event.getPlayer();
         if (player.isSneaking() ) {
-            if (!PARRY_COOLDOWNS.contains(player)) {
+            if (!CHAT_COOLDOWNS.contains(player)) {
                 if (SereneNPCs.plugin.getNpcs().stream().anyMatch(humanEntity -> humanEntity.getBukkitEntity().getUniqueId() == event.getRightClicked().getUniqueId())) {
                     NPCTypes npcTypes = SereneNPCs.plugin.getNpcs()
                             .stream()
@@ -69,11 +70,18 @@ public class SereneListener implements Listener {
 
                     ChatMaster chatMaster = new ChatMaster(player, chatBuilder);
 
-                    PARRY_COOLDOWNS.add(player);
+                    CHAT_COOLDOWNS.add(player);
                     Bukkit.getScheduler().runTaskLater(SereneNPCs.plugin, () -> {
-                        PARRY_COOLDOWNS.remove(player);
+                        CHAT_COOLDOWNS.remove(player);
                     }, 20L);
 
+                } else if (event.getRightClicked().getName().equals("Guide") ){
+
+                    new ChatMaster(player, StorylineNPC.getChat(event.getRightClicked().getUniqueId()), StorylineNPC.getInstance(event.getRightClicked().getUniqueId()));
+                    CHAT_COOLDOWNS.add(player);
+                    Bukkit.getScheduler().runTaskLater(SereneNPCs.plugin, () -> {
+                        CHAT_COOLDOWNS.remove(player);
+                    }, 20L);
                 }
             }
         }

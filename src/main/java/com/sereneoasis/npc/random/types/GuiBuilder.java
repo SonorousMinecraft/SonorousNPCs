@@ -1,4 +1,4 @@
-package com.sereneoasis.npc.types;
+package com.sereneoasis.npc.random.types;
 
 import com.sereneoasis.items.ItemStacks;
 import org.bukkit.Location;

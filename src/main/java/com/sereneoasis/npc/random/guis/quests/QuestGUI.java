@@ -1,4 +1,4 @@
-package com.sereneoasis.npc.guis.quests;
+package com.sereneoasis.npc.random.guis.quests;
 
 import com.github.stefvanschie.inventoryframework.gui.GuiItem;
 import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;

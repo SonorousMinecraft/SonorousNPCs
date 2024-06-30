@@ -122,6 +122,10 @@ public class HumanEntity extends ServerPlayer {
 
     protected MasterGoalSelector masterGoalSelector;
 
+    public MasterGoalSelector getMasterGoalSelector() {
+        return masterGoalSelector;
+    }
+
     protected TargetSelector targetSelector;
 
     protected InventoryTracker inventoryTracker;

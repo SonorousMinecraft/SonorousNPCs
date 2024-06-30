@@ -6,7 +6,9 @@ public enum ChatTypes {
     STATEMENT("statement"),
     QUESTION("question"),
 
-    TERMINAL("terminal");
+    TERMINAL("terminal"),
+
+    WALK_TO("walk_to");
 
     private String string;
 

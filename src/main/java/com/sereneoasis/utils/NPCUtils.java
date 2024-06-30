@@ -7,13 +7,14 @@ import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.datafixers.util.Pair;
 import com.sereneoasis.entity.HumanEntity;
-import com.sereneoasis.npc.types.NPCMaster;
-import com.sereneoasis.npc.types.assassin.AssassinEntity;
-import com.sereneoasis.npc.types.baker.BakerEntity;
-import com.sereneoasis.npc.types.butcher.ButcherEntity;
-import com.sereneoasis.npc.types.mage.MageEntity;
-import com.sereneoasis.npc.types.rogue.RogueEntity;
-import com.sereneoasis.npc.types.warrior.WarriorEntity;
+import com.sereneoasis.npc.random.types.NPCMaster;
+import com.sereneoasis.npc.random.types.assassin.AssassinEntity;
+import com.sereneoasis.npc.random.types.baker.BakerEntity;
+import com.sereneoasis.npc.random.types.butcher.ButcherEntity;
+import com.sereneoasis.npc.random.types.mage.MageEntity;
+import com.sereneoasis.npc.random.types.rogue.RogueEntity;
+import com.sereneoasis.npc.random.types.warrior.WarriorEntity;
+import com.sereneoasis.npc.storyline.Guide;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
@@ -41,7 +42,51 @@ import java.util.*;
 
 public class NPCUtils {
 
-    public static NPCMaster spawnNPC(Location location, Player player, String name, String skinUsersIGN){
+    public static void spawnGuideNPC(Location location, Player player, String name, String skinUsersIGN) {
+//        ServerPlayer player = ((CraftPlayer)p).getHandle();
+
+        MinecraftServer minecraftServer = ((CraftServer) Bukkit.getServer()).getServer();
+        ServerLevel serverLevel = ((CraftWorld) location.getWorld()).getHandle();
+        GameProfile gameProfile = new GameProfile(UUID.randomUUID(), name);
+
+        Guide serverPlayer = new Guide(minecraftServer, serverLevel, setSkin(skinUsersIGN, gameProfile), ClientInformation.createDefault());
+
+        serverPlayer.setPos(location.getX(), location.getY(), location.getZ());
+
+        SynchedEntityData synchedEntityData = serverPlayer.getEntityData();
+        synchedEntityData.set(new EntityDataAccessor<>(17, EntityDataSerializers.BYTE), (byte) 127);
+
+        //PacketUtils.setValue(serverPlayer, "c", ((CraftPlayer) player).getHandle().connection);
+
+//        serverPlayer.connection = ((CraftPlayer) player).getHandle().connection;
+        Connection serverPlayerConnection = new Connection(PacketFlow.SERVERBOUND);
+
+//        serverPlayerConnection.setListener(new PacketListenerImpl());
+//        serverPlayerConnection.setListener(((CraftPlayer) player).getHandle().connection.connection.getPacketListener());
+        serverPlayerConnection.channel = ((CraftPlayer) player).getHandle().connection.connection.channel;
+
+        CommonListenerCookie commonListenerCookie = CommonListenerCookie.createInitial(gameProfile);
+        ServerGamePacketListenerImpl serverGamePacketListener = new ServerGamePacketListenerImpl(minecraftServer, serverPlayerConnection, serverPlayer, commonListenerCookie);
+        serverPlayer.connection = serverGamePacketListener;
+
+
+        ClientboundPlayerInfoUpdatePacketWrapper playerInfoPacket = new ClientboundPlayerInfoUpdatePacketWrapper(
+                EnumSet.of(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, ClientboundPlayerInfoUpdatePacket.Action.UPDATE_LATENCY),
+                serverPlayer,
+                180,
+                true
+        );
+        PacketUtils.sendPacket(playerInfoPacket.getPacket(), player);
+
+
+//        PacketUtils.sendPacket(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, serverPlayer), player);
+
+//        SereneNPCs.getPacketListener().injectPlayer(serverPlayer.getBukkitEntity());
+
+        serverLevel.addFreshEntity(serverPlayer);
+    }
+
+        public static NPCMaster spawnNPC(Location location, Player player, String name, String skinUsersIGN){
         //ServerPlayer player = ((CraftPlayer)p).getHandle();
 
         MinecraftServer minecraftServer = ((CraftServer) Bukkit.getServer()).getServer();

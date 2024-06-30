@@ -68,6 +68,19 @@ public class ChatBuilder{
         chatUnitArrayList.add(chatUnit);
     }
 
+    public void addWalkTo(String text, int next) {
+        TextComponent message = new TextComponent(text);
+        message.setColor(ChatColor.YELLOW);
+        message.setBold(true);
+
+        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/serenenpcs walk_to "));
+//        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/serenenpcs next " + next));
+
+
+        ChatUnit chatUnit = new ChatUnit(message);
+        chatUnitArrayList.add(chatUnit);
+    }
+
     public void next(Player player, int next){
         current = next;
         player.spigot().sendMessage(chatUnitArrayList.get(current).getChat());

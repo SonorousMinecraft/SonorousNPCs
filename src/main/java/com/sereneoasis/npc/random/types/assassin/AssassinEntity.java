@@ -1,10 +1,10 @@
-package com.sereneoasis.npc.types.warrior;
+package com.sereneoasis.npc.random.types.assassin;
 
 import com.mojang.authlib.GameProfile;
 import com.sereneoasis.entity.AI.goal.complex.combat.KillTargetEntity;
 import com.sereneoasis.items.ItemStacks;
-import com.sereneoasis.npc.types.NPCMaster;
-import com.sereneoasis.npc.types.NPCTypes;
+import com.sereneoasis.npc.random.types.NPCMaster;
+import com.sereneoasis.npc.random.types.NPCTypes;
 import com.sereneoasis.utils.Vec3Utils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ClientInformation;
@@ -20,21 +20,19 @@ import oshi.util.tuples.Pair;
 import java.util.HashMap;
 import java.util.List;
 
-public class WarriorEntity extends NPCMaster {
+public class AssassinEntity extends NPCMaster {
 
 
-    public WarriorEntity(MinecraftServer server, ServerLevel world, GameProfile profile, ClientInformation clientOptions) {
+    public AssassinEntity(MinecraftServer server, ServerLevel world, GameProfile profile, ClientInformation clientOptions) {
         super(server, world, profile, clientOptions);
 
-        this.setItemSlot(EquipmentSlot.HEAD, net.minecraft.world.item.ItemStack.fromBukkitCopy(new org.bukkit.inventory.ItemStack(Material.IRON_HELMET)));
-        this.setItemSlot(EquipmentSlot.CHEST, net.minecraft.world.item.ItemStack.fromBukkitCopy(new org.bukkit.inventory.ItemStack(Material.IRON_CHESTPLATE)));
-        this.setItemSlot(EquipmentSlot.LEGS, net.minecraft.world.item.ItemStack.fromBukkitCopy(new org.bukkit.inventory.ItemStack(Material.IRON_LEGGINGS)));
-        this.setItemSlot(EquipmentSlot.FEET, net.minecraft.world.item.ItemStack.fromBukkitCopy(new org.bukkit.inventory.ItemStack(Material.IRON_BOOTS)));
+        this.setItemSlot(EquipmentSlot.HEAD, net.minecraft.world.item.ItemStack.fromBukkitCopy(new org.bukkit.inventory.ItemStack(Material.CHAINMAIL_HELMET)));
+        this.setItemSlot(EquipmentSlot.FEET, net.minecraft.world.item.ItemStack.fromBukkitCopy(new org.bukkit.inventory.ItemStack(Material.CHAINMAIL_BOOTS)));
     }
 
     @Override
     public NPCTypes getNPCType() {
-        return NPCTypes.WARRIOR;
+        return NPCTypes.ASSASSIN;
     }
 
     @Override
@@ -65,9 +63,7 @@ public class WarriorEntity extends NPCMaster {
     @Override
     public HashMap<ItemStack, ItemStack> getAttainmentQuests() {
         HashMap<ItemStack, ItemStack> requirementRewardMap = new HashMap<>();
-        requirementRewardMap.put(new ItemStack(Material.OAK_LOG), ItemStacks.TRAINING_SWORD.getItemStack());
-        requirementRewardMap.put(new ItemStack(Material.COBBLESTONE), ItemStacks.BASIC_SOLDIER_SWORD.getItemStack());
-        requirementRewardMap.put(new ItemStack(Material.IRON_INGOT), ItemStacks.BESERKER_AXE.getItemStack());
+//        requirementRewardMap.
         return requirementRewardMap;
     }
 
@@ -87,7 +83,7 @@ public class WarriorEntity extends NPCMaster {
 
     @Override
     public List<ItemStacks> getShopItems() {
-        List<ItemStacks> shopArrayList = List.of(ItemStacks.TRAINING_SWORD, ItemStacks.BASIC_SOLDIER_SWORD, ItemStacks.BESERKER_AXE);
+        List<ItemStacks> shopArrayList = List.of(ItemStacks.MURDERERS_DAGGER, ItemStacks.SILENT_SNIPER, ItemStacks.POISONED_ARROW);
         return shopArrayList;
     }
 }

@@ -5,7 +5,7 @@ import com.sereneoasis.chat.ChatConfiguration;
 import com.sereneoasis.command.SerenityCommand;
 import com.sereneoasis.config.FileManager;
 import com.sereneoasis.listeners.SereneListener;
-import com.sereneoasis.npc.types.NPCMaster;
+import com.sereneoasis.npc.random.types.NPCMaster;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
