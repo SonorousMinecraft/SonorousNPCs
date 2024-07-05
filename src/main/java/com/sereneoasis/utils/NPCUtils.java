@@ -97,8 +97,8 @@ public class NPCUtils {
 //        HumanEntity serverPlayer = new HumanEntity(minecraftServer, serverLevel, setSkin(skinUsersIGN, gameProfile), ClientInformation.createDefault());
         Random random = new Random();
         NPCMaster serverPlayer = null;
-//        switch (random.nextInt(6)) {
-        switch (0) {
+        switch (random.nextInt(6)) {
+//        switch (0) {
             case 0 -> {
                 serverPlayer = new AssassinEntity(minecraftServer, serverLevel, setSkin(skinUsersIGN, gameProfile), ClientInformation.createDefault());
 

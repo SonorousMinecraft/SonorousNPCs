@@ -42,7 +42,7 @@ public class WarriorEntity extends NPCMaster {
         super.tick();
 
         if (!masterGoalSelector.doingGoal("kill hostile entity")) {
-            if (targetSelector.retrieveTopHostile() instanceof LivingEntity hostile && (!Vec3Utils.isObstructed(this.getPosition(0), hostile.getPosition(0), this.level()))) {
+            if (targetSelector.retrieveTopHostile() instanceof LivingEntity hostile ) {
                 masterGoalSelector.addMasterGoal(new KillTargetEntity("kill hostile entity", this, hostile));
             } else {
 //                if (!masterGoalSelector.doingGoal("roam")) {

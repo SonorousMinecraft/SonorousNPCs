@@ -19,11 +19,11 @@ public class Vec3Utils {
 
     public static boolean isObstructed(Position pos1, Position pos2, Level level) {
         boolean obstructed = false;
-        for (BlockPos bp :   BlockPos.betweenClosed(BlockPos.containing(pos1), BlockPos.containing(pos2))){
-            if (isBlockSolid(bp.getCenter(), level)) {
-                obstructed = true;
-            }
-        }
+//        for (BlockPos bp :   BlockPos.betweenClosed(BlockPos.containing(pos1), BlockPos.containing(pos2))){
+//            if (isBlockSolid(bp.getCenter(), level)) {
+//                obstructed = true;
+//            }
+//        }
         return obstructed;
     }
 }

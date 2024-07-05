@@ -42,7 +42,7 @@ public class RogueEntity extends NPCMaster {
         super.tick();
 
         if (!masterGoalSelector.doingGoal("kill everything")) {
-            if (targetSelector.retrieveTopHostile() instanceof LivingEntity hostile && (!Vec3Utils.isObstructed(this.getPosition(0), hostile.getPosition(0), this.level()))) {
+            if (targetSelector.retrieveTopHostile() instanceof LivingEntity hostile ) {
                 masterGoalSelector.addMasterGoal(new KillTargetEntity("kill everything", this, hostile));
             }
             else if (!masterGoalSelector.doingGoal("kill food entity")) {
