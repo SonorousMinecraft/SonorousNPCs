@@ -2,9 +2,14 @@ package com.sereneoasis.utils;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Position;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import org.bukkit.util.Vector;
 
 public class Vec3Utils {
 
@@ -17,13 +22,25 @@ public class Vec3Utils {
         return !isBlockSolid( BlockPos.containing(pos).above().getCenter(), level) && isBlockSolid( BlockPos.containing(pos).below().getCenter(), level);
     }
 
+    public static boolean isBlockSolid(BlockPos pos, Level level) {
+        BlockState blockState = level.getBlockStateIfLoaded(pos);
+        if (blockState == null){
+            return false;
+        } else if (blockState.isSolid()) {
+            return true;
+        }
+        return false;
+    }
+
+
     public static boolean isObstructed(Position pos1, Position pos2, Level level) {
         boolean obstructed = false;
-//        for (BlockPos bp :   BlockPos.betweenClosed(BlockPos.containing(pos1), BlockPos.containing(pos2))){
-//            if (isBlockSolid(bp.getCenter(), level)) {
-//                obstructed = true;
-//            }
-//        }
+        for (BlockPos bp :   BlockPos.betweenClosed(BlockPos.containing(pos1), BlockPos.containing(pos2))){
+            if (isBlockSolid(bp, level)) {
+                obstructed = true;
+                break;
+            }
+        }
         return obstructed;
     }
 }

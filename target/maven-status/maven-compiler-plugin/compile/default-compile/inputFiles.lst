@@ -49,6 +49,7 @@
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/random/types/NPCMaster.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/basic/interaction/BreakBlock.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/MasterGoalSelector.java
+/home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/random/types/NPCBehaviourUtils.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/random/types/GuiBuilder.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/control/JumpControl.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/SkinPart.java

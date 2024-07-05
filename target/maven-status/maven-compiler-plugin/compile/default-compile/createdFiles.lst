@@ -11,6 +11,7 @@ com/sereneoasis/entity/AI/control/MoveControl.class
 com/sereneoasis/entity/AI/navigation/NodeEvaluator.class
 com/sereneoasis/entity/AI/control/JumpControl.class
 com/sereneoasis/utils/BlockUtils.class
+com/sereneoasis/npc/random/types/NPCBehaviourUtils.class
 com/sereneoasis/entity/AI/inventory/InventoryUtils.class
 com/sereneoasis/entity/AI/navigation/PathNavigation.class
 com/sereneoasis/entity/AI/goal/basic/movement/MoveForward.class
