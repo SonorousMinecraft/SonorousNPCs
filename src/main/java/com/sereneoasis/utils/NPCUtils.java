@@ -1,11 +1,13 @@
 package com.sereneoasis.utils;
 
+import com.github.javafaker.Faker;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.datafixers.util.Pair;
+import com.sereneoasis.SereneNPCs;
 import com.sereneoasis.entity.HumanEntity;
 import com.sereneoasis.npc.random.types.NPCMaster;
 import com.sereneoasis.npc.random.types.assassin.AssassinEntity;
@@ -35,10 +37,14 @@ import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_20_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 public class NPCUtils {
 
@@ -49,7 +55,7 @@ public class NPCUtils {
         ServerLevel serverLevel = ((CraftWorld) location.getWorld()).getHandle();
         GameProfile gameProfile = new GameProfile(UUID.randomUUID(), name);
 
-        Guide serverPlayer = new Guide(minecraftServer, serverLevel, setSkin(skinUsersIGN, gameProfile), ClientInformation.createDefault());
+        Guide serverPlayer = new Guide(minecraftServer, serverLevel, setSkin(gameProfile), ClientInformation.createDefault());
 
         serverPlayer.setPos(location.getX(), location.getY(), location.getZ());
 
@@ -86,7 +92,7 @@ public class NPCUtils {
         serverLevel.addFreshEntity(serverPlayer);
     }
 
-        public static NPCMaster spawnNPC(Location location, Player player, String name, String skinUsersIGN){
+        public static NPCMaster spawnNPC(Location location, Player player, String name){
         //ServerPlayer player = ((CraftPlayer)p).getHandle();
 
         MinecraftServer minecraftServer = ((CraftServer) Bukkit.getServer()).getServer();
@@ -94,33 +100,34 @@ public class NPCUtils {
         GameProfile gameProfile = new GameProfile(UUID.randomUUID(), name);
 
         net.minecraft.world.entity.player.Player nmsPlayer = ((CraftPlayer)player).getHandle();
-//        HumanEntity serverPlayer = new HumanEntity(minecraftServer, serverLevel, setSkin(skinUsersIGN, gameProfile), ClientInformation.createDefault());
+//        HumanEntity serverPlayer = new HumanEntity(minecraftServer, serverLevel, skinGameProfile, ClientInformation.createDefault());
         Random random = new Random();
         NPCMaster serverPlayer = null;
+        GameProfile skinGameProfile = setSkin(gameProfile);
         switch (random.nextInt(6)) {
 //        switch (0) {
             case 0 -> {
-                serverPlayer = new AssassinEntity(minecraftServer, serverLevel, setSkin(skinUsersIGN, gameProfile), ClientInformation.createDefault());
+                serverPlayer = new AssassinEntity(minecraftServer, serverLevel, skinGameProfile, ClientInformation.createDefault());
 
             }
             case 1 -> {
-                serverPlayer = new BakerEntity(minecraftServer, serverLevel, setSkin(skinUsersIGN, gameProfile), ClientInformation.createDefault());
+                serverPlayer = new BakerEntity(minecraftServer, serverLevel, skinGameProfile, ClientInformation.createDefault());
 
             }
             case 2 -> {
-                serverPlayer = new ButcherEntity(minecraftServer, serverLevel, setSkin(skinUsersIGN, gameProfile), ClientInformation.createDefault());
+                serverPlayer = new ButcherEntity(minecraftServer, serverLevel, skinGameProfile, ClientInformation.createDefault());
 
             }
             case 3 -> {
-                serverPlayer = new MageEntity(minecraftServer, serverLevel, setSkin(skinUsersIGN, gameProfile), ClientInformation.createDefault());
+                serverPlayer = new MageEntity(minecraftServer, serverLevel, skinGameProfile, ClientInformation.createDefault());
 
             }
             case 4 -> {
-                serverPlayer = new RogueEntity(minecraftServer, serverLevel, setSkin(skinUsersIGN, gameProfile), ClientInformation.createDefault());
+                serverPlayer = new RogueEntity(minecraftServer, serverLevel, skinGameProfile, ClientInformation.createDefault());
 
             }
             case 5 -> {
-                serverPlayer = new WarriorEntity(minecraftServer, serverLevel, setSkin(skinUsersIGN, gameProfile), ClientInformation.createDefault());
+                serverPlayer = new WarriorEntity(minecraftServer, serverLevel, skinGameProfile, ClientInformation.createDefault());
 
             }
         }
@@ -191,14 +198,18 @@ public class NPCUtils {
         PacketUtils.sendPacket(clientboundSetEquipmentPacket, player);
     }
 
-    public static GameProfile setSkin(String name, GameProfile gameProfile) {
-        Gson gson = new Gson();
-        String url = "https://api.mojang.com/users/profiles/minecraft/" + name;
-
+    public static String getJson(String url){
         String json = getStringFromURL(url);
+        return json;
+    }
+
+    public static GameProfile setSkin(GameProfile gameProfile) {
+        Gson gson = new Gson();
+        String name = NAME_JSON_HASHMAP.keySet().stream().findAny().get();
+        String json = NAME_JSON_HASHMAP.get(name);
         String uuid = gson.fromJson(json, JsonObject.class).get("id").getAsString();
 
-        url = "https://sessionserver.mojang.com/session/minecraft/profile/" + uuid + "?unsigned=false";
+        String url = "https://sessionserver.mojang.com/session/minecraft/profile/" + uuid + "?unsigned=false";
         json = getStringFromURL(url);
         JsonObject mainObject = gson.fromJson(json, JsonObject.class);
         JsonObject jsonObject = mainObject.get("properties").getAsJsonArray().get(0).getAsJsonObject();
@@ -212,6 +223,22 @@ public class NPCUtils {
 
     public static void changeSkin(String value, String signature, GameProfile gameProfile) {
         gameProfile.getProperties().put("textures", new Property("textures", value, signature));
+    }
+
+    private static final ConcurrentHashMap<String, String> NAME_JSON_HASHMAP = new ConcurrentHashMap<>();
+
+    public static void initSkins(int counter, JavaPlugin plugin){
+        Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(plugin, () -> {
+            Faker faker = new Faker();
+            String newUrl = "https://api.mojang.com/users/profiles/minecraft/" + faker.name().firstName();
+            String json = getJson(newUrl);
+            if (!json.isEmpty()) {
+                NAME_JSON_HASHMAP.put(faker.name().firstName(), json);
+            }
+            if (counter < 1000) {
+                initSkins(counter+1, plugin);
+            }
+        }, 2L);
     }
 
     private static String getStringFromURL(String url) {
