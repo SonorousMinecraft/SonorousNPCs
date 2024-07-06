@@ -1,6 +1,6 @@
 package com.sereneoasis.entity.AI.goal.basic.combat;
 
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 public class PunchEntity extends Combat {
     
 
-    public PunchEntity(String name, HumanEntity npc, int priority, LivingEntity Entity) {
+    public PunchEntity(String name, SereneHumanEntity npc, int priority, LivingEntity Entity) {
         super(name, npc, priority, Entity);
         this.entity = Entity;
     }

@@ -1,6 +1,6 @@
 package com.sereneoasis.entity.AI.goal;
 
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 
 public abstract class BaseGoal {
 
@@ -10,11 +10,11 @@ public abstract class BaseGoal {
 
     protected boolean inProgress;
 
-    protected HumanEntity npc;
+    protected SereneHumanEntity npc;
 
     private int priority;
 
-    public BaseGoal(String name, HumanEntity npc){
+    public BaseGoal(String name, SereneHumanEntity npc){
         this.name = name;
         this.npc = npc;
     }
@@ -37,7 +37,7 @@ public abstract class BaseGoal {
         return inProgress;
     }
 
-    public HumanEntity getNpc() {
+    public SereneHumanEntity getNpc() {
         return npc;
     }
 

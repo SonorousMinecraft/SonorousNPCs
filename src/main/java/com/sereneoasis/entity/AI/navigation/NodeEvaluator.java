@@ -5,7 +5,7 @@
 
 package com.sereneoasis.entity.AI.navigation;
 
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
@@ -18,7 +18,7 @@ import net.minecraft.world.level.pathfinder.Target;
 
 public abstract class NodeEvaluator {
     protected PathNavigationRegion level;
-    protected HumanEntity mob;
+    protected SereneHumanEntity mob;
     protected final Int2ObjectMap<Node> nodes = new Int2ObjectOpenHashMap();
     protected int entityWidth;
     protected int entityHeight;
@@ -31,7 +31,7 @@ public abstract class NodeEvaluator {
     public NodeEvaluator() {
     }
 
-    public void prepare(PathNavigationRegion cachedWorld, HumanEntity entity) {
+    public void prepare(PathNavigationRegion cachedWorld, SereneHumanEntity entity) {
         this.level = cachedWorld;
         this.mob = entity;
         this.nodes.clear();
@@ -65,7 +65,7 @@ public abstract class NodeEvaluator {
 
     public abstract int getNeighbors(Node[] successors, Node node);
 
-    public abstract BlockPathTypes getBlockPathType(BlockGetter world, int x, int y, int z, HumanEntity mob);
+    public abstract BlockPathTypes getBlockPathType(BlockGetter world, int x, int y, int z, SereneHumanEntity mob);
 
     public abstract BlockPathTypes getBlockPathType(BlockGetter world, int x, int y, int z);
 

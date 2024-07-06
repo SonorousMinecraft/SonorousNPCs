@@ -1,13 +1,13 @@
 package com.sereneoasis.entity.AI.goal.complex.combat;
 
 import com.sereneoasis.entity.AI.goal.complex.MasterGoal;
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.world.entity.LivingEntity;
 
 public abstract class MasterCombat extends MasterGoal {
 
     protected LivingEntity entity;
-    public MasterCombat(String name, HumanEntity npc) {
+    public MasterCombat(String name, SereneHumanEntity npc) {
         super(name, npc);
     }
 

@@ -8,6 +8,7 @@ com/sereneoasis/entity/AI/goal/BaseGoal.class
 com/sereneoasis/npc/storyline/StorylineLocations.class
 com/sereneoasis/listeners/SereneListener.class
 com/sereneoasis/entity/AI/control/MoveControl.class
+com/sereneoasis/entity/SereneHumanEntity.class
 com/sereneoasis/entity/AI/navigation/NodeEvaluator.class
 com/sereneoasis/entity/AI/control/JumpControl.class
 com/sereneoasis/utils/BlockUtils.class
@@ -26,7 +27,6 @@ com/sereneoasis/entity/AI/goal/complex/combat/KillTargetEntity.class
 com/sereneoasis/chat/ChatTypes.class
 com/sereneoasis/entity/AI/goal/complex/movement/RandomExploration.class
 com/sereneoasis/npc/random/types/mage/MageEntity.class
-com/sereneoasis/entity/HumanEntity.class
 com/sereneoasis/npc/storyline/Guide.class
 com/sereneoasis/chat/ChatManager.class
 com/sereneoasis/entity/AI/goal/basic/movement/Movement.class

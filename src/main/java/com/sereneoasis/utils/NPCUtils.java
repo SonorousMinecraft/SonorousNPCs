@@ -7,8 +7,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.datafixers.util.Pair;
-import com.sereneoasis.SereneNPCs;
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import com.sereneoasis.npc.random.types.NPCMaster;
 import com.sereneoasis.npc.random.types.assassin.AssassinEntity;
 import com.sereneoasis.npc.random.types.baker.BakerEntity;
@@ -29,6 +28,7 @@ import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.network.CommonListenerCookie;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.Bukkit;
@@ -37,8 +37,8 @@ import org.bukkit.craftbukkit.v1_20_R3.CraftServer;
 import org.bukkit.craftbukkit.v1_20_R3.CraftWorld;
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.javatuples.Triplet;
 
 import java.io.IOException;
 import java.net.URL;
@@ -99,8 +99,7 @@ public class NPCUtils {
         ServerLevel serverLevel = ((CraftWorld) location.getWorld()).getHandle();
         GameProfile gameProfile = new GameProfile(UUID.randomUUID(), name);
 
-        net.minecraft.world.entity.player.Player nmsPlayer = ((CraftPlayer)player).getHandle();
-//        HumanEntity serverPlayer = new HumanEntity(minecraftServer, serverLevel, skinGameProfile, ClientInformation.createDefault());
+//        SereneHumanEntity serverPlayer = new SereneHumanEntity(minecraftServer, serverLevel, skinGameProfile, ClientInformation.createDefault());
         Random random = new Random();
         NPCMaster serverPlayer = null;
         GameProfile skinGameProfile = setSkin(gameProfile);
@@ -149,14 +148,14 @@ public class NPCUtils {
         ServerGamePacketListenerImpl serverGamePacketListener = new ServerGamePacketListenerImpl(minecraftServer, serverPlayerConnection, serverPlayer, commonListenerCookie);
         serverPlayer.connection = serverGamePacketListener;
 
-
-        ClientboundPlayerInfoUpdatePacketWrapper playerInfoPacket = new ClientboundPlayerInfoUpdatePacketWrapper(
-                EnumSet.of(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, ClientboundPlayerInfoUpdatePacket.Action.UPDATE_LATENCY),
-                serverPlayer,
-                180,
-                true
-        );
-        PacketUtils.sendPacket(playerInfoPacket.getPacket(), player);
+        addNPC(player, serverPlayer);
+//        ClientboundPlayerInfoUpdatePacketWrapper playerInfoPacket = new ClientboundPlayerInfoUpdatePacketWrapper(
+//                EnumSet.of(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, ClientboundPlayerInfoUpdatePacket.Action.UPDATE_LATENCY),
+//                serverPlayer,
+//                180,
+//                true
+//        );
+//        PacketUtils.sendPacket(playerInfoPacket.getPacket(), player);
 
 
 //        PacketUtils.sendPacket(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, serverPlayer), player);
@@ -188,7 +187,7 @@ public class NPCUtils {
     }
 
 
-    public static void updateEquipment(HumanEntity npc, Player player){
+    public static void updateEquipment(SereneHumanEntity npc, Player player){
         List<Pair<EquipmentSlot, ItemStack>> equipment = new ArrayList<>();
         for (EquipmentSlot slot : EquipmentSlot.values()) {
             equipment.add(new Pair<EquipmentSlot, ItemStack> (slot, npc.getItemBySlot(slot)));
@@ -204,17 +203,15 @@ public class NPCUtils {
     }
 
     public static GameProfile setSkin(GameProfile gameProfile) {
-        Gson gson = new Gson();
-        String name = NAME_JSON_HASHMAP.keySet().stream().findAny().get();
-        String json = NAME_JSON_HASHMAP.get(name);
-        String uuid = gson.fromJson(json, JsonObject.class).get("id").getAsString();
 
-        String url = "https://sessionserver.mojang.com/session/minecraft/profile/" + uuid + "?unsigned=false";
-        json = getStringFromURL(url);
-        JsonObject mainObject = gson.fromJson(json, JsonObject.class);
-        JsonObject jsonObject = mainObject.get("properties").getAsJsonArray().get(0).getAsJsonObject();
-        String value = jsonObject.get("value").getAsString();
-        String signature = jsonObject.get("signature").getAsString();
+        Triplet<String, String, String> triplet = NAME_VALUE_SIGNATURE.peek();
+        if (NAME_VALUE_SIGNATURE.size() > 1){
+            NAME_VALUE_SIGNATURE.pop();
+        }
+        String name = triplet.getValue0();
+        String value = triplet.getValue1();
+        String signature = triplet.getValue2();
+
         PropertyMap propertyMap = gameProfile.getProperties();
         propertyMap.put("name", new Property("name", name));
         propertyMap.put("textures", new Property("textures", value, signature));
@@ -225,21 +222,39 @@ public class NPCUtils {
         gameProfile.getProperties().put("textures", new Property("textures", value, signature));
     }
 
-    private static final ConcurrentHashMap<String, String> NAME_JSON_HASHMAP = new ConcurrentHashMap<>();
 
-    public static void initSkins(int counter, JavaPlugin plugin){
+    public static void initUUID(int counter, JavaPlugin plugin){
         Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(plugin, () -> {
             Faker faker = new Faker();
             String newUrl = "https://api.mojang.com/users/profiles/minecraft/" + faker.name().firstName();
             String json = getJson(newUrl);
             if (!json.isEmpty()) {
-                NAME_JSON_HASHMAP.put(faker.name().firstName(), json);
+                Gson gson = new Gson();
+                String uuid = gson.fromJson(json, JsonObject.class).get("id").getAsString();
+                initProperties(faker.name().firstName(), uuid);
             }
             if (counter < 1000) {
-                initSkins(counter+1, plugin);
+                initUUID(counter+1, plugin);
             }
+
         }, 2L);
     }
+
+    private static final Stack<Triplet<String, String, String>> NAME_VALUE_SIGNATURE = new Stack<>();
+
+    private static void initProperties(String name, String uuid) {
+        String url = "https://sessionserver.mojang.com/session/minecraft/profile/" + uuid + "?unsigned=false";
+        String json = getStringFromURL(url);
+        Gson gson = new Gson();
+        JsonObject mainObject = gson.fromJson(json, JsonObject.class);
+        JsonObject jsonObject = mainObject.get("properties").getAsJsonArray().get(0).getAsJsonObject();
+        String value = jsonObject.get("value").getAsString();
+        String signature = jsonObject.get("signature").getAsString();
+        Triplet<String, String, String> triplet = new Triplet<>(name, value, signature);
+        NAME_VALUE_SIGNATURE.add(triplet);
+
+    }
+
 
     private static String getStringFromURL(String url) {
         StringBuilder text = new StringBuilder();
@@ -257,5 +272,23 @@ public class NPCUtils {
 //            exception.printStackTrace();
         }
         return text.toString();
+    }
+
+    public static void addNPC(Player player, NPCMaster serverPlayer){
+        ClientboundPlayerInfoUpdatePacketWrapper playerInfoPacket = new ClientboundPlayerInfoUpdatePacketWrapper(
+                EnumSet.of(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, ClientboundPlayerInfoUpdatePacket.Action.UPDATE_LATENCY),
+                serverPlayer,
+                180,
+                true
+        );
+        PacketUtils.sendPacket(playerInfoPacket.getPacket(), player);
+    }
+
+    public static void toggleOff(NPCMaster npcMaster){
+        npcMaster.toggleOff();
+    }
+
+    public static void toggleOn(NPCMaster npcMaster){
+        npcMaster.toggleOn();
     }
 }

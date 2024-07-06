@@ -1,6 +1,6 @@
 package com.sereneoasis.entity.AI.target;
 
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
@@ -17,9 +17,9 @@ public class TargetSelector {
 
     private PriorityQueue<Player> players;
 
-    private HumanEntity npc;
+    private SereneHumanEntity npc;
 
-    public TargetSelector(HumanEntity owner) {
+    public TargetSelector(SereneHumanEntity owner) {
         this.npc = owner;
         this.hostileEntityStack = new PriorityQueue<>((a,b ) -> (int) (npc.distanceToSqr(a) - npc.distanceToSqr(b)));
         this.peacefulEntityStack = new PriorityQueue<>((a,b ) -> (int) (npc.distanceToSqr(a) - npc.distanceToSqr(b)));
@@ -59,18 +59,22 @@ public class TargetSelector {
         return players.poll();
     }
 
+    private long time = 0;
 
     public void tick(){
+            if (System.currentTimeMillis() - time > 1000){
+                time = System.currentTimeMillis();
+                for (Entity entity : npc.level().getEntities(npc,new AABB(npc.getOnPos()).inflate(30))) {
 
-        for (Entity entity : npc.level().getEntities(npc,new AABB(npc.getOnPos()).inflate(100))) {
-
-                if (entity instanceof Player player) {
-                    players.add(player);
-                } else if (entity instanceof Monster monster) {
-                    hostileEntityStack.add(monster);
-                } else if (entity instanceof Animal animal) {
-                    peacefulEntityStack.add(animal);
+                    if (entity instanceof Player player) {
+                        players.add(player);
+                    } else if (entity instanceof Monster monster) {
+                        hostileEntityStack.add(monster);
+                    } else if (entity instanceof Animal animal) {
+                        peacefulEntityStack.add(animal);
+                    }
                 }
-        }
+            }
+
     }
 }

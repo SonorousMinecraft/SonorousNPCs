@@ -3,7 +3,7 @@ package com.sereneoasis.entity.AI.goal.complex;
 import com.sereneoasis.entity.AI.goal.BaseGoal;
 import com.sereneoasis.entity.AI.goal.GoalSelector;
 import com.sereneoasis.entity.AI.goal.NPCStates;
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 
 public abstract class MasterGoal extends BaseGoal {
 
@@ -14,7 +14,7 @@ public abstract class MasterGoal extends BaseGoal {
 
     protected NPCStates state;
 
-    public MasterGoal(String name, HumanEntity npc) {
+    public MasterGoal(String name, SereneHumanEntity npc) {
         super(name, npc);
 
         this.actionGoalSelector = new GoalSelector();

@@ -8,6 +8,7 @@
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/complex/movement/RandomExploration.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/chat/ChatConfiguration.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/complex/combat/KillTargetEntity.java
+/home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/SereneHumanEntity.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/basic/combat/PunchEntity.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/chat/ChatMaster.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/GoalSelector.java
@@ -18,7 +19,6 @@
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/utils/EconUtils.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/complex/movement/NavigateToLocation.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/random/types/butcher/ButcherEntity.java
-/home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/HumanEntity.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/storyline/StorylineNPC.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/random/types/assassin/AssassinEntity.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/config/ConfigFile.java

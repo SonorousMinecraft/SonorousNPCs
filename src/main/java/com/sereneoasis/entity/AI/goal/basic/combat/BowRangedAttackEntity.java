@@ -1,6 +1,6 @@
 package com.sereneoasis.entity.AI.goal.basic.combat;
 
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -12,7 +12,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class BowRangedAttackEntity extends Combat{
-    public BowRangedAttackEntity(String name, HumanEntity npc, int priority, LivingEntity entity) {
+    public BowRangedAttackEntity(String name, SereneHumanEntity npc, int priority, LivingEntity entity) {
         super(name, npc, priority, entity);
 
         this.entity = entity;

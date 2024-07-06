@@ -1,6 +1,6 @@
 package com.sereneoasis.entity.AI.goal.basic.movement;
 
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import com.sereneoasis.utils.Vec3Utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
@@ -12,7 +12,7 @@ public class MoveForward extends Movement{
     private boolean isStuck = true;
     private boolean isBugged = false;
 
-    public MoveForward(String name, HumanEntity npc, int priority, double requiredDistance) {
+    public MoveForward(String name, SereneHumanEntity npc, int priority, double requiredDistance) {
         super(name, npc, priority, null, requiredDistance);
       //  this.lastGoalTicks = npc.tickCount;
     }

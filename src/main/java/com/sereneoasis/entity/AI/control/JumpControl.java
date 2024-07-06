@@ -6,15 +6,15 @@
 package com.sereneoasis.entity.AI.control;
 
 
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.world.entity.ai.control.Control;
 import org.bukkit.event.entity.EntityExhaustionEvent;
 
 public class JumpControl implements Control {
-    private final HumanEntity mob;
+    private final SereneHumanEntity mob;
     protected boolean jump;
 
-    public JumpControl(HumanEntity entity) {
+    public JumpControl(SereneHumanEntity entity) {
         this.mob = entity;
     }
 

@@ -1,27 +1,19 @@
 package com.sereneoasis.npc.storyline;
 
 import com.mojang.authlib.GameProfile;
-import com.sereneoasis.SereneNPCs;
 import com.sereneoasis.chat.ChatTypes;
 import com.sereneoasis.chat.builders.ChatBuilder;
 import com.sereneoasis.config.ConfigFile;
-import com.sereneoasis.config.FileManager;
-import com.sereneoasis.entity.AI.goal.complex.combat.KillTargetEntity;
-import com.sereneoasis.entity.HumanEntity;
-import com.sereneoasis.utils.Vec3Utils;
+import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.LivingEntity;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.UUID;
 
-public abstract class StorylineNPC extends HumanEntity {
+public abstract class StorylineNPC extends SereneHumanEntity {
 
 
     private static final HashMap<UUID, ChatBuilder>UUID_CHAT_BUILDER_HASH_MAP = new HashMap<>();

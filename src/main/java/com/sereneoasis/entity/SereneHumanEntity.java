@@ -80,7 +80,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class HumanEntity extends ServerPlayer {
+public class SereneHumanEntity extends ServerPlayer {
 
     private LivingEntity owner;
 
@@ -133,7 +133,7 @@ public class HumanEntity extends ServerPlayer {
     public FoodData foodData = new FoodData(this);
 
 
-    public HumanEntity(MinecraftServer server, ServerLevel world, GameProfile profile, ClientInformation clientOptions) {
+    public SereneHumanEntity(MinecraftServer server, ServerLevel world, GameProfile profile, ClientInformation clientOptions) {
         super(server, world, profile, clientOptions);
 
 
@@ -363,7 +363,7 @@ public class HumanEntity extends ServerPlayer {
             }
         }
 
-        if (!this.level().isClientSide && this.isSensitiveToWater() && this.isInWaterRainOrBubble()) {
+        if (!this.level().isClientSide && this.isSensitiveToWater() ) {
             this.hurt(this.damageSources().drown(), 1.0F);
         }
 
@@ -713,9 +713,11 @@ public class HumanEntity extends ServerPlayer {
 
         this.wasInPowderSnow = this.isInPowderSnow;
         this.isInPowderSnow = false;
-        this.updateInWaterStateAndDoFluidPushing();
-        this.updateFluidOnEyes();
-        this.updateSwimming();
+//        this.updateInWaterStateAndDoFluidPushing();
+//        this.updateFluidOnEyes();
+//        this.updateSwimming();
+
+
         if (this.level().isClientSide) {
             this.clearFire();
         } else if (this.remainingFireTicks > 0) {
@@ -846,7 +848,7 @@ public class HumanEntity extends ServerPlayer {
             }
         }
 
-        if (this.isAlive() && (this.isInWaterRainOrBubble() || this.isInPowderSnow)) {
+        if (this.isAlive() && ( this.isInPowderSnow)) {
             this.extinguishFire();
         }
 
@@ -1054,6 +1056,15 @@ public class HumanEntity extends ServerPlayer {
         serverPlayerDoTick();
     }
 
+    private boolean on = false;
+
+    public void toggleOn(){
+        on = true;
+    }
+
+    public void toggleOff(){
+        on = false;
+    }
 
     @Override
     public void tick() {
@@ -1066,10 +1077,13 @@ public class HumanEntity extends ServerPlayer {
         // playerAiStep() calls livingEntityAiStep()
         // livingEntityAiStep() calls serverAiStep()
 
-        serverPlayerTick();
-        doTick();
-
-
+        if (on) {
+            serverPlayerTick();
+            doTick();
+            masterGoalSelector.tick();
+            targetSelector.tick();
+            inventoryTracker.tick();
+        }
 
 //        if (!masterGoalSelector.doingGoal("break wood")) {
 //            masterGoalSelector.addMasterGoal(new GatherBlocks("break wood", this, Blocks.OAK_WOOD, 1));
@@ -1096,9 +1110,7 @@ public class HumanEntity extends ServerPlayer {
 //        }
 
 
-        masterGoalSelector.tick();
-        targetSelector.tick();
-        inventoryTracker.tick();
+
 
 //        if (owner != null) {
 //            if (this.distanceToSqr(this.owner) <= 144.0) {

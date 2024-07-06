@@ -5,7 +5,7 @@
 
 package com.sereneoasis.entity.AI.navigation;
 
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
@@ -43,7 +43,7 @@ public class WalkNodeEvaluator extends NodeEvaluator {
     public WalkNodeEvaluator() {
     }
 
-    public void prepare(PathNavigationRegion cachedWorld, HumanEntity entity) {
+    public void prepare(PathNavigationRegion cachedWorld, SereneHumanEntity entity) {
         super.prepare(cachedWorld, entity);
         entity.onPathfindingStart();
     }
@@ -341,7 +341,7 @@ public class WalkNodeEvaluator extends NodeEvaluator {
         });
     }
 
-    public BlockPathTypes getBlockPathType(BlockGetter world, int x, int y, int z, HumanEntity mob) {
+    public BlockPathTypes getBlockPathType(BlockGetter world, int x, int y, int z, SereneHumanEntity mob) {
         EnumSet<BlockPathTypes> enumSet = EnumSet.noneOf(BlockPathTypes.class);
         BlockPathTypes blockPathTypes = BlockPathTypes.BLOCKED;
         blockPathTypes = this.getBlockPathTypes(world, x, y, z, enumSet, blockPathTypes, mob.blockPosition());
@@ -406,11 +406,11 @@ public class WalkNodeEvaluator extends NodeEvaluator {
         return type;
     }
 
-    protected BlockPathTypes getBlockPathType(HumanEntity entity, BlockPos pos) {
+    protected BlockPathTypes getBlockPathType(SereneHumanEntity entity, BlockPos pos) {
         return this.getCachedBlockType(entity, pos.getX(), pos.getY(), pos.getZ());
     }
 
-    protected BlockPathTypes getCachedBlockType(HumanEntity entity, int x, int y, int z) {
+    protected BlockPathTypes getCachedBlockType(SereneHumanEntity entity, int x, int y, int z) {
         return (BlockPathTypes)this.pathTypesByPosCache.computeIfAbsent(BlockPos.asLong(x, y, z), (l) -> {
             return this.getBlockPathType(this.level, x, y, z, entity);
         });

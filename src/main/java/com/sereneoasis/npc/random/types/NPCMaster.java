@@ -1,7 +1,7 @@
 package com.sereneoasis.npc.random.types;
 
 import com.mojang.authlib.GameProfile;
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import com.sereneoasis.npc.random.guis.MainGUI;
 import com.sereneoasis.npc.random.guis.quests.QuestGUI;
 import com.sereneoasis.npc.random.guis.shops.ShopGUI;
@@ -10,7 +10,7 @@ import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;
 import org.bukkit.entity.Player;
 
-public abstract class NPCMaster extends HumanEntity implements GuiBuilder {
+public abstract class NPCMaster extends SereneHumanEntity implements GuiBuilder {
 
     private ShopGUI shopGUI;
     private QuestGUI questGUI;
