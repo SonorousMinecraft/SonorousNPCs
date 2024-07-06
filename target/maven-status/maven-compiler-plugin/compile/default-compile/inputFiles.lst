@@ -40,6 +40,7 @@
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/utils/NPCUtils.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/complex/interaction/MasterInteraction.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/basic/movement/MoveToBlock.java
+/home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/listeners/SereneNPCsListener.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/utils/Vec3Utils.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/storyline/Guide.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/random/types/rogue/RogueEntity.java
@@ -71,7 +72,6 @@
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/command/SerenityCommand.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/complex/movement/MasterMovement.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/complex/MasterGoal.java
-/home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/listeners/SereneListener.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/utils/PacketListenerImpl.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/config/FileManager.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/control/MoveControl.java

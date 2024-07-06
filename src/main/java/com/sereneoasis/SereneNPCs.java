@@ -4,10 +4,9 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.sereneoasis.chat.ChatConfiguration;
 import com.sereneoasis.command.SerenityCommand;
 import com.sereneoasis.config.FileManager;
-import com.sereneoasis.listeners.SereneListener;
+import com.sereneoasis.listeners.SereneNPCsListener;
 import com.sereneoasis.npc.random.types.NPCMaster;
 import com.sereneoasis.npc.storyline.StorylineLocations;
-import com.sereneoasis.utils.NPCUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -68,7 +67,7 @@ public class SereneNPCs extends JavaPlugin {
         getLogger().log(Level.INFO, "WorldGenerator was enabled successfully.");
         plugin = this;
         fileManager = new FileManager();
-        this.getServer().getPluginManager().registerEvents(new SereneListener(), this);
+        this.getServer().getPluginManager().registerEvents(new SereneNPCsListener(), this);
         this.getCommand("SereneNPCs").setExecutor(new SerenityCommand());
 
         new ChatConfiguration();
