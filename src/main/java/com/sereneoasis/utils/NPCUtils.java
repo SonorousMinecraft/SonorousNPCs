@@ -7,6 +7,7 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.datafixers.util.Pair;
+import com.sereneoasis.SereneNPCs;
 import com.sereneoasis.entity.SereneHumanEntity;
 import com.sereneoasis.npc.random.types.NPCMaster;
 import com.sereneoasis.npc.random.types.assassin.AssassinEntity;
@@ -163,7 +164,7 @@ public class NPCUtils {
 //        SereneNPCs.getPacketListener().injectPlayer(serverPlayer.getBukkitEntity());
 
         serverLevel.addFreshEntity(serverPlayer);
-
+            SereneNPCs.plugin.addNPC(serverPlayer);
 //        serverPlayer.setLoadViewDistance(-1);
 //        serverPlayer.setSendViewDistance(-1);
 //        serverPlayer.setTickViewDistance(-1);

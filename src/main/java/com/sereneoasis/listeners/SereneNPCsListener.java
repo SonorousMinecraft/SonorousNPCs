@@ -54,7 +54,6 @@ public class SereneNPCsListener implements Listener {
 
     @EventHandler
     public void onRightClickNPC(PlayerInteractEntityEvent event){
-
         Player player = event.getPlayer();
         if (player.isSneaking() ) {
             if (!CHAT_COOLDOWNS.contains(player)) {
