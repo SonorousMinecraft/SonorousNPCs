@@ -27,6 +27,10 @@ public class LookControl implements Control {
         this.mob = entity;
     }
 
+    private static double getWantedY(Entity entity) {
+        return entity instanceof LivingEntity ? entity.getEyeY() : (entity.getBoundingBox().minY + entity.getBoundingBox().maxY) / 2.0;
+    }
+
     public void setLookAt(Vec3 direction) {
         this.setLookAt(direction.x, direction.y, direction.z);
     }
@@ -40,7 +44,7 @@ public class LookControl implements Control {
     }
 
     public void setLookAt(double x, double y, double z) {
-        this.setLookAt(x, y, z, (float)this.mob.getHeadRotSpeed(), (float)this.mob.getMaxHeadXRot());
+        this.setLookAt(x, y, z, (float) this.mob.getHeadRotSpeed(), (float) this.mob.getMaxHeadXRot());
     }
 
     public void setLookAt(double x, double y, double z, float maxYawChange, float maxPitchChange) {
@@ -75,7 +79,7 @@ public class LookControl implements Control {
 
     protected void clampHeadRotationToBody() {
         if (!this.mob.getNavigation().isDone()) {
-            this.mob.yHeadRot = Mth.rotateIfNecessary(this.mob.yHeadRot, this.mob.yBodyRot, (float)this.mob.getMaxHeadYRot());
+            this.mob.yHeadRot = Mth.rotateIfNecessary(this.mob.yHeadRot, this.mob.yBodyRot, (float) this.mob.getMaxHeadYRot());
         }
 
     }
@@ -105,22 +109,18 @@ public class LookControl implements Control {
         double e = this.wantedY - this.mob.getEyeY();
         double f = this.wantedZ - this.mob.getZ();
         double g = Math.sqrt(d * d + f * f);
-        return !(Math.abs(e) > 9.999999747378752E-6) && !(Math.abs(g) > 9.999999747378752E-6) ? Optional.empty() : Optional.of((float)(-(Mth.atan2(e, g) * 57.2957763671875)));
+        return !(Math.abs(e) > 9.999999747378752E-6) && !(Math.abs(g) > 9.999999747378752E-6) ? Optional.empty() : Optional.of((float) (-(Mth.atan2(e, g) * 57.2957763671875)));
     }
 
     protected Optional<Float> getYRotD() {
         double d = this.wantedX - this.mob.getX();
         double e = this.wantedZ - this.mob.getZ();
-        return !(Math.abs(e) > 9.999999747378752E-6) && !(Math.abs(d) > 9.999999747378752E-6) ? Optional.empty() : Optional.of((float)(Mth.atan2(e, d) * 57.2957763671875) - 90.0F);
+        return !(Math.abs(e) > 9.999999747378752E-6) && !(Math.abs(d) > 9.999999747378752E-6) ? Optional.empty() : Optional.of((float) (Mth.atan2(e, d) * 57.2957763671875) - 90.0F);
     }
 
     protected float rotateTowards(float from, float to, float max) {
         float f = Mth.degreesDifference(from, to);
         float g = Mth.clamp(f, -max, max);
         return from + g;
-    }
-
-    private static double getWantedY(Entity entity) {
-        return entity instanceof LivingEntity ? entity.getEyeY() : (entity.getBoundingBox().minY + entity.getBoundingBox().maxY) / 2.0;
     }
 }

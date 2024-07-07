@@ -14,40 +14,40 @@ public class GoalSelector {
     }
 
 
-    public void addGoal(BasicGoal goal){
+    public void addGoal(BasicGoal goal) {
         goals.add(goal);
     }
 
-    public boolean hasGoal(){
-        if (goals.isEmpty()){
+    public boolean hasGoal() {
+        if (goals.isEmpty()) {
             return false;
         }
         return true;
     }
 
-    public void tick(){
+    public void tick() {
         if (goals.peek() != null) {
             BasicGoal currentBasicGoal = goals.peek();
             currentBasicGoal.tick();
             //Bukkit.broadcastMessage(currentBasicGoal.getName());
-            if (currentBasicGoal.isFinished()){
+            if (currentBasicGoal.isFinished()) {
                 removeCurrentGoal();
             }
         }
     }
-    
-    public boolean doingGoal(String name){
+
+    public boolean doingGoal(String name) {
         if (hasGoal()) {
             return name.equals(goals.peek().getName());
         }
         return false;
     }
 
-    public void removeCurrentGoal(){
+    public void removeCurrentGoal() {
         goals.remove();
     }
 
-    public void removeAllGoals(){
+    public void removeAllGoals() {
         goals.removeIf(basicGoal -> true);
     }
 }

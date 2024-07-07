@@ -12,13 +12,9 @@ public class ChatManager {
 
     private ChatBuilder chatBuilder;
 
-    private HashMap<NPCTypes, ChatBuilder> NPCTypesChatBuilders = new HashMap<>();
+    private final HashMap<NPCTypes, ChatBuilder> NPCTypesChatBuilders = new HashMap<>();
 
-    public ChatBuilder getChatBuilder(NPCTypes types) {
-        return NPCTypesChatBuilders.get(types);
-    }
-
-    public ChatManager(){
+    public ChatManager() {
         Arrays.stream(NPCTypes.values()).forEach(npcTypes -> {
             ConfigFile chat = new ConfigFile(npcTypes.toString());
             FileConfiguration configuration = chat.getConfig();
@@ -45,12 +41,17 @@ public class ChatManager {
                     }
                 }
                 currentIndex += 1;
-            };
+            }
+            ;
             NPCTypesChatBuilders.put(npcTypes, chatBuilder);
 
         });
 
 
+    }
+
+    public ChatBuilder getChatBuilder(NPCTypes types) {
+        return NPCTypesChatBuilders.get(types);
     }
 
 

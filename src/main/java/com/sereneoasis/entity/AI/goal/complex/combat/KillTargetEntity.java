@@ -8,7 +8,7 @@ import com.sereneoasis.entity.AI.goal.basic.movement.MoveToEntity;
 import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.world.entity.LivingEntity;
 
-public class KillTargetEntity extends MasterCombat{
+public class KillTargetEntity extends MasterCombat {
 
     private int lastShotBowTicks;
 
@@ -42,13 +42,12 @@ public class KillTargetEntity extends MasterCombat{
             lookGoalSelector.addGoal(new LookAtEntity("Look", npc, 1, entity));
         }
 
-        if (distance <= 9 && npc.tickCount - lastPunchTicks > 5 ) {
+        if (distance <= 9 && npc.tickCount - lastPunchTicks > 5) {
             actionGoalSelector.addGoal(new PunchEntity("Punch", npc, 2, entity));
             this.lastPunchTicks = npc.tickCount;
         }
 
-        if (distance >= 9 && npc.tickCount - lastShotBowTicks > 100)
-        {
+        if (distance >= 9 && npc.tickCount - lastShotBowTicks > 100) {
             actionGoalSelector.addGoal(new BowRangedAttackEntity("Bow", npc, 1, entity));
             this.lastShotBowTicks = npc.tickCount;
         }

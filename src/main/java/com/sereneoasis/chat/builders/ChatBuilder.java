@@ -11,16 +11,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ChatBuilder{
+/***
+ * Attaches functionality to text files used to create conversations and provides the UI
+ */
+public class ChatBuilder {
 
-    private List<ChatUnit> chatUnitArrayList = new ArrayList<>();
+    private final List<ChatUnit> chatUnitArrayList = new ArrayList<>();
     private int current;
 
-    public ChatBuilder(){
-
-    }
-
-    public void addStatement(String text, int next){
+    /***
+     * Builds a statement which requires a player to click to progress
+     * @param text the statement
+     * @param next the index of the next chat unit
+     */
+    public void addStatement(String text, int next) {
         TextComponent message = new TextComponent(text);
         message.setColor(ChatColor.AQUA);
         message.setBold(true);
@@ -30,7 +34,13 @@ public class ChatBuilder{
         chatUnitArrayList.add(chatUnit);
     }
 
-    public void addQuestion(String text, int yesNext, int noNext){
+    /***
+     * Builds a basic yes or no question
+     * @param text the question
+     * @param yesNext the index of the next chat unit if next
+     * @param noNext the index of the next chat unit if no
+     */
+    public void addQuestion(String text, int yesNext, int noNext) {
         TextComponent message = new TextComponent(text);
         message.setColor(ChatColor.AQUA);
         message.setBold(true);
@@ -57,6 +67,10 @@ public class ChatBuilder{
         chatUnitArrayList.add(chatUnit);
     }
 
+    /***
+     * Builds a statement which ends the conversation
+     * @param text the final statement
+     */
     public void addTerminal(String text) {
         TextComponent message = new TextComponent(text);
         message.setColor(ChatColor.YELLOW);
@@ -68,6 +82,12 @@ public class ChatBuilder{
         chatUnitArrayList.add(chatUnit);
     }
 
+    /***
+     * Builds a statement which causes an NPC to navigate to a location when clicked
+     * @param text the statement
+     * @param goal the identifier for the location where the NPC will walk to
+     * @param next the next chat unit index
+     */
     public void addWalkTo(String text, String goal, int next) {
         TextComponent message = new TextComponent(text);
         message.setColor(ChatColor.YELLOW);
@@ -81,35 +101,50 @@ public class ChatBuilder{
         chatUnitArrayList.add(chatUnit);
     }
 
-    public void next(Player player, int next){
+    /**
+     * Progresses the conversation to a given index
+     * @param player the player in the conversation
+     * @param next the next chat unit index
+     */
+    public void next(Player player, int next) {
         current = next;
         player.spigot().sendMessage(chatUnitArrayList.get(current).getChat());
-
     }
 
-    public void next(Player player){
-        current = current+1;
+    /**
+     * Progresses the conversation to the next index
+     * @param player the player in the conversation
+     */
+    public void next(Player player) {
+        current = current + 1;
         player.spigot().sendMessage(chatUnitArrayList.get(current).getChat());
 
     }
 
-    public void openChat(Player player){
+    /***
+     * Inits a conversation
+     * @param player the player in the conversation
+     */
+    public void openChat(Player player) {
         current = 0;
         player.spigot().sendMessage(chatUnitArrayList.get(0).getChat());
     }
 
-    private class ChatUnit{
+    /***
+     * Represents a unit of conversation
+     */
+    private static class ChatUnit {
 
-        private BaseComponent[] chat;
+        private final BaseComponent[] chat;
+
+        ChatUnit(TextComponent... textComponents) {
+            ComponentBuilder builder = new ComponentBuilder();
+            Arrays.stream(textComponents).forEach(builder::append);
+            chat = builder.create();
+        }
 
         public BaseComponent[] getChat() {
             return chat;
-        }
-
-        ChatUnit(TextComponent... textComponents){
-            ComponentBuilder builder  = new ComponentBuilder();
-            Arrays.stream(textComponents).forEach(builder::append);
-            chat = builder.create();
         }
 
     }

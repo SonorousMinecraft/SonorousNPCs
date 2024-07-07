@@ -16,6 +16,7 @@ public abstract class NPCMaster extends SereneHumanEntity implements GuiBuilder 
     private QuestGUI questGUI;
 
     private MainGUI mainGUI;
+
     public NPCMaster(MinecraftServer server, ServerLevel world, GameProfile profile, ClientInformation clientOptions) {
         super(server, world, profile, clientOptions);
         shopGUI = new ShopGUI();
@@ -38,7 +39,7 @@ public abstract class NPCMaster extends SereneHumanEntity implements GuiBuilder 
 
     }
 
-    public void openGUI(Player player){
+    public void openGUI(Player player) {
         mainGUI.openGUI(player);
     }
 

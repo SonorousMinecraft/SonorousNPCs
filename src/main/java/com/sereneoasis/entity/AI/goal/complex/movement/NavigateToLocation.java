@@ -7,7 +7,7 @@ import net.minecraft.core.BlockPos;
 
 import java.util.function.Predicate;
 
-public class NavigateToLocation extends MasterMovement{
+public class NavigateToLocation extends MasterMovement {
 
     private MoveToBlock moveToBlock;
     private PeriodicallyRotate periodicallyRotate;
@@ -25,9 +25,9 @@ public class NavigateToLocation extends MasterMovement{
     @Override
     public void tick() {
         super.tick();
-        if (moveToBlock.isFinished()){
+        if (moveToBlock.isFinished()) {
             this.setFinished(true);
         }
-        }
     }
+}
 

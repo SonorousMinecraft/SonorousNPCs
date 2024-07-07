@@ -13,9 +13,8 @@ import java.util.stream.Collectors;
 
 public class InventoryTracker {
 
-    private Inventory inventory;
-
     private final SereneHumanEntity npc;
+    private Inventory inventory;
 
     public InventoryTracker(Inventory inventory, SereneHumanEntity humanEntity) {
 
@@ -51,15 +50,16 @@ public class InventoryTracker {
         }
     }
 
-    private List<ItemStack>getOfType(Predicate<ItemStack> condition){
+    private List<ItemStack> getOfType(Predicate<ItemStack> condition) {
         return inventory.getContents().stream().filter(condition).toList();
     }
 
-    private List<ItemStack>getFood(){
+    private List<ItemStack> getFood() {
         Predicate<ItemStack> isFood = itemStack -> itemStack.getItem().isEdible();
         return getOfType(isFood);
     }
-    public boolean hasEnoughFood(){
+
+    public boolean hasEnoughFood() {
         int neededFood = 20 - npc.foodData.getFoodLevel();
         int providedHunger = getFood().stream().map(itemStack -> itemStack.getItem().getFoodProperties().getNutrition()).collect(Collectors.summingInt(Integer::intValue));
         if (providedHunger >= neededFood) {
@@ -68,14 +68,14 @@ public class InventoryTracker {
         return false;
     }
 
-    public boolean hasFood(){
-        if (getFood().isEmpty()){
+    public boolean hasFood() {
+        if (getFood().isEmpty()) {
             return false;
         }
         return true;
     }
 
-    public ItemStack getMostAppropriateFood(){
+    public ItemStack getMostAppropriateFood() {
         int neededFood = 20 - npc.getFoodData().getFoodLevel();
         return getFood().stream().min(Comparator.comparingInt(o -> (neededFood - o.getItem().getFoodProperties().getNutrition()))).get();
     }

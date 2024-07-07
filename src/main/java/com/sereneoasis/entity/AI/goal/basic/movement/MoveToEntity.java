@@ -13,7 +13,7 @@ public class MoveToEntity extends Movement implements EntityInteraction {
         this.targetEntity = targetEntity;
     }
 
-    private void updatePos(){
+    private void updatePos() {
         this.setGoalPos(targetEntity.getPosition(0));
     }
 
@@ -23,7 +23,7 @@ public class MoveToEntity extends Movement implements EntityInteraction {
     }
 
     @Override
-    public void tick(){
+    public void tick() {
         super.tick();
         this.updatePos();
     }

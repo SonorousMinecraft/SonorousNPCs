@@ -23,11 +23,11 @@ public class FoodData {
     public int foodLevel = 20;
     public float saturationLevel = 5.0F;
     public float exhaustionLevel;
-    private int tickTimer;
-    private Player entityhuman;
     public int saturatedRegenRate = 10;
     public int unsaturatedRegenRate = 80;
     public int starvationRate = 80;
+    private int tickTimer;
+    private Player entityhuman;
     private int lastFoodLevel = 20;
 
     public FoodData() {
@@ -41,7 +41,7 @@ public class FoodData {
 
     public void eat(int food, float saturationModifier) {
         this.foodLevel = Math.min(food + this.foodLevel, 20);
-        this.saturationLevel = Math.min(this.saturationLevel + (float)food * saturationModifier * 2.0F, (float)this.foodLevel);
+        this.saturationLevel = Math.min(this.saturationLevel + (float) food * saturationModifier * 2.0F, (float) this.foodLevel);
     }
 
     public void eat(Item item, ItemStack stack) {
@@ -129,6 +129,10 @@ public class FoodData {
         return this.foodLevel;
     }
 
+    public void setFoodLevel(int foodLevel) {
+        this.foodLevel = foodLevel;
+    }
+
     public int getLastFoodLevel() {
         return this.lastFoodLevel;
     }
@@ -147,10 +151,6 @@ public class FoodData {
 
     public float getSaturationLevel() {
         return this.saturationLevel;
-    }
-
-    public void setFoodLevel(int foodLevel) {
-        this.foodLevel = foodLevel;
     }
 
     public void setSaturation(float saturationLevel) {

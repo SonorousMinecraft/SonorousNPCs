@@ -13,25 +13,25 @@ public class MasterGoalSelector {
 
     }
 
-    public void addMasterGoal(MasterGoal newGoal){
+    public void addMasterGoal(MasterGoal newGoal) {
         this.goals.push(newGoal);
     }
 
-    public boolean hasGoal(){
-        if (goals.isEmpty()){
+    public boolean hasGoal() {
+        if (goals.isEmpty()) {
             return false;
         }
         return true;
     }
 
-    public boolean doingGoal(String name){
-        if (hasGoal()){
+    public boolean doingGoal(String name) {
+        if (hasGoal()) {
             return goals.stream().anyMatch(masterGoal -> masterGoal.getName().equals(name));
         }
         return false;
     }
 
-    public void tick(){
+    public void tick() {
         if (hasGoal()) {
 
             if (goals.peek().finished) {
@@ -44,8 +44,8 @@ public class MasterGoalSelector {
         }
     }
 
-    public void stopCurrentGoal(){
-        if (hasGoal()){
+    public void stopCurrentGoal() {
+        if (hasGoal()) {
             goals.pop();
         }
     }

@@ -17,9 +17,9 @@ import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Target;
 
 public abstract class NodeEvaluator {
+    protected final Int2ObjectMap<Node> nodes = new Int2ObjectOpenHashMap();
     protected PathNavigationRegion level;
     protected SereneHumanEntity mob;
-    protected final Int2ObjectMap<Node> nodes = new Int2ObjectOpenHashMap();
     protected int entityWidth;
     protected int entityHeight;
     protected int entityDepth;
@@ -50,7 +50,7 @@ public abstract class NodeEvaluator {
     }
 
     protected Node getNode(int x, int y, int z) {
-        return (Node)this.nodes.computeIfAbsent(Node.createHash(x, y, z), (l) -> {
+        return (Node) this.nodes.computeIfAbsent(Node.createHash(x, y, z), (l) -> {
             return new Node(x, y, z);
         });
     }

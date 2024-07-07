@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 public abstract class Combat extends BasicGoal implements EntityInteraction {
 
     protected LivingEntity entity;
+
     public Combat(String name, SereneHumanEntity npc, int priority, LivingEntity entity) {
         super(name, npc, priority);
 

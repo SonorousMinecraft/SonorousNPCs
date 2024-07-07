@@ -82,56 +82,35 @@ import java.util.stream.Stream;
 
 public class SereneHumanEntity extends ServerPlayer {
 
-    private LivingEntity owner;
-
-    private PathNavigation navigation;
-
-    private MoveControl moveControl;
-
+    private final Inventory inventory = new Inventory(this);
+    private final Set<TagKey<Fluid>> fluidOnEyes;
+    private final ItemCooldowns cooldowns;
+    private final PlayerAdvancements advancements;
     public LookControl lookControl;
+    public FoodData foodData = new FoodData(this);
+    public int attackTime = -1;
+    public int attackIntervalMin = 20;
+    public int timeSinceBowDraw = -1;
+    protected MasterGoalSelector masterGoalSelector;
+    protected TargetSelector targetSelector;
+    protected InventoryTracker inventoryTracker;
+    private LivingEntity owner;
+    private PathNavigation navigation;
+    private MoveControl moveControl;
     private JumpControl jumpControl;
-
     private BodyRotationControl bodyRotationControl;
     private int noJumpDelay;
-    private final Inventory inventory = new Inventory(this);
     private BlockState feetBlockState;
-
     private int remainingFireTicks;
-
-
     private BlockPos blockPosition;
-
-    private final Set<TagKey<Fluid>> fluidOnEyes;
-
     private BlockPos lastPos;
     private LivingEntity lastHurtMob;
-
     private net.minecraft.world.item.ItemStack lastItemInMainHand;
-
-    private final ItemCooldowns cooldowns;
-
     private int containerUpdateDelay;
-
     @Nullable
     private Vec3 levitationStartPos;
-
     private int levitationStartTime;
-
-
-    private final PlayerAdvancements advancements;
-
-    protected MasterGoalSelector masterGoalSelector;
-
-    public MasterGoalSelector getMasterGoalSelector() {
-        return masterGoalSelector;
-    }
-
-    protected TargetSelector targetSelector;
-
-    protected InventoryTracker inventoryTracker;
-
-    public FoodData foodData = new FoodData(this);
-
+    private boolean on = false;
 
     public SereneHumanEntity(MinecraftServer server, ServerLevel world, GameProfile profile, ClientInformation clientOptions) {
         super(server, world, profile, clientOptions);
@@ -170,8 +149,12 @@ public class SereneHumanEntity extends ServerPlayer {
 //         player.getEquipment().setItemInMainHand(new ItemStack(Material.DIAMOND_SWORD));
 
 
-
     }
+
+    public MasterGoalSelector getMasterGoalSelector() {
+        return masterGoalSelector;
+    }
+
     public float getPathfindingMalus(BlockPathTypes nodeType) {
         return 0;
     }
@@ -182,14 +165,9 @@ public class SereneHumanEntity extends ServerPlayer {
     public void onPathfindingDone() {
     }
 
-    public void setOwner(LivingEntity owner){
+    public void setOwner(LivingEntity owner) {
         this.owner = owner;
     }
-
-    public int attackTime = -1;
-    public int attackIntervalMin = 20;
-
-    public int timeSinceBowDraw = -1;
 
     public int getMaxHeadXRot() {
         return 40;
@@ -207,7 +185,6 @@ public class SereneHumanEntity extends ServerPlayer {
         this.bodyRotationControl.clientTick();
         return headRotation;
     }
-
 
     private void updatingUsingItem() {
         if (this.isUsingItem()) {
@@ -288,7 +265,7 @@ public class SereneHumanEntity extends ServerPlayer {
                 if (this.isInLava() && (!this.onGround() || d3 > d4)) {
                     this.jumpInLiquid(FluidTags.LAVA);
                 } else if ((this.onGround() || flag && d3 <= d4) && this.noJumpDelay == 0) {
-                    if ( !(new EntityJumpEvent(this.getBukkitLivingEntity())).isCancelled()) {
+                    if (!(new EntityJumpEvent(this.getBukkitLivingEntity())).isCancelled()) {
                         this.jumpFromGround();
                         this.noJumpDelay = 10;
                     } else {
@@ -308,12 +285,13 @@ public class SereneHumanEntity extends ServerPlayer {
         this.zza *= 0.98F;
         this.updateFallFlying();
         AABB axisalignedbb = this.getBoundingBox();
-        Vec3 vec3d1 = new Vec3((double)this.xxa, (double)this.yya, (double)this.zza);
+        Vec3 vec3d1 = new Vec3((double) this.xxa, (double) this.yya, (double) this.zza);
         if (this.hasEffect(MobEffects.SLOW_FALLING) || this.hasEffect(MobEffects.LEVITATION)) {
             this.resetFallDistance();
         }
 
-        label132: {
+        label132:
+        {
             LivingEntity entityliving = this.getControllingPassenger();
             if (entityliving instanceof net.minecraft.world.entity.player.Player entityhuman) {
                 if (this.isAlive()) {
@@ -352,7 +330,7 @@ public class SereneHumanEntity extends ServerPlayer {
 
         this.pushEntities();
         this.level().getProfiler().pop();
-        if (((ServerLevel)this.level()).hasEntityMoveEvent && !(this instanceof net.minecraft.world.entity.player.Player) && (this.xo != this.getX() || this.yo != this.getY() || this.zo != this.getZ() || this.yRotO != this.getYRot() || this.xRotO != this.getXRot())) {
+        if (((ServerLevel) this.level()).hasEntityMoveEvent && !(this instanceof net.minecraft.world.entity.player.Player) && (this.xo != this.getX() || this.yo != this.getY() || this.zo != this.getZ() || this.yRotO != this.getYRot() || this.xRotO != this.getXRot())) {
             Location from = new Location(this.level().getWorld(), this.xo, this.yo, this.zo, this.yRotO, this.xRotO);
             Location to = new Location(this.level().getWorld(), this.getX(), this.getY(), this.getZ(), this.getYRot(), this.getXRot());
             EntityMoveEvent event = new EntityMoveEvent(this.getBukkitLivingEntity(), from, to.clone());
@@ -363,7 +341,7 @@ public class SereneHumanEntity extends ServerPlayer {
             }
         }
 
-        if (!this.level().isClientSide && this.isSensitiveToWater() ) {
+        if (!this.level().isClientSide && this.isSensitiveToWater()) {
             this.hurt(this.damageSources().drown(), 1.0F);
         }
 
@@ -405,46 +383,46 @@ public class SereneHumanEntity extends ServerPlayer {
         if (!this.isPassenger()) {
             int i;
             if (this.isSwimming()) {
-                i = Math.round((float)Math.sqrt(dx * dx + dy * dy + dz * dz) * 100.0F);
+                i = Math.round((float) Math.sqrt(dx * dx + dy * dy + dz * dz) * 100.0F);
                 if (i > 0) {
                     this.awardStat(Stats.SWIM_ONE_CM, i);
-                    this.causeFoodExhaustion(this.level().spigotConfig.swimMultiplier * (float)i * 0.01F, EntityExhaustionEvent.ExhaustionReason.SWIM);
+                    this.causeFoodExhaustion(this.level().spigotConfig.swimMultiplier * (float) i * 0.01F, EntityExhaustionEvent.ExhaustionReason.SWIM);
                 }
             } else if (this.isEyeInFluid(FluidTags.WATER)) {
-                i = Math.round((float)Math.sqrt(dx * dx + dy * dy + dz * dz) * 100.0F);
+                i = Math.round((float) Math.sqrt(dx * dx + dy * dy + dz * dz) * 100.0F);
                 if (i > 0) {
                     this.awardStat(Stats.WALK_UNDER_WATER_ONE_CM, i);
-                    this.causeFoodExhaustion(this.level().spigotConfig.swimMultiplier * (float)i * 0.01F, EntityExhaustionEvent.ExhaustionReason.WALK_UNDERWATER);
+                    this.causeFoodExhaustion(this.level().spigotConfig.swimMultiplier * (float) i * 0.01F, EntityExhaustionEvent.ExhaustionReason.WALK_UNDERWATER);
                 }
             } else if (this.isInWater()) {
-                i = Math.round((float)Math.sqrt(dx * dx + dz * dz) * 100.0F);
+                i = Math.round((float) Math.sqrt(dx * dx + dz * dz) * 100.0F);
                 if (i > 0) {
                     this.awardStat(Stats.WALK_ON_WATER_ONE_CM, i);
-                    this.causeFoodExhaustion(this.level().spigotConfig.swimMultiplier * (float)i * 0.01F, EntityExhaustionEvent.ExhaustionReason.WALK_ON_WATER);
+                    this.causeFoodExhaustion(this.level().spigotConfig.swimMultiplier * (float) i * 0.01F, EntityExhaustionEvent.ExhaustionReason.WALK_ON_WATER);
                 }
             } else if (this.onClimbable()) {
                 if (dy > 0.0) {
-                    this.awardStat(Stats.CLIMB_ONE_CM, (int)Math.round(dy * 100.0));
+                    this.awardStat(Stats.CLIMB_ONE_CM, (int) Math.round(dy * 100.0));
                 }
             } else if (this.onGround()) {
-                i = Math.round((float)Math.sqrt(dx * dx + dz * dz) * 100.0F);
+                i = Math.round((float) Math.sqrt(dx * dx + dz * dz) * 100.0F);
                 if (i > 0) {
                     if (this.isSprinting()) {
                         this.awardStat(Stats.SPRINT_ONE_CM, i);
-                        this.causeFoodExhaustion(this.level().spigotConfig.sprintMultiplier * (float)i * 0.01F, EntityExhaustionEvent.ExhaustionReason.SPRINT);
+                        this.causeFoodExhaustion(this.level().spigotConfig.sprintMultiplier * (float) i * 0.01F, EntityExhaustionEvent.ExhaustionReason.SPRINT);
                     } else if (this.isCrouching()) {
                         this.awardStat(Stats.CROUCH_ONE_CM, i);
-                        this.causeFoodExhaustion(this.level().spigotConfig.otherMultiplier * (float)i * 0.01F, EntityExhaustionEvent.ExhaustionReason.CROUCH);
+                        this.causeFoodExhaustion(this.level().spigotConfig.otherMultiplier * (float) i * 0.01F, EntityExhaustionEvent.ExhaustionReason.CROUCH);
                     } else {
                         this.awardStat(Stats.WALK_ONE_CM, i);
-                        this.causeFoodExhaustion(this.level().spigotConfig.otherMultiplier * (float)i * 0.01F, EntityExhaustionEvent.ExhaustionReason.WALK);
+                        this.causeFoodExhaustion(this.level().spigotConfig.otherMultiplier * (float) i * 0.01F, EntityExhaustionEvent.ExhaustionReason.WALK);
                     }
                 }
             } else if (this.isFallFlying()) {
-                i = Math.round((float)Math.sqrt(dx * dx + dy * dy + dz * dz) * 100.0F);
+                i = Math.round((float) Math.sqrt(dx * dx + dy * dy + dz * dz) * 100.0F);
                 this.awardStat(Stats.AVIATE_ONE_CM, i);
             } else {
-                i = Math.round((float)Math.sqrt(dx * dx + dz * dz) * 100.0F);
+                i = Math.round((float) Math.sqrt(dx * dx + dz * dz) * 100.0F);
                 if (i > 25) {
                     this.awardStat(Stats.FLY_ONE_CM, i);
                 }
@@ -527,10 +505,10 @@ public class SereneHumanEntity extends ServerPlayer {
         this.oBob = this.bob;
         // super.aiStep();
         livingEntityAiStep();
-        this.setSpeed((float)this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+        this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED));
         float f;
         if (this.onGround() && !this.isDeadOrDying() && !this.isSwimming()) {
-            f = Math.min(0.1F, (float)this.getDeltaMovement().horizontalDistance());
+            f = Math.min(0.1F, (float) this.getDeltaMovement().horizontalDistance());
         } else {
             f = 0.0F;
         }
@@ -548,8 +526,8 @@ public class SereneHumanEntity extends ServerPlayer {
             List<Entity> list1 = new ArrayList<>();
             Iterator iterator = list.iterator();
 
-            while(iterator.hasNext()) {
-                Entity entity = (Entity)iterator.next();
+            while (iterator.hasNext()) {
+                Entity entity = (Entity) iterator.next();
                 if (entity.getType() == EntityType.EXPERIENCE_ORB) {
                     list1.add(entity);
                 } else if (!entity.isRemoved()) {
@@ -577,7 +555,7 @@ public class SereneHumanEntity extends ServerPlayer {
                 return entitytypes == EntityType.PARROT;
             }).ifPresent((entitytypes) -> {
                 if (!Parrot.imitateNearbyMobs(this.level(), this)) {
-                    this.level().playSound((net.minecraft.world.entity.player.Player)null, this.getX(), this.getY(), this.getZ(), Parrot.getAmbient(this.level(), this.level().random), this.getSoundSource(), 1.0F, Parrot.getPitch(this.level().random));
+                    this.level().playSound((net.minecraft.world.entity.player.Player) null, this.getX(), this.getY(), this.getZ(), Parrot.getAmbient(this.level(), this.level().random), this.getSoundSource(), 1.0F, Parrot.getPitch(this.level().random));
                 }
 
             });
@@ -585,12 +563,11 @@ public class SereneHumanEntity extends ServerPlayer {
 
     }
 
-
     private void touch(Entity entity) {
         entity.playerTouch(this);
     }
 
-    public void livingEntityTick(){
+    public void livingEntityTick() {
         // super.tick();
         livingEntityBaseTick();
         this.updatingUsingItem();
@@ -633,14 +610,14 @@ public class SereneHumanEntity extends ServerPlayer {
 
         double d0 = this.getX() - this.xo;
         double d1 = this.getZ() - this.zo;
-        float f = (float)(d0 * d0 + d1 * d1);
+        float f = (float) (d0 * d0 + d1 * d1);
         float f1 = this.yBodyRot;
         float f2 = 0.0F;
         this.oRun = this.run;
         float f3 = 0.0F;
         if (f > 0.0025000002F) {
             f3 = 1.0F;
-            f2 = (float)Math.sqrt((double)f) * 3.0F;
+            f2 = (float) Math.sqrt((double) f) * 3.0F;
             float f4 = (float) Mth.atan2(d1, d0) * 57.295776F - 90.0F;
             float f5 = Mth.abs(Mth.wrapDegrees(this.getYRot()) - f4);
             if (95.0F < f5 && f5 < 265.0F) {
@@ -664,10 +641,10 @@ public class SereneHumanEntity extends ServerPlayer {
         this.level().getProfiler().pop();
         this.level().getProfiler().push("rangeChecks");
 
-        this.yRotO += (float)Math.round((this.getYRot() - this.yRotO) / 360.0F) * 360.0F;
-        this.yBodyRotO += (float)Math.round((this.yBodyRot - this.yBodyRotO) / 360.0F) * 360.0F;
-        this.xRotO += (float)Math.round((this.getXRot() - this.xRotO) / 360.0F) * 360.0F;
-        this.yHeadRotO += (float)Math.round((this.yHeadRot - this.yHeadRotO) / 360.0F) * 360.0F;
+        this.yRotO += (float) Math.round((this.getYRot() - this.yRotO) / 360.0F) * 360.0F;
+        this.yBodyRotO += (float) Math.round((this.yBodyRot - this.yBodyRotO) / 360.0F) * 360.0F;
+        this.xRotO += (float) Math.round((this.getXRot() - this.xRotO) / 360.0F) * 360.0F;
+        this.yHeadRotO += (float) Math.round((this.yHeadRot - this.yHeadRotO) / 360.0F) * 360.0F;
         this.level().getProfiler().pop();
         this.animStep += f2;
         if (this.isFallFlying()) {
@@ -736,7 +713,7 @@ public class SereneHumanEntity extends ServerPlayer {
 
             if (this.getTicksFrozen() > 0 && !this.freezeLocked) {
                 this.setTicksFrozen(0);
-                this.level().levelEvent((net.minecraft.world.entity.player.Player)null, 1009, this.blockPosition, 1);
+                this.level().levelEvent((net.minecraft.world.entity.player.Player) null, 1009, this.blockPosition, 1);
             }
         }
 
@@ -769,7 +746,7 @@ public class SereneHumanEntity extends ServerPlayer {
 
         BlockPos blockposition = BlockPos.containing(this.getX(), d0, this.getZ());
         FluidState fluid = this.level().getFluidState(blockposition);
-        double d1 = (double)((float)blockposition.getY() + fluid.getHeight(this.level(), blockposition));
+        double d1 = (double) ((float) blockposition.getY() + fluid.getHeight(this.level(), blockposition));
         if (d1 > d0) {
             Stream stream = fluid.getTags();
             Set set = this.fluidOnEyes;
@@ -807,21 +784,21 @@ public class SereneHumanEntity extends ServerPlayer {
                     if (d0 < 0.0) {
                         double d1 = this.level().getWorldBorder().getDamagePerBlock();
                         if (d1 > 0.0) {
-                            this.hurt(this.damageSources().outOfBorder(), (float)Math.max(1, Mth.floor(-d0 * d1)));
+                            this.hurt(this.damageSources().outOfBorder(), (float) Math.max(1, Mth.floor(-d0 * d1)));
                         }
                     }
                 }
             }
 
             if (this.isEyeInFluid(FluidTags.WATER) && !this.level().getBlockState(BlockPos.containing(this.getX(), this.getEyeY(), this.getZ())).is(Blocks.BUBBLE_COLUMN)) {
-                boolean flag1 = !this.canBreatheUnderwater() && !MobEffectUtil.hasWaterBreathing(this) && (!flag || !((net.minecraft.world.entity.player.Player)this).getAbilities().invulnerable);
+                boolean flag1 = !this.canBreatheUnderwater() && !MobEffectUtil.hasWaterBreathing(this) && (!flag || !((net.minecraft.world.entity.player.Player) this).getAbilities().invulnerable);
                 if (flag1) {
                     this.setAirSupply(this.decreaseAirSupply(this.getAirSupply()));
                     if (this.getAirSupply() == -20) {
                         this.setAirSupply(0);
                         Vec3 vec3d = this.getDeltaMovement();
 
-                        for(int i = 0; i < 8; ++i) {
+                        for (int i = 0; i < 8; ++i) {
                             double d2 = this.random.nextDouble() - this.random.nextDouble();
                             double d3 = this.random.nextDouble() - this.random.nextDouble();
                             double d4 = this.random.nextDouble() - this.random.nextDouble();
@@ -848,7 +825,7 @@ public class SereneHumanEntity extends ServerPlayer {
             }
         }
 
-        if (this.isAlive() && ( this.isInPowderSnow)) {
+        if (this.isAlive() && (this.isInPowderSnow)) {
             this.extinguishFire();
         }
 
@@ -876,9 +853,9 @@ public class SereneHumanEntity extends ServerPlayer {
 
         if (this.lastHurtByMob != null) {
             if (!this.lastHurtByMob.isAlive()) {
-                this.setLastHurtByMob((LivingEntity)null);
+                this.setLastHurtByMob((LivingEntity) null);
             } else if (this.tickCount - this.lastHurtByMobTimestamp > 100) {
-                this.setLastHurtByMob((LivingEntity)null);
+                this.setLastHurtByMob((LivingEntity) null);
             }
         }
 
@@ -892,10 +869,10 @@ public class SereneHumanEntity extends ServerPlayer {
     }
 
     private void setPosToBed(BlockPos pos) {
-        this.setPos((double)pos.getX() + 0.5, (double)pos.getY() + 0.6875, (double)pos.getZ() + 0.5);
+        this.setPos((double) pos.getX() + 0.5, (double) pos.getY() + 0.6875, (double) pos.getZ() + 0.5);
     }
 
-    public void playerTick(){
+    public void playerTick() {
         this.noPhysics = this.isSpectator();
         if (this.isSpectator()) {
             this.setOnGround(false);
@@ -975,8 +952,6 @@ public class SereneHumanEntity extends ServerPlayer {
         this.updatePlayerPose();
     }
 
-
-
     private void turtleHelmetTick() {
         net.minecraft.world.item.ItemStack itemstack = this.getItemBySlot(EquipmentSlot.HEAD);
         if (itemstack.is(Items.TURTLE_HELMET) && !this.isEyeInFluid(FluidTags.WATER)) {
@@ -1028,7 +1003,7 @@ public class SereneHumanEntity extends ServerPlayer {
         this.yCloak += d1 * 0.25;
     }
 
-    public void mobServerAiStep(){
+    public void mobServerAiStep() {
         this.level().getProfiler().push("navigation");
         this.navigation.tick();
         this.level().getProfiler().pop();
@@ -1052,17 +1027,15 @@ public class SereneHumanEntity extends ServerPlayer {
     }
 
     @Override
-    public void doTick(){
+    public void doTick() {
         serverPlayerDoTick();
     }
 
-    private boolean on = false;
-
-    public void toggleOn(){
+    public void toggleOn() {
         on = true;
     }
 
-    public void toggleOff(){
+    public void toggleOff() {
         on = false;
     }
 
@@ -1110,8 +1083,6 @@ public class SereneHumanEntity extends ServerPlayer {
 //        }
 
 
-
-
 //        if (owner != null) {
 //            if (this.distanceToSqr(this.owner) <= 144.0) {
 //                //this.navigation.moveTo(this.owner, 10);
@@ -1141,8 +1112,6 @@ public class SereneHumanEntity extends ServerPlayer {
         // checkAndPerformAttack(owner);
 
 
-
-
     }
 
     private void addEatEffect(ItemStack stack, Level world, LivingEntity targetEntity) {
@@ -1151,10 +1120,10 @@ public class SereneHumanEntity extends ServerPlayer {
             List<Pair<MobEffectInstance, Float>> list = item.getFoodProperties().getEffects();
             Iterator iterator = list.iterator();
 
-            while(iterator.hasNext()) {
-                Pair<MobEffectInstance, Float> pair = (Pair)iterator.next();
-                if (!world.isClientSide && pair.getFirst() != null && world.random.nextFloat() < (Float)pair.getSecond()) {
-                    targetEntity.addEffect(new MobEffectInstance((MobEffectInstance)pair.getFirst()), EntityPotionEffectEvent.Cause.FOOD);
+            while (iterator.hasNext()) {
+                Pair<MobEffectInstance, Float> pair = (Pair) iterator.next();
+                if (!world.isClientSide && pair.getFirst() != null && world.random.nextFloat() < (Float) pair.getSecond()) {
+                    targetEntity.addEffect(new MobEffectInstance((MobEffectInstance) pair.getFirst()), EntityPotionEffectEvent.Cause.FOOD);
                 }
             }
         }
@@ -1163,9 +1132,9 @@ public class SereneHumanEntity extends ServerPlayer {
 
     public ItemStack livingEntityEat(Level world, ItemStack stack) {
         if (stack.isEdible()) {
-            world.playSound((net.minecraft.world.entity.player.Player)null, this.getX(), this.getY(), this.getZ(), this.getEatingSound(stack), SoundSource.NEUTRAL, 1.0F, 1.0F + (world.random.nextFloat() - world.random.nextFloat()) * 0.4F);
+            world.playSound((net.minecraft.world.entity.player.Player) null, this.getX(), this.getY(), this.getZ(), this.getEatingSound(stack), SoundSource.NEUTRAL, 1.0F, 1.0F + (world.random.nextFloat() - world.random.nextFloat()) * 0.4F);
             this.addEatEffect(stack, world, this);
-            if (!(this instanceof net.minecraft.world.entity.player.Player) || !((net.minecraft.world.entity.player.Player)this).getAbilities().instabuild) {
+            if (!(this instanceof net.minecraft.world.entity.player.Player) || !((net.minecraft.world.entity.player.Player) this).getAbilities().instabuild) {
                 stack.shrink(1);
             }
 
@@ -1178,9 +1147,9 @@ public class SereneHumanEntity extends ServerPlayer {
     public ItemStack playerEat(Level world, ItemStack stack) {
         this.foodData.eat(stack.getItem(), stack);
         this.awardStat(Stats.ITEM_USED.get(stack.getItem()));
-        world.playSound((net.minecraft.world.entity.player.Player)null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
+        world.playSound((net.minecraft.world.entity.player.Player) null, this.getX(), this.getY(), this.getZ(), SoundEvents.PLAYER_BURP, SoundSource.PLAYERS, 0.5F, world.random.nextFloat() * 0.1F + 0.9F);
         if (this instanceof ServerPlayer) {
-            CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer)this, stack);
+            CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer) this, stack);
         }
 
         return livingEntityEat(world, stack);
@@ -1201,7 +1170,7 @@ public class SereneHumanEntity extends ServerPlayer {
         double d1 = target.getY(0.3333333333333333) - entityarrow.getY();
         double d2 = target.getZ() - this.getZ();
         double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-        entityarrow.shoot(d0, d1 + d3 * 0.20000000298023224, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
+        entityarrow.shoot(d0, d1 + d3 * 0.20000000298023224, d2, 1.6F, (float) (14 - this.level().getDifficulty().getId() * 4));
         EntityShootBowEvent event = CraftEventFactory.callEntityShootBowEvent(this, this.getMainHandItem(), entityarrow.getPickupItem(), entityarrow, InteractionHand.MAIN_HAND, 0.8F, true);
         if (event.isCancelled()) {
             event.getProjectile().remove();
@@ -1226,7 +1195,7 @@ public class SereneHumanEntity extends ServerPlayer {
         }
     }
 
-    public void performAttack(LivingEntity target){
+    public void performAttack(LivingEntity target) {
         this.resetAttackStrengthTicker();
         this.swing(InteractionHand.MAIN_HAND);
         this.lookControl.setLookAt(target);
@@ -1258,7 +1227,7 @@ public class SereneHumanEntity extends ServerPlayer {
 
                 this.walkAnimation.setSpeed(1.5F);
                 boolean flag1 = true;
-                if ((float)this.invulnerableTime > (float)this.invulnerableDuration / 2.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN)) {
+                if ((float) this.invulnerableTime > (float) this.invulnerableDuration / 2.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN)) {
                     if (amount <= this.lastHurt) {
                         return false;
                     }
@@ -1283,23 +1252,23 @@ public class SereneHumanEntity extends ServerPlayer {
                 Entity entity1 = source.getEntity();
                 if (entity1 != null) {
                     if (entity1 instanceof LivingEntity) {
-                        LivingEntity entityliving1 = (LivingEntity)entity1;
+                        LivingEntity entityliving1 = (LivingEntity) entity1;
                         if (!source.is(DamageTypeTags.NO_ANGER)) {
                             this.setLastHurtByMob(entityliving1);
                         }
                     }
 
                     if (entity1 instanceof net.minecraft.world.entity.player.Player) {
-                        net.minecraft.world.entity.player.Player entityhuman = (net.minecraft.world.entity.player.Player)entity1;
+                        net.minecraft.world.entity.player.Player entityhuman = (net.minecraft.world.entity.player.Player) entity1;
                         this.lastHurtByPlayerTime = 100;
                         this.lastHurtByPlayer = entityhuman;
                     } else if (entity1 instanceof Wolf) {
-                        Wolf entitywolf = (Wolf)entity1;
+                        Wolf entitywolf = (Wolf) entity1;
                         if (entitywolf.isTame()) {
                             this.lastHurtByPlayerTime = 100;
                             LivingEntity entityliving2 = entitywolf.getOwner();
                             if (entityliving2 instanceof net.minecraft.world.entity.player.Player) {
-                                net.minecraft.world.entity.player.Player entityhuman1 = (net.minecraft.world.entity.player.Player)entityliving2;
+                                net.minecraft.world.entity.player.Player entityhuman1 = (net.minecraft.world.entity.player.Player) entityliving2;
                                 this.lastHurtByPlayer = entityhuman1;
                             } else {
                                 this.lastHurtByPlayer = null;
@@ -1311,7 +1280,7 @@ public class SereneHumanEntity extends ServerPlayer {
                 boolean flag2;
                 if (flag1) {
                     if (flag) {
-                        this.level().broadcastEntityEvent(this, (byte)29);
+                        this.level().broadcastEntityEvent(this, (byte) 29);
                     } else {
                         this.level().broadcastDamageEvent(this, source);
                     }
@@ -1325,7 +1294,7 @@ public class SereneHumanEntity extends ServerPlayer {
                         double d0 = flag2 ? Math.random() - Math.random() : entity1.getX() - this.getX();
 
                         double d1;
-                        for(d1 = flag2 ? Math.random() - Math.random() : entity1.getZ() - this.getZ(); d0 * d0 + d1 * d1 < 1.0E-4; d1 = (Math.random() - Math.random()) * 0.01) {
+                        for (d1 = flag2 ? Math.random() - Math.random() : entity1.getZ() - this.getZ(); d0 * d0 + d1 * d1 < 1.0E-4; d1 = (Math.random() - Math.random()) * 0.01) {
                             d0 = (Math.random() - Math.random()) * 0.01;
                         }
 
@@ -1353,14 +1322,14 @@ public class SereneHumanEntity extends ServerPlayer {
                 }
 
                 if (this instanceof ServerPlayer) {
-                    CriteriaTriggers.ENTITY_HURT_PLAYER.trigger((ServerPlayer)this, source, f1, amount, flag);
+                    CriteriaTriggers.ENTITY_HURT_PLAYER.trigger((ServerPlayer) this, source, f1, amount, flag);
                     if (f2 > 0.0F && f2 < 3.4028235E37F) {
-                        ((ServerPlayer)this).awardStat(Stats.DAMAGE_BLOCKED_BY_SHIELD, Math.round(f2 * 10.0F));
+                        ((ServerPlayer) this).awardStat(Stats.DAMAGE_BLOCKED_BY_SHIELD, Math.round(f2 * 10.0F));
                     }
                 }
 
                 if (entity1 instanceof ServerPlayer) {
-                    CriteriaTriggers.PLAYER_HURT_ENTITY.trigger((ServerPlayer)entity1, this, source, f1, amount, flag);
+                    CriteriaTriggers.PLAYER_HURT_ENTITY.trigger((ServerPlayer) entity1, this, source, f1, amount, flag);
                 }
 
                 return flag2;
@@ -1419,17 +1388,17 @@ public class SereneHumanEntity extends ServerPlayer {
             } else {
                 Entity entity = source.getEntity();
                 if (entity instanceof net.minecraft.world.entity.player.Player) {
-                    net.minecraft.world.entity.player.Player entityhuman = (net.minecraft.world.entity.player.Player)entity;
+                    net.minecraft.world.entity.player.Player entityhuman = (net.minecraft.world.entity.player.Player) entity;
                     if (!this.canHarmPlayer(entityhuman)) {
                         return false;
                     }
                 }
 
                 if (entity instanceof AbstractArrow) {
-                    AbstractArrow entityarrow = (AbstractArrow)entity;
+                    AbstractArrow entityarrow = (AbstractArrow) entity;
                     Entity entity1 = entityarrow.getOwner();
                     if (entity1 instanceof net.minecraft.world.entity.player.Player) {
-                        net.minecraft.world.entity.player.Player entityhuman1 = (net.minecraft.world.entity.player.Player)entity1;
+                        net.minecraft.world.entity.player.Player entityhuman1 = (net.minecraft.world.entity.player.Player) entity1;
                         if (!this.canHarmPlayer(entityhuman1)) {
                             return false;
                         }
@@ -1446,12 +1415,12 @@ public class SereneHumanEntity extends ServerPlayer {
 
     public void attack(Entity target) {
         boolean willAttack = target.isAttackable() && !target.skipAttackInteraction(this);
-        PrePlayerAttackEntityEvent playerAttackEntityEvent = new PrePlayerAttackEntityEvent((org.bukkit.entity.Player)this.getBukkitEntity(), target.getBukkitEntity(), willAttack);
+        PrePlayerAttackEntityEvent playerAttackEntityEvent = new PrePlayerAttackEntityEvent((org.bukkit.entity.Player) this.getBukkitEntity(), target.getBukkitEntity(), willAttack);
         if (!playerAttackEntityEvent.isCancelled() && willAttack) {
-            float f = (float)this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+            float f = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
             float f1;
             if (target instanceof LivingEntity) {
-                f1 = EnchantmentHelper.getDamageBonus(this.getMainHandItem(), ((LivingEntity)target).getMobType());
+                f1 = EnchantmentHelper.getDamageBonus(this.getMainHandItem(), ((LivingEntity) target).getMobType());
             } else {
                 f1 = EnchantmentHelper.getDamageBonus(this.getMainHandItem(), MobType.UNDEFINED);
             }
@@ -1479,8 +1448,8 @@ public class SereneHumanEntity extends ServerPlayer {
 
                 f += f1;
                 boolean flag3 = false;
-                double d0 = (double)(this.walkDist - this.walkDistO);
-                if (flag && !flag2 && !flag1 && this.onGround() && d0 < (double)this.getSpeed()) {
+                double d0 = (double) (this.walkDist - this.walkDistO);
+                if (flag && !flag2 && !flag1 && this.onGround() && d0 < (double) this.getSpeed()) {
                     ItemStack itemstack = this.getItemInHand(InteractionHand.MAIN_HAND);
                     if (itemstack.getItem() instanceof SwordItem) {
                         flag3 = true;
@@ -1491,7 +1460,7 @@ public class SereneHumanEntity extends ServerPlayer {
                 boolean flag4 = false;
                 int j = EnchantmentHelper.getFireAspect(this);
                 if (target instanceof LivingEntity) {
-                    f3 = ((LivingEntity)target).getHealth();
+                    f3 = ((LivingEntity) target).getHealth();
                     if (j > 0 && !target.isOnFire()) {
                         EntityCombustByEntityEvent combustEvent = new EntityCombustByEntityEvent(this.getBukkitEntity(), target.getBukkitEntity(), 1);
                         Bukkit.getPluginManager().callEvent(combustEvent);
@@ -1524,7 +1493,7 @@ public class SereneHumanEntity extends ServerPlayer {
                         Iterator iterator = list.iterator();
 
                         label190:
-                        while(true) {
+                        while (true) {
                             LivingEntity entityliving;
                             do {
                                 do {
@@ -1536,11 +1505,11 @@ public class SereneHumanEntity extends ServerPlayer {
                                                 break label190;
                                             }
 
-                                            entityliving = (LivingEntity)iterator.next();
-                                        } while(entityliving == this);
-                                    } while(entityliving == target);
-                                } while(this.isAlliedTo(entityliving));
-                            } while(entityliving instanceof ArmorStand && ((ArmorStand)entityliving).isMarker());
+                                            entityliving = (LivingEntity) iterator.next();
+                                        } while (entityliving == this);
+                                    } while (entityliving == target);
+                                } while (this.isAlliedTo(entityliving));
+                            } while (entityliving instanceof ArmorStand && ((ArmorStand) entityliving).isMarker());
 
 //                            if (this.distanceToSqr(entityliving) < 9.0 && entityliving.hurt(this.damageSources().playerAttack(this).sweep().critical(flag2), f4)) {
 //                                entityliving.knockback(0.4000000059604645, (double)Mth.sin(this.getYRot() * 0.017453292F), (double)(-Mth.cos(this.getYRot() * 0.017453292F)), this);
@@ -1550,7 +1519,7 @@ public class SereneHumanEntity extends ServerPlayer {
 
                     if (target instanceof ServerPlayer && target.hurtMarked) {
                         boolean cancelled = false;
-                        org.bukkit.entity.Player player = (org.bukkit.entity.Player)target.getBukkitEntity();
+                        org.bukkit.entity.Player player = (org.bukkit.entity.Player) target.getBukkitEntity();
                         Vector velocity = CraftVector.toBukkit(vec3d);
                         PlayerVelocityEvent event = new PlayerVelocityEvent(player, velocity.clone());
                         this.level().getCraftServer().getPluginManager().callEvent(event);
@@ -1586,25 +1555,25 @@ public class SereneHumanEntity extends ServerPlayer {
 
                     this.setLastHurtMob(target);
                     if (target instanceof LivingEntity) {
-                        EnchantmentHelper.doPostHurtEffects((LivingEntity)target, this);
+                        EnchantmentHelper.doPostHurtEffects((LivingEntity) target, this);
                     }
 
                     EnchantmentHelper.doPostDamageEffects(this, target);
                     ItemStack itemstack1 = this.getMainHandItem();
                     Object object = target;
                     if (target instanceof EnderDragonPart) {
-                        object = ((EnderDragonPart)target).parentMob;
+                        object = ((EnderDragonPart) target).parentMob;
                     }
 
                     if (!this.level().isClientSide && !itemstack1.isEmpty() && object instanceof LivingEntity) {
-                        itemstack1.hurtEnemy((LivingEntity)object, this);
+                        itemstack1.hurtEnemy((LivingEntity) object, this);
                         if (itemstack1.isEmpty()) {
                             this.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
                         }
                     }
 
                     if (target instanceof LivingEntity) {
-                        float f5 = f3 - ((LivingEntity)target).getHealth();
+                        float f5 = f3 - ((LivingEntity) target).getHealth();
                         this.awardStat(Stats.DAMAGE_DEALT, Math.round(f5 * 10.0F));
                         if (j > 0) {
                             EntityCombustByEntityEvent combustEvent = new EntityCombustByEntityEvent(this.getBukkitEntity(), target.getBukkitEntity(), j * 4);
@@ -1615,8 +1584,8 @@ public class SereneHumanEntity extends ServerPlayer {
                         }
 
                         if (this.level() instanceof ServerLevel && f5 > 2.0F) {
-                            int k = (int)((double)f5 * 0.5);
-                            ((ServerLevel)this.level()).sendParticles(ParticleTypes.DAMAGE_INDICATOR, target.getX(), target.getY(0.5), target.getZ(), k, 0.1, 0.0, 0.1, 0.2);
+                            int k = (int) ((double) f5 * 0.5);
+                            ((ServerLevel) this.level()).sendParticles(ParticleTypes.DAMAGE_INDICATOR, target.getX(), target.getY(0.5), target.getZ(), k, 0.1, 0.0, 0.1, 0.2);
                         }
                     }
 
@@ -1628,7 +1597,7 @@ public class SereneHumanEntity extends ServerPlayer {
                     }
 
                     if (this instanceof ServerPlayer) {
-                        ((ServerPlayer)this).getBukkitEntity().updateInventory();
+                        ((ServerPlayer) this).getBukkitEntity().updateInventory();
                     }
                 }
             }
@@ -1825,8 +1794,8 @@ public class SereneHumanEntity extends ServerPlayer {
             if (!keepInventory) {
                 Iterator var5 = this.getInventory().getContents().iterator();
 
-                while(var5.hasNext()) {
-                    ItemStack item = (ItemStack)var5.next();
+                while (var5.hasNext()) {
+                    ItemStack item = (ItemStack) var5.next();
                     if (!item.isEmpty() && !EnchantmentHelper.hasVanishingCurse(item)) {
                         loot.add(new Entity.DefaultDrop(item, (stack) -> {
                             this.drop(stack, true, false);
@@ -1849,7 +1818,6 @@ public class SereneHumanEntity extends ServerPlayer {
 ////                }
 
             // } else {
-
 
 
             this.removeEntitiesOnShoulder();
@@ -1876,7 +1844,7 @@ public class SereneHumanEntity extends ServerPlayer {
                 this.createWitherRose(entityliving);
             }
 
-            this.level().broadcastEntityEvent(this, (byte)3);
+            this.level().broadcastEntityEvent(this, (byte) 3);
             this.awardStat(Stats.DEATHS);
             this.resetStat(Stats.CUSTOM.get(Stats.TIME_SINCE_DEATH));
             this.resetStat(Stats.CUSTOM.get(Stats.TIME_SINCE_REST));
@@ -1889,7 +1857,8 @@ public class SereneHumanEntity extends ServerPlayer {
         }
     }
 
-    @Nullable @Override
+    @Nullable
+    @Override
     public Entity changeDimension(ServerLevel worldserver, PlayerTeleportEvent.TeleportCause cause) {
         return this;
     }
@@ -1917,12 +1886,12 @@ public class SereneHumanEntity extends ServerPlayer {
                 if (this instanceof ServerPlayer) {
                     org.bukkit.inventory.ItemStack craftItem = CraftItemStack.asBukkitCopy(this.useItem);
                     org.bukkit.inventory.EquipmentSlot hand = CraftEquipmentSlot.getHand(enumhand);
-                    event = new PlayerItemConsumeEvent((org.bukkit.entity.Player)this.getBukkitEntity(), craftItem, hand);
+                    event = new PlayerItemConsumeEvent((org.bukkit.entity.Player) this.getBukkitEntity(), craftItem, hand);
                     this.level().getCraftServer().getPluginManager().callEvent(event);
                     if (event.isCancelled()) {
                         this.stopUsingItem();
-                        ((ServerPlayer)this).getBukkitEntity().updateInventory();
-                        ((ServerPlayer)this).getBukkitEntity().updateScaledHealth();
+                        ((ServerPlayer) this).getBukkitEntity().updateInventory();
+                        ((ServerPlayer) this).getBukkitEntity().updateScaledHealth();
                         return;
                     }
 
@@ -1938,7 +1907,7 @@ public class SereneHumanEntity extends ServerPlayer {
 
                 this.stopUsingItem();
                 if (this instanceof ServerPlayer) {
-                    ((ServerPlayer)this).getBukkitEntity().updateInventory();
+                    ((ServerPlayer) this).getBukkitEntity().updateInventory();
                 }
             }
         }
@@ -1982,6 +1951,7 @@ public class SereneHumanEntity extends ServerPlayer {
         }
 
     }
+
     @Override
     protected void onEffectUpdated(MobEffectInstance effect, boolean reapplyEffect, @Nullable Entity source) {
         livingEntityOnEffectUpdated(effect, reapplyEffect, source);
@@ -1996,10 +1966,10 @@ public class SereneHumanEntity extends ServerPlayer {
             //  this.refreshDirtyAttributes();
             Iterator iterator = this.getPassengers().iterator();
 
-            while(iterator.hasNext()) {
-                Entity entity = (Entity)iterator.next();
+            while (iterator.hasNext()) {
+                Entity entity = (Entity) iterator.next();
                 if (entity instanceof ServerPlayer) {
-                    ServerPlayer entityplayer = (ServerPlayer)entity;
+                    ServerPlayer entityplayer = (ServerPlayer) entity;
                     //         entityplayer.connection.send(new ClientboundRemoveMobEffectPacket(this.getId(), effect.getEffect()));
                 }
             }
@@ -2015,12 +1985,12 @@ public class SereneHumanEntity extends ServerPlayer {
             this.levitationStartPos = null;
         }
 
-        CriteriaTriggers.EFFECTS_CHANGED.trigger(this, (Entity)null);
+        CriteriaTriggers.EFFECTS_CHANGED.trigger(this, (Entity) null);
     }
 
     @Override
     public void indicateDamage(double deltaX, double deltaZ) {
-        this.hurtDir = (float)(Mth.atan2(deltaZ, deltaX) * 57.2957763671875 - (double)this.getYRot());
+        this.hurtDir = (float) (Mth.atan2(deltaZ, deltaX) * 57.2957763671875 - (double) this.getYRot());
         // this.connection.send(new ClientboundHurtAnimationPacket(this));
     }
 

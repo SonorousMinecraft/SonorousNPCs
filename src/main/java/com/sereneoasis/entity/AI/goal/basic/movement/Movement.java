@@ -25,7 +25,7 @@ public abstract class Movement extends BasicGoal {
         this.goalPos = goalPos;
     }
 
-    public double getDistance(){
+    public double getDistance() {
         return goalPos.distanceTo(npc.getOnPos().getCenter());
     }
 
@@ -35,13 +35,13 @@ public abstract class Movement extends BasicGoal {
 //            if (npc.getNavigation().isStuck() ) {
 //                npc.getNavigation().recomputePath();
 //            }
-    if (goalPos != null) {
-        if (getDistance() > requiredDistance) {
-            npc.getNavigation().moveTo(goalPos.x, goalPos.y, goalPos.z, 10);
-            //  npc.getNavigation().createPath(BlockPos.containing(goalPos), 1000);
-        } else {
-            finished = true;
+        if (goalPos != null) {
+            if (getDistance() > requiredDistance) {
+                npc.getNavigation().moveTo(goalPos.x, goalPos.y, goalPos.z, 10);
+                //  npc.getNavigation().createPath(BlockPos.containing(goalPos), 1000);
+            } else {
+                finished = true;
+            }
         }
-    }
     }
 }

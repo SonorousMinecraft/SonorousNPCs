@@ -30,32 +30,29 @@ public class SereneNPCsListener implements Listener {
 
 
     private static final Random random = new Random();
-
+    private final static Set<Player> CHAT_COOLDOWNS = new HashSet<>();
 
     @EventHandler
-    public void onJoin(PlayerJoinEvent event){
+    public void onJoin(PlayerJoinEvent event) {
         Bukkit.getServer().getOnlinePlayers().forEach(player -> {
-        SereneNPCs.plugin.getNpcs().forEach((serverPlayer) -> {
-            ClientboundPlayerInfoUpdatePacketWrapper playerInfoPacket = new ClientboundPlayerInfoUpdatePacketWrapper(
-                    EnumSet.of(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, ClientboundPlayerInfoUpdatePacket.Action.UPDATE_LATENCY),
-                    serverPlayer,
-                    180,
-                    true
-            );
-            PacketUtils.sendPacket(playerInfoPacket.getPacket(), player);
-        });
+            SereneNPCs.plugin.getNpcs().forEach((serverPlayer) -> {
+                ClientboundPlayerInfoUpdatePacketWrapper playerInfoPacket = new ClientboundPlayerInfoUpdatePacketWrapper(
+                        EnumSet.of(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, ClientboundPlayerInfoUpdatePacket.Action.UPDATE_LATENCY),
+                        serverPlayer,
+                        180,
+                        true
+                );
+                PacketUtils.sendPacket(playerInfoPacket.getPacket(), player);
+            });
         });
         EconUtils.payPlayer(event.getPlayer(), 1000);
 
     }
 
-    private final static Set<Player> CHAT_COOLDOWNS = new HashSet<>();
-
-
     @EventHandler
-    public void onRightClickNPC(PlayerInteractEntityEvent event){
+    public void onRightClickNPC(PlayerInteractEntityEvent event) {
         Player player = event.getPlayer();
-        if (player.isSneaking() ) {
+        if (player.isSneaking()) {
             if (!CHAT_COOLDOWNS.contains(player)) {
                 if (SereneNPCs.plugin.getNpcs().stream().anyMatch(humanEntity -> humanEntity.getBukkitEntity().getUniqueId() == event.getRightClicked().getUniqueId())) {
                     NPCTypes npcTypes = SereneNPCs.plugin.getNpcs()
@@ -74,12 +71,11 @@ public class SereneNPCsListener implements Listener {
                         CHAT_COOLDOWNS.remove(player);
                     }, 20L);
 
-                } else if (event.getRightClicked().getName().equals("Guide") ){
+                } else if (event.getRightClicked().getName().equals("Guide")) {
                     ChatMaster current = ChatMaster.getInstance(player);
                     if (current == null) {
                         new ChatMaster(player, StorylineNPC.getChat(event.getRightClicked().getUniqueId()), StorylineNPC.getInstance(event.getRightClicked().getUniqueId()));
-                    }
-                    else {
+                    } else {
                         current.next(player);
                     }
                     CHAT_COOLDOWNS.add(player);
@@ -88,8 +84,7 @@ public class SereneNPCsListener implements Listener {
                     }, 20L);
                 }
             }
-        }
-        else {
+        } else {
             if (!event.getPlayer().getOpenInventory().getType().equals(InventoryType.CHEST)) {
                 if (SereneNPCs.plugin.getNpcs().stream().anyMatch(humanEntity -> humanEntity.getBukkitEntity().getUniqueId() == event.getRightClicked().getUniqueId())) {
                     SereneNPCs.plugin.getNpcs()
@@ -106,14 +101,13 @@ public class SereneNPCsListener implements Listener {
     }
 
     @EventHandler
-    public void onKill(EntityDamageByEntityEvent event){
-        if (event.getDamager() instanceof Player player){
-            if (event.getEntity() instanceof LivingEntity livingEntity &&  livingEntity.getHealth() < event.getDamage()) {
+    public void onKill(EntityDamageByEntityEvent event) {
+        if (event.getDamager() instanceof Player player) {
+            if (event.getEntity() instanceof LivingEntity livingEntity && livingEntity.getHealth() < event.getDamage()) {
                 QuestGUI.decrementHuntKilLTracker(player, livingEntity);
             }
         }
     }
-
 
 
 }

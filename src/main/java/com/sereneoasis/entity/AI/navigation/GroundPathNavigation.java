@@ -39,7 +39,7 @@ public class GroundPathNavigation extends PathNavigation {
     }
 
     protected Vec3 getTempHumanEntityPos() {
-        return new Vec3(this.mob.getX(), (double)this.getSurfaceY(), this.mob.getZ());
+        return new Vec3(this.mob.getX(), (double) this.getSurfaceY(), this.mob.getZ());
     }
 
     public Path createPath(BlockPos target, @Nullable Entity entity, int distance) {
@@ -49,14 +49,14 @@ public class GroundPathNavigation extends PathNavigation {
         } else {
             BlockPos blockPos2;
             if (levelChunk.getBlockState(target).isAir()) {
-                for(blockPos2 = target.below(); blockPos2.getY() > this.level.getMinBuildHeight() && levelChunk.getBlockState(blockPos2).isAir(); blockPos2 = blockPos2.below()) {
+                for (blockPos2 = target.below(); blockPos2.getY() > this.level.getMinBuildHeight() && levelChunk.getBlockState(blockPos2).isAir(); blockPos2 = blockPos2.below()) {
                 }
 
                 if (blockPos2.getY() > this.level.getMinBuildHeight()) {
                     return super.createPath(blockPos2.above(), entity, distance);
                 }
 
-                while(blockPos2.getY() < this.level.getMaxBuildHeight() && levelChunk.getBlockState(blockPos2).isAir()) {
+                while (blockPos2.getY() < this.level.getMaxBuildHeight() && levelChunk.getBlockState(blockPos2).isAir()) {
                     blockPos2 = blockPos2.above();
                 }
 
@@ -66,7 +66,7 @@ public class GroundPathNavigation extends PathNavigation {
             if (!levelChunk.getBlockState(target).isSolid()) {
                 return super.createPath(target, entity, distance);
             } else {
-                for(blockPos2 = target.above(); blockPos2.getY() < this.level.getMaxBuildHeight() && levelChunk.getBlockState(blockPos2).isSolid(); blockPos2 = blockPos2.above()) {
+                for (blockPos2 = target.above(); blockPos2.getY() < this.level.getMaxBuildHeight() && levelChunk.getBlockState(blockPos2).isSolid(); blockPos2 = blockPos2.above()) {
                 }
 
                 return super.createPath(blockPos2, entity, distance);
@@ -81,7 +81,7 @@ public class GroundPathNavigation extends PathNavigation {
     private int getSurfaceY() {
         if (this.mob.isInWater() && this.canFloat()) {
             int i = this.mob.getBlockY();
-            BlockState blockState = this.level.getBlockState(BlockPos.containing(this.mob.getX(), (double)i, this.mob.getZ()));
+            BlockState blockState = this.level.getBlockState(BlockPos.containing(this.mob.getX(), (double) i, this.mob.getZ()));
             int j = 0;
 
             do {
@@ -90,9 +90,9 @@ public class GroundPathNavigation extends PathNavigation {
                 }
 
                 ++i;
-                blockState = this.level.getBlockState(BlockPos.containing(this.mob.getX(), (double)i, this.mob.getZ()));
+                blockState = this.level.getBlockState(BlockPos.containing(this.mob.getX(), (double) i, this.mob.getZ()));
                 ++j;
-            } while(j <= 16);
+            } while (j <= 16);
 
             return this.mob.getBlockY();
         } else {
@@ -107,7 +107,7 @@ public class GroundPathNavigation extends PathNavigation {
                 return;
             }
 
-            for(int i = 0; i < this.path.getNodeCount(); ++i) {
+            for (int i = 0; i < this.path.getNodeCount(); ++i) {
                 Node node = this.path.getNode(i);
                 if (this.level.canSeeSky(new BlockPos(node.x, node.y, node.z))) {
                     this.path.truncateNodes(i);

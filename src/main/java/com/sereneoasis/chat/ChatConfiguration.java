@@ -8,7 +8,7 @@ import java.util.Arrays;
 
 public class ChatConfiguration {
 
-    public  ChatConfiguration(){
+    public ChatConfiguration() {
         Arrays.stream(NPCTypes.values()).forEach(npcTypes -> {
 
 

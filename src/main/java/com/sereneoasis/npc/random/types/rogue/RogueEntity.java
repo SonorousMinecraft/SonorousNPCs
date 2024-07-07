@@ -1,17 +1,14 @@
 package com.sereneoasis.npc.random.types.rogue;
 
 import com.mojang.authlib.GameProfile;
-import com.sereneoasis.entity.AI.goal.complex.combat.KillTargetEntity;
 import com.sereneoasis.items.ItemStacks;
 import com.sereneoasis.npc.random.types.NPCBehaviourUtils;
 import com.sereneoasis.npc.random.types.NPCMaster;
 import com.sereneoasis.npc.random.types.NPCTypes;
-import com.sereneoasis.utils.Vec3Utils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;

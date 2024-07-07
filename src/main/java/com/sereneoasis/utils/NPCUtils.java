@@ -29,7 +29,6 @@ import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.network.CommonListenerCookie;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.ItemStack;
 import org.bukkit.Bukkit;
@@ -44,13 +43,13 @@ import org.javatuples.Triplet;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 public class NPCUtils {
 
+    private static final Stack<Triplet<String, String, String>> NAME_VALUE_SIGNATURE = new Stack<>();
+
     public static void spawnGuideNPC(Location location, Player player, String name, String skinUsersIGN) {
-//        ServerPlayer player = ((CraftPlayer)p).getHandle();
 
         MinecraftServer minecraftServer = ((CraftServer) Bukkit.getServer()).getServer();
         ServerLevel serverLevel = ((CraftWorld) location.getWorld()).getHandle();
@@ -63,13 +62,8 @@ public class NPCUtils {
         SynchedEntityData synchedEntityData = serverPlayer.getEntityData();
         synchedEntityData.set(new EntityDataAccessor<>(17, EntityDataSerializers.BYTE), (byte) 127);
 
-        //PacketUtils.setValue(serverPlayer, "c", ((CraftPlayer) player).getHandle().connection);
-
-//        serverPlayer.connection = ((CraftPlayer) player).getHandle().connection;
         Connection serverPlayerConnection = new Connection(PacketFlow.SERVERBOUND);
 
-//        serverPlayerConnection.setListener(new PacketListenerImpl());
-//        serverPlayerConnection.setListener(((CraftPlayer) player).getHandle().connection.connection.getPacketListener());
         serverPlayerConnection.channel = ((CraftPlayer) player).getHandle().connection.connection.channel;
 
         CommonListenerCookie commonListenerCookie = CommonListenerCookie.createInitial(gameProfile);
@@ -86,26 +80,20 @@ public class NPCUtils {
         PacketUtils.sendPacket(playerInfoPacket.getPacket(), player);
 
 
-//        PacketUtils.sendPacket(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, serverPlayer), player);
-
-//        SereneNPCs.getPacketListener().injectPlayer(serverPlayer.getBukkitEntity());
-
         serverLevel.addFreshEntity(serverPlayer);
     }
 
-        public static NPCMaster spawnNPC(Location location, Player player, String name){
+    public static NPCMaster spawnNPC(Location location, Player player, String name) {
         //ServerPlayer player = ((CraftPlayer)p).getHandle();
 
         MinecraftServer minecraftServer = ((CraftServer) Bukkit.getServer()).getServer();
         ServerLevel serverLevel = ((CraftWorld) location.getWorld()).getHandle();
         GameProfile gameProfile = new GameProfile(UUID.randomUUID(), name);
 
-//        SereneHumanEntity serverPlayer = new SereneHumanEntity(minecraftServer, serverLevel, skinGameProfile, ClientInformation.createDefault());
         Random random = new Random();
         NPCMaster serverPlayer = null;
         GameProfile skinGameProfile = setSkin(gameProfile);
         switch (random.nextInt(6)) {
-//        switch (0) {
             case 0 -> {
                 serverPlayer = new AssassinEntity(minecraftServer, serverLevel, skinGameProfile, ClientInformation.createDefault());
 
@@ -136,13 +124,8 @@ public class NPCUtils {
         SynchedEntityData synchedEntityData = serverPlayer.getEntityData();
         synchedEntityData.set(new EntityDataAccessor<>(17, EntityDataSerializers.BYTE), (byte) 127);
 
-        //PacketUtils.setValue(serverPlayer, "c", ((CraftPlayer) player).getHandle().connection);
-
-//        serverPlayer.connection = ((CraftPlayer) player).getHandle().connection;
         Connection serverPlayerConnection = new Connection(PacketFlow.SERVERBOUND);
 
-//        serverPlayerConnection.setListener(new PacketListenerImpl());
-//        serverPlayerConnection.setListener(((CraftPlayer) player).getHandle().connection.connection.getPacketListener());
         serverPlayerConnection.channel = ((CraftPlayer) player).getHandle().connection.connection.channel;
 
         CommonListenerCookie commonListenerCookie = CommonListenerCookie.createInitial(gameProfile);
@@ -150,55 +133,25 @@ public class NPCUtils {
         serverPlayer.connection = serverGamePacketListener;
 
         addNPC(player, serverPlayer);
-//        ClientboundPlayerInfoUpdatePacketWrapper playerInfoPacket = new ClientboundPlayerInfoUpdatePacketWrapper(
-//                EnumSet.of(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, ClientboundPlayerInfoUpdatePacket.Action.UPDATE_LATENCY),
-//                serverPlayer,
-//                180,
-//                true
-//        );
-//        PacketUtils.sendPacket(playerInfoPacket.getPacket(), player);
 
-
-//        PacketUtils.sendPacket(new ClientboundPlayerInfoUpdatePacket(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, serverPlayer), player);
-
-//        SereneNPCs.getPacketListener().injectPlayer(serverPlayer.getBukkitEntity());
 
         serverLevel.addFreshEntity(serverPlayer);
-            SereneNPCs.plugin.addNPC(serverPlayer);
-//        serverPlayer.setLoadViewDistance(-1);
-//        serverPlayer.setSendViewDistance(-1);
-//        serverPlayer.setTickViewDistance(-1);
-        //  serverPlayer.connection = null;
-
-
-//        PacketUtils.sendPacket(new ClientboundAddEntityPacket(serverPlayer), player);
-//        PacketUtils.sendPacket(new ClientboundSetEntityDataPacket(serverPlayer.getId(), synchedEntityData.getNonDefaultValues()), player);
-
-
-
-
-//        Bukkit.getScheduler().runTaskLaterAsynchronously(SerenityEntities.getInstance(), new Runnable() {
-//            @Override
-//            public void run() {
-//                PacketUtils.sendPacket(new ClientboundPlayerInfoRemovePacket(Collections.singletonList(serverPlayer.getUUID())), player);
-//            }
-//        }, 40);
+        SereneNPCs.plugin.addNPC(serverPlayer);
 
         return serverPlayer;
     }
 
-
-    public static void updateEquipment(SereneHumanEntity npc, Player player){
+    public static void updateEquipment(SereneHumanEntity npc, Player player) {
         List<Pair<EquipmentSlot, ItemStack>> equipment = new ArrayList<>();
         for (EquipmentSlot slot : EquipmentSlot.values()) {
-            equipment.add(new Pair<EquipmentSlot, ItemStack> (slot, npc.getItemBySlot(slot)));
+            equipment.add(new Pair<EquipmentSlot, ItemStack>(slot, npc.getItemBySlot(slot)));
         }
         ClientboundSetEquipmentPacket clientboundSetEquipmentPacket =
-                new ClientboundSetEquipmentPacket(npc.getId(),equipment );
+                new ClientboundSetEquipmentPacket(npc.getId(), equipment);
         PacketUtils.sendPacket(clientboundSetEquipmentPacket, player);
     }
 
-    public static String getJson(String url){
+    public static String getJson(String url) {
         String json = getStringFromURL(url);
         return json;
     }
@@ -206,7 +159,7 @@ public class NPCUtils {
     public static GameProfile setSkin(GameProfile gameProfile) {
 
         Triplet<String, String, String> triplet = NAME_VALUE_SIGNATURE.peek();
-        if (NAME_VALUE_SIGNATURE.size() > 1){
+        if (NAME_VALUE_SIGNATURE.size() > 1) {
             NAME_VALUE_SIGNATURE.pop();
         }
         String name = triplet.getValue0();
@@ -223,8 +176,7 @@ public class NPCUtils {
         gameProfile.getProperties().put("textures", new Property("textures", value, signature));
     }
 
-
-    public static void initUUID(int counter, JavaPlugin plugin){
+    public static void initUUID(int counter, JavaPlugin plugin) {
         Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(plugin, () -> {
             Faker faker = new Faker();
             String newUrl = "https://api.mojang.com/users/profiles/minecraft/" + faker.name().firstName();
@@ -235,13 +187,11 @@ public class NPCUtils {
                 initProperties(faker.name().firstName(), uuid);
             }
             if (counter < 1000) {
-                initUUID(counter+1, plugin);
+                initUUID(counter + 1, plugin);
             }
 
         }, 2L);
     }
-
-    private static final Stack<Triplet<String, String, String>> NAME_VALUE_SIGNATURE = new Stack<>();
 
     private static void initProperties(String name, String uuid) {
         String url = "https://sessionserver.mojang.com/session/minecraft/profile/" + uuid + "?unsigned=false";
@@ -275,7 +225,7 @@ public class NPCUtils {
         return text.toString();
     }
 
-    public static void addNPC(Player player, NPCMaster serverPlayer){
+    public static void addNPC(Player player, NPCMaster serverPlayer) {
         ClientboundPlayerInfoUpdatePacketWrapper playerInfoPacket = new ClientboundPlayerInfoUpdatePacketWrapper(
                 EnumSet.of(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, ClientboundPlayerInfoUpdatePacket.Action.UPDATE_LATENCY),
                 serverPlayer,
@@ -285,11 +235,11 @@ public class NPCUtils {
         PacketUtils.sendPacket(playerInfoPacket.getPacket(), player);
     }
 
-    public static void toggleOff(NPCMaster npcMaster){
+    public static void toggleOff(NPCMaster npcMaster) {
         npcMaster.toggleOff();
     }
 
-    public static void toggleOn(NPCMaster npcMaster){
+    public static void toggleOn(NPCMaster npcMaster) {
         npcMaster.toggleOn();
     }
 }

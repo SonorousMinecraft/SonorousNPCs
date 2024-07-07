@@ -10,11 +10,11 @@ import java.util.function.Predicate;
 
 public class LookAroundForBlock extends BasicGoal {
 
-    private Predicate<BlockPos>condition;
+    private Predicate<BlockPos> condition;
 
     private BlockPos finishedBlockPos;
 
-    public LookAroundForBlock(String name, SereneHumanEntity npc, int priority, Predicate<BlockPos>condition) {
+    public LookAroundForBlock(String name, SereneHumanEntity npc, int priority, Predicate<BlockPos> condition) {
         super(name, npc, priority);
         if (condition == null) {
             finished = true;
@@ -27,7 +27,7 @@ public class LookAroundForBlock extends BasicGoal {
         if (npc.getRayTrace(100, ClipContext.Fluid.NONE) instanceof BlockHitResult blockHitResult) {
             BlockPos lookingPos = blockHitResult.getBlockPos();
 
-            if ( condition.test(lookingPos) && npc.getNavigation().isStableDestination(lookingPos)) {
+            if (condition.test(lookingPos) && npc.getNavigation().isStableDestination(lookingPos)) {
                 finished = true;
                 finishedBlockPos = lookingPos;
             }

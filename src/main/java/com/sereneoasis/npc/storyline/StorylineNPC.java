@@ -16,8 +16,8 @@ import java.util.UUID;
 public abstract class StorylineNPC extends SereneHumanEntity {
 
 
-    private static final HashMap<UUID, ChatBuilder>UUID_CHAT_BUILDER_HASH_MAP = new HashMap<>();
-    private static final HashMap<UUID, StorylineNPC>UUID_STORYLINE_NPC_HASH_MAP = new HashMap<>();
+    private static final HashMap<UUID, ChatBuilder> UUID_CHAT_BUILDER_HASH_MAP = new HashMap<>();
+    private static final HashMap<UUID, StorylineNPC> UUID_STORYLINE_NPC_HASH_MAP = new HashMap<>();
 
     public StorylineNPC(MinecraftServer server, ServerLevel world, GameProfile profile, ClientInformation clientOptions, String conversationFile) {
         super(server, world, profile, clientOptions);
@@ -54,9 +54,18 @@ public abstract class StorylineNPC extends SereneHumanEntity {
 
             }
             currentIndex += 1;
-        };
+        }
+        ;
         UUID_CHAT_BUILDER_HASH_MAP.put(this.getUUID(), chatBuilder);
         UUID_STORYLINE_NPC_HASH_MAP.put(this.getUUID(), this);
+    }
+
+    public static ChatBuilder getChat(UUID uuid) {
+        return UUID_CHAT_BUILDER_HASH_MAP.get(uuid);
+    }
+
+    public static StorylineNPC getInstance(UUID uuid) {
+        return UUID_STORYLINE_NPC_HASH_MAP.get(uuid);
     }
 
     @Override
@@ -81,15 +90,6 @@ public abstract class StorylineNPC extends SereneHumanEntity {
 //                }
 //            }
 //        }
-    }
-
-
-    public static ChatBuilder getChat(UUID uuid){
-        return UUID_CHAT_BUILDER_HASH_MAP.get(uuid);
-    }
-
-    public static StorylineNPC getInstance(UUID uuid){
-        return UUID_STORYLINE_NPC_HASH_MAP.get(uuid);
     }
 }
 

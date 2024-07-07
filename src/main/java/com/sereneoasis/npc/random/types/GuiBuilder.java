@@ -12,7 +12,9 @@ import java.util.List;
 public interface GuiBuilder {
 
     HashMap<ItemStack, ItemStack> getAttainmentQuests();
+
     HashMap<ItemStack, Pair<EntityType, Integer>> getHuntQuests();
+
     HashMap<ItemStack, Location> getExploreQuests();
 
     List<ItemStacks> getShopItems();
