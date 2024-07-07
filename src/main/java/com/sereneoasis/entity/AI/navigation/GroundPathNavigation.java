@@ -5,7 +5,7 @@
 
 package com.sereneoasis.entity.AI.navigation;
 
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.SectionPos;
 import net.minecraft.util.Mth;
@@ -24,7 +24,7 @@ import javax.annotation.Nullable;
 public class GroundPathNavigation extends PathNavigation {
     private boolean avoidSun;
 
-    public GroundPathNavigation(HumanEntity entity, Level world) {
+    public GroundPathNavigation(SereneHumanEntity entity, Level world) {
         super(entity, world);
     }
 

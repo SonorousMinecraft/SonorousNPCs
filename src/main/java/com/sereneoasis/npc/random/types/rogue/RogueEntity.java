@@ -3,6 +3,7 @@ package com.sereneoasis.npc.random.types.rogue;
 import com.mojang.authlib.GameProfile;
 import com.sereneoasis.entity.AI.goal.complex.combat.KillTargetEntity;
 import com.sereneoasis.items.ItemStacks;
+import com.sereneoasis.npc.random.types.NPCBehaviourUtils;
 import com.sereneoasis.npc.random.types.NPCMaster;
 import com.sereneoasis.npc.random.types.NPCTypes;
 import com.sereneoasis.utils.Vec3Utils;
@@ -41,25 +42,8 @@ public class RogueEntity extends NPCMaster {
     public void tick() {
         super.tick();
 
-        if (!masterGoalSelector.doingGoal("kill everything")) {
-            if (targetSelector.retrieveTopHostile() instanceof LivingEntity hostile && (!Vec3Utils.isObstructed(this.getPosition(0), hostile.getPosition(0), this.level()))) {
-                masterGoalSelector.addMasterGoal(new KillTargetEntity("kill everything", this, hostile));
-            }
-            else if (!masterGoalSelector.doingGoal("kill food entity")) {
-                    if (targetSelector.retrieveTopPeaceful() instanceof LivingEntity peaceful) {
-                        masterGoalSelector.addMasterGoal(new KillTargetEntity("kill food entity", this, peaceful));
-                    }
-                }
-            else {
-//                if (!masterGoalSelector.doingGoal("roam")) {
-//                    masterGoalSelector.addMasterGoal(new RandomExploration("roam", this, null));
-//                }
+        NPCBehaviourUtils.normalBehaviour(this, masterGoalSelector, inventoryTracker, targetSelector);
 
-                if (inventoryTracker.hasFood()) {
-                    this.eat(this.level(), inventoryTracker.getMostAppropriateFood());
-                }
-            }
-        }
     }
 
 

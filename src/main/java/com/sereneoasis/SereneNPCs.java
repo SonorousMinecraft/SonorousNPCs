@@ -4,7 +4,7 @@ import com.github.stefvanschie.inventoryframework.gui.type.ChestGui;
 import com.sereneoasis.chat.ChatConfiguration;
 import com.sereneoasis.command.SerenityCommand;
 import com.sereneoasis.config.FileManager;
-import com.sereneoasis.listeners.SereneListener;
+import com.sereneoasis.listeners.SereneNPCsListener;
 import com.sereneoasis.npc.random.types.NPCMaster;
 import com.sereneoasis.npc.storyline.StorylineLocations;
 import net.milkbowl.vault.economy.Economy;
@@ -67,11 +67,13 @@ public class SereneNPCs extends JavaPlugin {
         getLogger().log(Level.INFO, "WorldGenerator was enabled successfully.");
         plugin = this;
         fileManager = new FileManager();
-        this.getServer().getPluginManager().registerEvents(new SereneListener(), this);
+        this.getServer().getPluginManager().registerEvents(new SereneNPCsListener(), this);
         this.getCommand("SereneNPCs").setExecutor(new SerenityCommand());
 
         new ChatConfiguration();
         storylineLocations = new StorylineLocations();
+
+//        NPCUtils.initSkins(0);
     }
 
     private boolean setupEconomy() {

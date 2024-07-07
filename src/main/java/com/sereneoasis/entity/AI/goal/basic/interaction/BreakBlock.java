@@ -2,7 +2,7 @@ package com.sereneoasis.entity.AI.goal.basic.interaction;
 
 import com.sereneoasis.entity.AI.goal.basic.BasicGoal;
 import com.sereneoasis.entity.AI.goal.interfaces.BlockInteraction;
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -12,7 +12,7 @@ public class BreakBlock extends BasicGoal implements BlockInteraction {
     private BlockPos blockPos;
     private Level level;
 
-    public BreakBlock(String name, HumanEntity npc, BlockPos blockPos) {
+    public BreakBlock(String name, SereneHumanEntity npc, BlockPos blockPos) {
         super(name, npc, 1);
         level = npc.level();
         this.blockPos = blockPos;

@@ -3,6 +3,7 @@ package com.sereneoasis.npc.random.types.baker;
 import com.mojang.authlib.GameProfile;
 import com.sereneoasis.entity.AI.goal.complex.combat.KillTargetEntity;
 import com.sereneoasis.items.ItemStacks;
+import com.sereneoasis.npc.random.types.NPCBehaviourUtils;
 import com.sereneoasis.npc.random.types.NPCMaster;
 import com.sereneoasis.npc.random.types.NPCTypes;
 import net.minecraft.server.MinecraftServer;
@@ -37,15 +38,7 @@ public class BakerEntity extends NPCMaster {
     public void tick() {
         super.tick();
 
-                if (!inventoryTracker.hasEnoughFood()) {
-                    if (!masterGoalSelector.doingGoal("kill food entity")) {
-                        if (targetSelector.retrieveTopPeaceful() instanceof LivingEntity peaceful) {
-                            masterGoalSelector.addMasterGoal(new KillTargetEntity("kill food entity", this, peaceful));
-                        }
-                    }
-                } else if (inventoryTracker.hasFood()) {
-                    this.eat(this.level(), inventoryTracker.getMostAppropriateFood());
-                }
+        NPCBehaviourUtils.normalBehaviour(this, masterGoalSelector, inventoryTracker, targetSelector);
 
     }
 

@@ -1,7 +1,7 @@
 package com.sereneoasis.entity.AI.goal.basic.movement;
 
 import com.sereneoasis.entity.AI.goal.basic.BasicGoal;
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class Movement extends BasicGoal {
@@ -10,7 +10,7 @@ public abstract class Movement extends BasicGoal {
 
     private double requiredDistance;
 
-    public Movement(String name, HumanEntity npc, int priority, Vec3 goalPos, double requiredDistance) {
+    public Movement(String name, SereneHumanEntity npc, int priority, Vec3 goalPos, double requiredDistance) {
         super(name, npc, priority);
 
         this.goalPos = goalPos;

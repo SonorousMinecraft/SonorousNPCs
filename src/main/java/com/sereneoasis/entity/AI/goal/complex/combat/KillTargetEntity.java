@@ -5,7 +5,7 @@ import com.sereneoasis.entity.AI.goal.basic.combat.BowRangedAttackEntity;
 import com.sereneoasis.entity.AI.goal.basic.combat.PunchEntity;
 import com.sereneoasis.entity.AI.goal.basic.look.LookAtEntity;
 import com.sereneoasis.entity.AI.goal.basic.movement.MoveToEntity;
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.world.entity.LivingEntity;
 
 public class KillTargetEntity extends MasterCombat{
@@ -14,7 +14,7 @@ public class KillTargetEntity extends MasterCombat{
 
     private int lastPunchTicks;
 
-    public KillTargetEntity(String name, HumanEntity npc, LivingEntity target) {
+    public KillTargetEntity(String name, SereneHumanEntity npc, LivingEntity target) {
         super(name, npc);
         entity = target;
 //        if (entity == null){

@@ -68,7 +68,7 @@ public class ChatBuilder{
         chatUnitArrayList.add(chatUnit);
     }
 
-    public void addWalkTo(String text, String goal) {
+    public void addWalkTo(String text, String goal, int next) {
         TextComponent message = new TextComponent(text);
         message.setColor(ChatColor.YELLOW);
         message.setBold(true);
@@ -83,6 +83,12 @@ public class ChatBuilder{
 
     public void next(Player player, int next){
         current = next;
+        player.spigot().sendMessage(chatUnitArrayList.get(current).getChat());
+
+    }
+
+    public void next(Player player){
+        current = current+1;
         player.spigot().sendMessage(chatUnitArrayList.get(current).getChat());
 
     }

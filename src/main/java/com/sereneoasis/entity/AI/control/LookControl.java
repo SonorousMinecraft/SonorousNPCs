@@ -5,7 +5,7 @@
 
 package com.sereneoasis.entity.AI.control;
 
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,7 +15,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.Optional;
 
 public class LookControl implements Control {
-    protected final HumanEntity mob;
+    protected final SereneHumanEntity mob;
     protected float yMaxRotSpeed;
     protected float xMaxRotAngle;
     protected int lookAtCooldown;
@@ -23,7 +23,7 @@ public class LookControl implements Control {
     protected double wantedY;
     protected double wantedZ;
 
-    public LookControl(HumanEntity entity) {
+    public LookControl(SereneHumanEntity entity) {
         this.mob = entity;
     }
 

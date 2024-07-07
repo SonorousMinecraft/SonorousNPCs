@@ -6,7 +6,7 @@
 package com.sereneoasis.entity.AI.navigation;
 
 import com.google.common.collect.Lists;
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.util.profiling.metrics.MetricCategory;
@@ -33,7 +33,7 @@ public class PathFinder {
     }
 
     @Nullable
-    public Path findPath(PathNavigationRegion world, HumanEntity mob, Set<BlockPos> positions, float followRange, int distance, float rangeMultiplier) {
+    public Path findPath(PathNavigationRegion world, SereneHumanEntity mob, Set<BlockPos> positions, float followRange, int distance, float rangeMultiplier) {
         this.openSet.clear();
         this.nodeEvaluator.prepare(world, mob);
         Node node = this.nodeEvaluator.getStart();

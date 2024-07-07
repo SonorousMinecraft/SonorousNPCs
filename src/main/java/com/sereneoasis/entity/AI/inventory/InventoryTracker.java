@@ -1,6 +1,6 @@
 package com.sereneoasis.entity.AI.inventory;
 
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ArmorItem;
@@ -15,9 +15,9 @@ public class InventoryTracker {
 
     private Inventory inventory;
 
-    private final HumanEntity npc;
+    private final SereneHumanEntity npc;
 
-    public InventoryTracker(Inventory inventory, HumanEntity humanEntity) {
+    public InventoryTracker(Inventory inventory, SereneHumanEntity humanEntity) {
 
         this.inventory = inventory;
         this.npc = humanEntity;

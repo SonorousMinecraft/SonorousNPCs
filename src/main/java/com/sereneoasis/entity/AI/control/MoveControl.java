@@ -7,7 +7,7 @@ package com.sereneoasis.entity.AI.control;
 
 import com.sereneoasis.entity.AI.navigation.NodeEvaluator;
 import com.sereneoasis.entity.AI.navigation.PathNavigation;
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.tags.BlockTags;
@@ -22,7 +22,7 @@ public class MoveControl implements Control {
     public static final float MIN_SPEED = 5.0E-4F;
     public static final float MIN_SPEED_SQR = 2.5000003E-7F;
     protected static final int MAX_TURN = 90;
-    protected final HumanEntity mob;
+    protected final SereneHumanEntity mob;
     protected double wantedX;
     protected double wantedY;
     protected double wantedZ;
@@ -31,7 +31,7 @@ public class MoveControl implements Control {
     protected float strafeRight;
     protected Operation operation;
 
-    public MoveControl(HumanEntity entity) {
+    public MoveControl(SereneHumanEntity entity) {
         this.operation = Operation.WAIT;
 
         this.mob = entity;

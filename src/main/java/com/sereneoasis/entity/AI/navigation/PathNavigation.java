@@ -7,7 +7,7 @@ package com.sereneoasis.entity.AI.navigation;
 
 import com.destroystokyo.paper.event.entity.EntityPathfindEvent;
 import com.google.common.collect.ImmutableSet;
-import com.sereneoasis.entity.HumanEntity;
+import com.sereneoasis.entity.SereneHumanEntity;
 import io.papermc.paper.util.MCUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
@@ -40,7 +40,7 @@ public abstract class PathNavigation {
     private static final int MAX_TIME_RECOMPUTE = 20;
     private static final int STUCK_CHECK_INTERVAL = 100;
     private static final float STUCK_THRESHOLD_DISTANCE_FACTOR = 0.25F;
-    protected final HumanEntity mob;
+    protected final SereneHumanEntity mob;
     protected final Level level;
     @Nullable
     protected Path path;
@@ -67,7 +67,7 @@ public abstract class PathNavigation {
 
     private int genericFollowRange;
 
-    public PathNavigation(HumanEntity entity, Level world) {
+    public PathNavigation(SereneHumanEntity entity, Level world) {
         this.lastStuckCheckPos = Vec3.ZERO;
         this.timeoutCachedNode = Vec3i.ZERO;
         this.maxDistanceToWaypoint = 0.5F;
@@ -431,7 +431,7 @@ public abstract class PathNavigation {
         return nodeType != BlockPathTypes.DANGER_FIRE && nodeType != BlockPathTypes.DANGER_OTHER && nodeType != BlockPathTypes.WALKABLE_DOOR;
     }
 
-    protected static boolean isClearForMovementBetween(HumanEntity entity, Vec3 startPos, Vec3 entityPos, boolean includeFluids) {
+    protected static boolean isClearForMovementBetween(SereneHumanEntity entity, Vec3 startPos, Vec3 entityPos, boolean includeFluids) {
         Vec3 vec3 = new Vec3(entityPos.x, entityPos.y + (double)entity.getBbHeight() * 0.5, entityPos.z);
         return entity.level().clip(new ClipContext(startPos, vec3, Block.COLLIDER, includeFluids ? Fluid.ANY : Fluid.NONE, entity)).getType() == Type.MISS;
     }

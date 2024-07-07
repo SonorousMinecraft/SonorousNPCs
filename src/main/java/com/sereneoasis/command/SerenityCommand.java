@@ -27,7 +27,7 @@ public class SerenityCommand implements CommandExecutor {
         if (commandSender instanceof Player player){
 
             if (strings.length == 0){
-                SereneNPCs.plugin.addNPC(NPCUtils.spawnNPC(player.getLocation(), player, "noob", "Steve"));
+                SereneNPCs.plugin.addNPC(NPCUtils.spawnNPC(player.getLocation(), player, "noob"));
 
             } else {
                 switch (strings[0]) {
