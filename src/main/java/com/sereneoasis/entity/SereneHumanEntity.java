@@ -80,6 +80,10 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Stream;
 
+/***
+ * Represents a player
+ * Lot of useless code here kept for posterity (this is heavily inspired by Minecraft code itself)
+ */
 public class SereneHumanEntity extends ServerPlayer {
 
     private final Inventory inventory = new Inventory(this);

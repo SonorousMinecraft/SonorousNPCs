@@ -28,49 +28,10 @@ public class QuestGUI {
 
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
-//        ItemStack item = new ItemStack(Material.DIAMOND);
-
         itemPane = new OutlinePane(0, 0, 9, 5);
-//        itemPane.addItem(new GuiItem(item));
 
-//        Label decrement = new Label(2, 1, 1, 1, Font.OAK_PLANKS);
-//        decrement.setText("-");
-//        decrement.setVisible(false);
-//
-//        Label increment = new Label(6, 1, 1, 1, Font.OAK_PLANKS);
-//        increment.setText("+");
-//
-//        if (item.getMaxStackSize() == 1) {
-//            increment.setVisible(false);
-//        }
-//
-//        decrement.setOnClick(event -> {
-//            item.setAmount(item.getAmount() - 1);
-//
-//            if (item.getAmount() == 1) {
-//                decrement.setVisible(false);
-//            }
-//
-//            increment.setVisible(true);
-//
-//            gui.update();
-//        });
-//
-//        increment.setOnClick(event -> {
-//            item.setAmount(item.getAmount() + 1);
-//
-//            decrement.setVisible(true);
-//
-//            if (item.getAmount() == item.getMaxStackSize()) {
-//                increment.setVisible(false);
-//            }
-//
-//            gui.update();
-//        });
 
         gui.addPane(itemPane);
-//        gui.addPane(decrement);
-//        gui.addPane(increment);
     }
 
     public static void decrementHuntKilLTracker(Player killer, LivingEntity livingEntity) {
@@ -89,7 +50,7 @@ public class QuestGUI {
                 return;
             }
             Player player = Bukkit.getPlayer(uuid);
-            if (!player.isOnline()) {
+            if (player == null || !player.isOnline()) {
                 return;
             }
             Location location = locationBooleanPair.getA();

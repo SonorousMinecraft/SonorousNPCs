@@ -5,7 +5,7 @@ import com.sereneoasis.chat.ChatConfiguration;
 import com.sereneoasis.command.SerenityCommand;
 import com.sereneoasis.config.FileManager;
 import com.sereneoasis.listeners.SereneNPCsListener;
-import com.sereneoasis.npc.random.types.NPCMaster;
+import com.sereneoasis.npc.random.types.BasicNPC;
 import com.sereneoasis.npc.storyline.StorylineLocations;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -27,7 +27,7 @@ public class SereneNPCs extends JavaPlugin {
     private static FileManager fileManager;
     private static Economy econ = null;
     //Used to keep our NPCs to be accessed in other classes
-    private final Set<NPCMaster> npcs = new HashSet<>();
+    private final Set<BasicNPC> npcs = new HashSet<>();
 
     private HashMap<UUID, ChestGui> uuidChestGuiHashMap = new HashMap<>();
 
@@ -49,11 +49,11 @@ public class SereneNPCs extends JavaPlugin {
         return storylineLocations;
     }
 
-    public void addNPC(NPCMaster npcMaster) {
-        npcs.add(npcMaster);
+    public void addNPC(BasicNPC basicNpc) {
+        npcs.add(basicNpc);
     }
 
-    public Set<NPCMaster> getNpcs() {
+    public Set<BasicNPC> getNpcs() {
         return npcs;
     }
 

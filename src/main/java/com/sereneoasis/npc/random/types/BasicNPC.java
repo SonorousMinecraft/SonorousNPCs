@@ -10,14 +10,17 @@ import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;
 import org.bukkit.entity.Player;
 
-public abstract class NPCMaster extends SereneHumanEntity implements GuiBuilder {
+/***
+ * Attaches GUI system to NPCs
+ */
+public abstract class BasicNPC extends SereneHumanEntity implements GuiBuilder {
 
-    private ShopGUI shopGUI;
-    private QuestGUI questGUI;
+    private final ShopGUI shopGUI;
+    private final QuestGUI questGUI;
 
-    private MainGUI mainGUI;
+    private final MainGUI mainGUI;
 
-    public NPCMaster(MinecraftServer server, ServerLevel world, GameProfile profile, ClientInformation clientOptions) {
+    public BasicNPC(MinecraftServer server, ServerLevel world, GameProfile profile, ClientInformation clientOptions) {
         super(server, world, profile, clientOptions);
         shopGUI = new ShopGUI();
         shopGUI.populateShop(getShopItems());

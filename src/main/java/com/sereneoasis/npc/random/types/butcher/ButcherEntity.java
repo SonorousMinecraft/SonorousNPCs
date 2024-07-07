@@ -4,7 +4,7 @@ import com.mojang.authlib.GameProfile;
 import com.sereneoasis.items.ItemCategory;
 import com.sereneoasis.items.ItemStacks;
 import com.sereneoasis.npc.random.types.NPCBehaviourUtils;
-import com.sereneoasis.npc.random.types.NPCMaster;
+import com.sereneoasis.npc.random.types.BasicNPC;
 import com.sereneoasis.npc.random.types.NPCTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ClientInformation;
@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ButcherEntity extends NPCMaster {
+public class ButcherEntity extends BasicNPC {
 
 
     public ButcherEntity(MinecraftServer server, ServerLevel world, GameProfile profile, ClientInformation clientOptions) {

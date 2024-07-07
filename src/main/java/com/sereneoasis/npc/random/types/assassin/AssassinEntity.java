@@ -3,7 +3,7 @@ package com.sereneoasis.npc.random.types.assassin;
 import com.mojang.authlib.GameProfile;
 import com.sereneoasis.items.ItemStacks;
 import com.sereneoasis.npc.random.types.NPCBehaviourUtils;
-import com.sereneoasis.npc.random.types.NPCMaster;
+import com.sereneoasis.npc.random.types.BasicNPC;
 import com.sereneoasis.npc.random.types.NPCTypes;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ClientInformation;
@@ -18,7 +18,7 @@ import oshi.util.tuples.Pair;
 import java.util.HashMap;
 import java.util.List;
 
-public class AssassinEntity extends NPCMaster {
+public class AssassinEntity extends BasicNPC {
 
 
     public AssassinEntity(MinecraftServer server, ServerLevel world, GameProfile profile, ClientInformation clientOptions) {

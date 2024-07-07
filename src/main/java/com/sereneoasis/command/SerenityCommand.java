@@ -16,7 +16,6 @@ import org.bukkit.entity.Player;
 
 public class SerenityCommand implements CommandExecutor {
 
-    //    private static final Set<ChatMaster> chatMasters = new HashSet<>();
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player player) {

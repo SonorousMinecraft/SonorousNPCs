@@ -13,6 +13,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.HashMap;
 import java.util.UUID;
 
+/***
+ * More complex versions of BasicNPC
+ * These have a pivotal role in the storyline of the Server
+ */
 public abstract class StorylineNPC extends SereneHumanEntity {
 
 
@@ -72,24 +76,6 @@ public abstract class StorylineNPC extends SereneHumanEntity {
     public void tick() {
         super.tick();
 
-//        if (!masterGoalSelector.doingGoal("kill hostile entity")) {
-//            if (targetSelector.retrieveTopHostile() instanceof LivingEntity hostile && (!Vec3Utils.isObstructed(this.getPosition(0), hostile.getPosition(0), this.level()))) {
-//                masterGoalSelector.addMasterGoal(new KillTargetEntity("kill hostile entity", this, hostile));
-//            } else {
-////                if (!masterGoalSelector.doingGoal("roam")) {
-////                    masterGoalSelector.addMasterGoal(new RandomExploration("roam", this, null));
-////                }
-//                if (!inventoryTracker.hasEnoughFood()) {
-//                    if (!masterGoalSelector.doingGoal("kill food entity")) {
-//                        if (targetSelector.retrieveTopPeaceful() instanceof LivingEntity peaceful) {
-//                            masterGoalSelector.addMasterGoal(new KillTargetEntity("kill food entity", this, peaceful));
-//                        }
-//                    }
-//                } else if (inventoryTracker.hasFood()) {
-//                    this.eat(this.level(), inventoryTracker.getMostAppropriateFood());
-//                }
-//            }
-//        }
     }
 }
 

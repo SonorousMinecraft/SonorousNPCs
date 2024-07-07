@@ -9,7 +9,7 @@ import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.datafixers.util.Pair;
 import com.sereneoasis.SereneNPCs;
 import com.sereneoasis.entity.SereneHumanEntity;
-import com.sereneoasis.npc.random.types.NPCMaster;
+import com.sereneoasis.npc.random.types.BasicNPC;
 import com.sereneoasis.npc.random.types.assassin.AssassinEntity;
 import com.sereneoasis.npc.random.types.baker.BakerEntity;
 import com.sereneoasis.npc.random.types.butcher.ButcherEntity;
@@ -83,7 +83,7 @@ public class NPCUtils {
         serverLevel.addFreshEntity(serverPlayer);
     }
 
-    public static NPCMaster spawnNPC(Location location, Player player, String name) {
+    public static BasicNPC spawnNPC(Location location, Player player, String name) {
         //ServerPlayer player = ((CraftPlayer)p).getHandle();
 
         MinecraftServer minecraftServer = ((CraftServer) Bukkit.getServer()).getServer();
@@ -91,7 +91,7 @@ public class NPCUtils {
         GameProfile gameProfile = new GameProfile(UUID.randomUUID(), name);
 
         Random random = new Random();
-        NPCMaster serverPlayer = null;
+        BasicNPC serverPlayer = null;
         GameProfile skinGameProfile = setSkin(gameProfile);
         switch (random.nextInt(6)) {
             case 0 -> {
@@ -225,7 +225,7 @@ public class NPCUtils {
         return text.toString();
     }
 
-    public static void addNPC(Player player, NPCMaster serverPlayer) {
+    public static void addNPC(Player player, BasicNPC serverPlayer) {
         ClientboundPlayerInfoUpdatePacketWrapper playerInfoPacket = new ClientboundPlayerInfoUpdatePacketWrapper(
                 EnumSet.of(ClientboundPlayerInfoUpdatePacket.Action.ADD_PLAYER, ClientboundPlayerInfoUpdatePacket.Action.UPDATE_LATENCY),
                 serverPlayer,
@@ -235,11 +235,11 @@ public class NPCUtils {
         PacketUtils.sendPacket(playerInfoPacket.getPacket(), player);
     }
 
-    public static void toggleOff(NPCMaster npcMaster) {
-        npcMaster.toggleOff();
+    public static void toggleOff(BasicNPC basicNpc) {
+        basicNpc.toggleOff();
     }
 
-    public static void toggleOn(NPCMaster npcMaster) {
-        npcMaster.toggleOn();
+    public static void toggleOn(BasicNPC basicNpc) {
+        basicNpc.toggleOn();
     }
 }

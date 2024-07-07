@@ -29,7 +29,6 @@ import java.util.Set;
 public class SereneNPCsListener implements Listener {
 
 
-    private static final Random random = new Random();
     private final static Set<Player> CHAT_COOLDOWNS = new HashSet<>();
 
     @EventHandler

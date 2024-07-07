@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class MainGUI {
 
-    private ChestGui gui;
+    private final ChestGui gui;
 
     public MainGUI(ShopGUI shopGUI, QuestGUI questGUI) {
 

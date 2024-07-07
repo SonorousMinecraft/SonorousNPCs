@@ -9,9 +9,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+/***
+ * Initialises all items by the NPC class
+ */
 public enum ItemStacks {
-
-
     INFUSED_GOLDEN_CARROT(Material.GOLDEN_CARROT, ItemCategory.GOD_FOOD, 16, ChatColor.GOLD + "Infused Golden Carrots", 0, 100),
     NOTCH_APPLE(Material.GOLDEN_APPLE, ItemCategory.GOD_FOOD, 16, ChatColor.GOLD + "Notch Apple", 0, 100),
     SLOW_ROASTED_CHICKEN(Material.COOKED_CHICKEN, ItemCategory.MEAT, 64, ChatColor.RED + "Slow Roasted Chicken", 0, 60),
@@ -41,7 +42,7 @@ public enum ItemStacks {
 
     private final ItemStack itemStack;
     private final int buyPrice, sellPrice;
-    private ItemCategory category;
+    private final ItemCategory category;
 
     ItemStacks(Material material, ItemCategory category, int amount, String displayName) {
         ItemStack itemStack = new ItemStack(material, amount);
@@ -82,10 +83,7 @@ public enum ItemStacks {
 
     public static ItemStacks getByName(String displayName) {
         Optional<ItemStacks> check = Arrays.stream(ItemStacks.values()).filter(itemStacks -> itemStacks.getItemStack().getItemMeta().getDisplayName().equals(displayName)).findAny();
-        if (check.isPresent()) {
-            return check.get();
-        }
-        return null;
+        return check.orElse(null);
     }
 
     public ItemStack getItemStack() {

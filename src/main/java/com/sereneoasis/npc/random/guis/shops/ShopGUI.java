@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 
 public class ShopGUI {
 
-    private ChestGui gui;
+    private final ChestGui gui;
 
-    private PaginatedPane pages;
+    private final PaginatedPane pages;
 
     public ShopGUI() {
         gui = new ChestGui(6, "Shop");

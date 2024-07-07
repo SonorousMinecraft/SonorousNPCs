@@ -13,8 +13,8 @@ import java.io.File;
 public class ConfigFile {
 
     public FileConfiguration config;
-    private SereneNPCs plugin;
-    private File file;
+    private final SereneNPCs plugin;
+    private final File file;
 
     public ConfigFile(String name) {
         this(new File(SereneNPCs.getFileManager().getChatDir(), name + ".yml"));
