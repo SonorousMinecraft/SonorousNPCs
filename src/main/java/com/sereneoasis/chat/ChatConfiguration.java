@@ -6,6 +6,9 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Arrays;
 
+/***
+ * Creates default chat configuration .yml files for each NPC type
+ */
 public class ChatConfiguration {
 
     public ChatConfiguration() {

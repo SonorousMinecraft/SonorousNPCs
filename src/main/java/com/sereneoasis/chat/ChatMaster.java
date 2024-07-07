@@ -9,12 +9,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+/***
+ * Handles all interaction between players and chats
+ */
 public class ChatMaster {
 
     private static final HashMap<UUID, ChatMaster> UUID_CHAT_MASTER_HASH_MAP = new HashMap<>();
     private static final HashMap<UUID, StorylineNPC> UUID_STORYLINE_NPC_HASH_MAP = new HashMap<>();
-    private Set<ChatBuilder> chatBuilders = new HashSet<>();
-    private ChatBuilder current;
+    private final Set<ChatBuilder> chatBuilders = new HashSet<>();
+    private final ChatBuilder current;
 
     public ChatMaster(Player player) {
         current = new ChatBuilder();
@@ -47,10 +50,19 @@ public class ChatMaster {
         return UUID_STORYLINE_NPC_HASH_MAP.get(player.getUniqueId());
     }
 
+    /**
+     * Progresses the conversation to a given index
+     * @param player the player in the conversation
+     * @param next the next chat unit index
+     */
     public void next(Player player, int next) {
         current.next(player, next);
     }
 
+    /**
+     * Progresses the conversation to the next index
+     * @param player the player in the conversation
+     */
     public void next(Player player) {
         current.next(player);
     }

@@ -8,9 +8,10 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/***
+ * Parses the .yml files directly and sends to the ChatBuilder
+ */
 public class ChatManager {
-
-    private ChatBuilder chatBuilder;
 
     private final HashMap<NPCTypes, ChatBuilder> NPCTypesChatBuilders = new HashMap<>();
 
@@ -20,7 +21,7 @@ public class ChatManager {
             FileConfiguration configuration = chat.getConfig();
 
             int currentIndex = 0;
-            chatBuilder = new ChatBuilder();
+            ChatBuilder chatBuilder = new ChatBuilder();
             while (configuration.contains(String.valueOf(currentIndex))) {
                 ChatTypes type = ChatTypes.getFromString(configuration.get(currentIndex + ".TYPE").toString());
 
@@ -46,8 +47,6 @@ public class ChatManager {
             NPCTypesChatBuilders.put(npcTypes, chatBuilder);
 
         });
-
-
     }
 
     public ChatBuilder getChatBuilder(NPCTypes types) {

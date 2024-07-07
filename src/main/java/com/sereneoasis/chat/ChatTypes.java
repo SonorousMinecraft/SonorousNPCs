@@ -2,6 +2,9 @@ package com.sereneoasis.chat;
 
 import java.util.Arrays;
 
+/***
+ * Represents all distinct allowable types of conversation elements
+ */
 public enum ChatTypes {
     STATEMENT("statement"),
     QUESTION("question"),
@@ -10,7 +13,7 @@ public enum ChatTypes {
 
     WALK_TO("walk_to");
 
-    private String string;
+    private final String string;
 
 
     ChatTypes(String string) {
