@@ -12,6 +12,7 @@ import com.sereneoasis.entity.AI.inventory.FoodData;
 import com.sereneoasis.entity.AI.inventory.InventoryTracker;
 import com.sereneoasis.entity.AI.navigation.GroundPathNavigation;
 import com.sereneoasis.entity.AI.navigation.PathNavigation;
+import com.sereneoasis.entity.AI.pathfinding.Navigation;
 import com.sereneoasis.entity.AI.target.TargetSelector;
 import io.papermc.paper.event.entity.EntityMoveEvent;
 import io.papermc.paper.event.player.PlayerDeepSleepEvent;
@@ -99,7 +100,9 @@ public class SereneHumanEntity extends ServerPlayer {
     protected TargetSelector targetSelector;
     protected InventoryTracker inventoryTracker;
     private LivingEntity owner;
-    private PathNavigation navigation;
+//    private GroundPathNavigation navigation;
+
+    private Navigation navigation;
     private MoveControl moveControl;
     private JumpControl jumpControl;
     private BodyRotationControl bodyRotationControl;
@@ -125,7 +128,9 @@ public class SereneHumanEntity extends ServerPlayer {
         this.lookControl = new LookControl(this);
         this.bodyRotationControl = new BodyRotationControl(this);
 
-        this.navigation = new GroundPathNavigation(this, world);
+//        this.navigation = new GroundPathNavigation(this, world);
+        this.navigation = new Navigation(this);
+
         this.masterGoalSelector = new MasterGoalSelector();
         this.targetSelector = new TargetSelector(this);
         this.inventoryTracker = new InventoryTracker(inventory, this);
@@ -1610,7 +1615,7 @@ public class SereneHumanEntity extends ServerPlayer {
     }
 
 
-    public PathNavigation getNavigation() {
+    public Navigation getNavigation() {
         return navigation;
     }
 

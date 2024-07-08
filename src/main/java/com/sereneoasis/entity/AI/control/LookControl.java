@@ -78,9 +78,9 @@ public class LookControl implements Control {
     }
 
     protected void clampHeadRotationToBody() {
-        if (!this.mob.getNavigation().isDone()) {
-            this.mob.yHeadRot = Mth.rotateIfNecessary(this.mob.yHeadRot, this.mob.yBodyRot, (float) this.mob.getMaxHeadYRot());
-        }
+//        if (!this.mob.getNavigation().isDone()) {
+//            this.mob.yHeadRot = Mth.rotateIfNecessary(this.mob.yHeadRot, this.mob.yBodyRot, (float) this.mob.getMaxHeadYRot());
+//        }
 
     }
 

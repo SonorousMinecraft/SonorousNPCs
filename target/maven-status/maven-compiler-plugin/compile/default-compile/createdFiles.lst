@@ -1,6 +1,5 @@
 com/sereneoasis/npc/random/types/butcher/ButcherEntity.class
 com/sereneoasis/chat/ChatManager$1.class
-com/sereneoasis/utils/PacketListenerImpl.class
 com/sereneoasis/entity/AI/goal/NPCStates.class
 com/sereneoasis/entity/AI/goal/interfaces/LocationInteraction.class
 com/sereneoasis/chat/builders/ChatBuilder.class
@@ -10,7 +9,7 @@ com/sereneoasis/entity/AI/control/MoveControl.class
 com/sereneoasis/entity/SereneHumanEntity.class
 com/sereneoasis/entity/AI/navigation/NodeEvaluator.class
 com/sereneoasis/entity/AI/control/JumpControl.class
-com/sereneoasis/utils/BlockUtils.class
+com/sereneoasis/npc/random/types/BasicNPC.class
 com/sereneoasis/npc/random/types/NPCBehaviourUtils.class
 com/sereneoasis/entity/AI/inventory/InventoryUtils.class
 com/sereneoasis/entity/AI/navigation/PathNavigation.class
@@ -33,7 +32,6 @@ com/sereneoasis/npc/random/guis/shops/ShopGUI.class
 com/sereneoasis/entity/AI/control/BodyRotationControl.class
 com/sereneoasis/entity/AI/goal/complex/combat/MasterCombat.class
 com/sereneoasis/entity/AI/goal/basic/combat/PunchEntity.class
-com/sereneoasis/npc/random/types/NPCMaster.class
 com/sereneoasis/entity/AI/goal/complex/interaction/MasterInteraction.class
 com/sereneoasis/entity/AI/goal/GoalSelector.class
 com/sereneoasis/items/ItemCategory.class
@@ -63,6 +61,7 @@ com/sereneoasis/entity/AI/goal/basic/interaction/BreakBlock.class
 com/sereneoasis/entity/AI/goal/complex/movement/NavigateToLocation.class
 com/sereneoasis/entity/AI/goal/complex/MasterGoal.class
 com/sereneoasis/config/ConfigFile.class
+com/sereneoasis/entity/AI/pathfinding/Navigation.class
 com/sereneoasis/entity/AI/goal/basic/look/PeriodicallyRotate.class
 com/sereneoasis/entity/AI/inventory/InventoryTracker.class
 com/sereneoasis/entity/AI/goal/basic/movement/MoveToBlock.class

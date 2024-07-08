@@ -81,6 +81,7 @@ public class NPCUtils {
 
 
         serverLevel.addFreshEntity(serverPlayer);
+        serverPlayer.toggleOn();
     }
 
     public static BasicNPC spawnNPC(Location location, Player player, String name) {

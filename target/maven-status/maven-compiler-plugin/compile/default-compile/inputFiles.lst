@@ -11,6 +11,7 @@
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/SereneHumanEntity.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/basic/combat/PunchEntity.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/chat/ChatMaster.java
+/home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/random/types/BasicNPC.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/GoalSelector.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/basic/look/LookAtEntity.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/items/ItemStacks.java
@@ -47,7 +48,6 @@
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/inventory/FoodData.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/random/types/baker/BakerEntity.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/chat/builders/ChatBuilder.java
-/home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/random/types/NPCMaster.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/basic/interaction/BreakBlock.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/MasterGoalSelector.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/random/types/NPCBehaviourUtils.java
@@ -55,7 +55,6 @@
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/control/JumpControl.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/SkinPart.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/random/types/mage/MageEntity.java
-/home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/utils/BlockUtils.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/npc/random/guis/MainGUI.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/basic/movement/Movement.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/SereneNPCs.java
@@ -70,9 +69,9 @@
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/navigation/NodeEvaluator.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/basic/movement/MoveToEntity.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/command/SerenityCommand.java
+/home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/pathfinding/Navigation.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/complex/movement/MasterMovement.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/goal/complex/MasterGoal.java
-/home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/utils/PacketListenerImpl.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/config/FileManager.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/entity/AI/control/MoveControl.java
 /home/sujan/IdeaProjects/SereneNPCs/src/main/java/com/sereneoasis/utils/ClientboundPlayerInfoUpdatePacketWrapper.java

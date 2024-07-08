@@ -7,6 +7,7 @@ import com.sereneoasis.config.FileManager;
 import com.sereneoasis.listeners.SereneNPCsListener;
 import com.sereneoasis.npc.random.types.BasicNPC;
 import com.sereneoasis.npc.storyline.StorylineLocations;
+import com.sereneoasis.utils.NPCUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -75,6 +76,7 @@ public class SereneNPCs extends JavaPlugin {
         new ChatConfiguration();
         storylineLocations = new StorylineLocations();
 
+        NPCUtils.initUUID(0, this);
 //        NPCUtils.initSkins(0);
     }
 

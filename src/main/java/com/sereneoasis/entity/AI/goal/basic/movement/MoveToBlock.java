@@ -12,7 +12,7 @@ public class MoveToBlock extends Movement implements BlockInteraction {
 
     public MoveToBlock(String name, SereneHumanEntity npc, BlockPos blockPos) {
         super(name, npc, 1, blockPos.getCenter(), 3);
-        this.setGoalPos(blockPos.getCenter());
+        this.setGoalPos(blockPos.getCenter().add(0,2,0));
         this.blockPos = blockPos;
     }
 

@@ -27,10 +27,10 @@ public class LookAroundForBlock extends BasicGoal {
         if (npc.getRayTrace(100, ClipContext.Fluid.NONE) instanceof BlockHitResult blockHitResult) {
             BlockPos lookingPos = blockHitResult.getBlockPos();
 
-            if (condition.test(lookingPos) && npc.getNavigation().isStableDestination(lookingPos)) {
-                finished = true;
-                finishedBlockPos = lookingPos;
-            }
+//            if (condition.test(lookingPos) && npc.getNavigation().isStableDestination(lookingPos)) {
+//                finished = true;
+//                finishedBlockPos = lookingPos;
+//            }
         }
 
         if (!finished) {
