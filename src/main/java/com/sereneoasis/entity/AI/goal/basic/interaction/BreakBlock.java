@@ -20,12 +20,11 @@ public class BreakBlock extends BasicGoal implements BlockInteraction {
 
     @Override
     public void tick() {
-        if ( ! level.getBlockState(blockPos).getBlock().isDestroyable()){
+        if (!level.getBlockState(blockPos).getBlock().isDestroyable()) {
             finished = true;
-        }
-        else {
+        } else {
             //level.getBlockState(blockPos).getBlock().playerDestroy(level, npc, blockPos, level.getBlockState(blockPos),
-        //            null, npc.getItemInHand(InteractionHand.MAIN_HAND));
+            //            null, npc.getItemInHand(InteractionHand.MAIN_HAND));
             level.destroyBlock(blockPos, true);
             finished = true;
         }

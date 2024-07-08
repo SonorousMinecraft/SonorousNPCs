@@ -4,17 +4,13 @@ import com.sereneoasis.entity.SereneHumanEntity;
 
 public abstract class BaseGoal {
 
-    private String name;
-
     protected boolean finished;
-
     protected boolean inProgress;
-
     protected SereneHumanEntity npc;
-
+    private String name;
     private int priority;
 
-    public BaseGoal(String name, SereneHumanEntity npc){
+    public BaseGoal(String name, SereneHumanEntity npc) {
         this.name = name;
         this.npc = npc;
     }

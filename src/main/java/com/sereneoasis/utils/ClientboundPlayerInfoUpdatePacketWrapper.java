@@ -15,14 +15,7 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 
 public class ClientboundPlayerInfoUpdatePacketWrapper {
-    private final EnumSet<ClientboundPlayerInfoUpdatePacket.Action> actions;
-
-    private final ServerPlayer entity;
-
-    private final ClientboundPlayerInfoUpdatePacket.Entry entry;
-
     private static final int DEFAULT_LATENCY = 1;
-
     private static final HashMap<ClientboundPlayerInfoUpdatePacket.Action, BiConsumer<FriendlyByteBuf, ClientboundPlayerInfoUpdatePacket.Entry>> actionWriters;
 
     static {
@@ -43,6 +36,10 @@ public class ClientboundPlayerInfoUpdatePacketWrapper {
         actionWriters.put(ClientboundPlayerInfoUpdatePacket.Action.UPDATE_DISPLAY_NAME, (buffer, entry) ->
                 buffer.writeNullable(entry.displayName(), FriendlyByteBuf::writeComponent));
     }
+
+    private final EnumSet<ClientboundPlayerInfoUpdatePacket.Action> actions;
+    private final ServerPlayer entity;
+    private final ClientboundPlayerInfoUpdatePacket.Entry entry;
 
     public ClientboundPlayerInfoUpdatePacketWrapper(
             EnumSet<ClientboundPlayerInfoUpdatePacket.Action> actions,

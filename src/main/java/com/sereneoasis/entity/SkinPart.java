@@ -1,5 +1,8 @@
 package com.sereneoasis.entity;
 
+/***
+ * Nonsense used for packet sending to change aspects of player skins
+ */
 public enum SkinPart {
 
     CAPE(0x01),

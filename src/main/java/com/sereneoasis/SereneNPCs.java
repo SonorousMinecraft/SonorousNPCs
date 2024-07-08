@@ -5,8 +5,9 @@ import com.sereneoasis.chat.ChatConfiguration;
 import com.sereneoasis.command.SerenityCommand;
 import com.sereneoasis.config.FileManager;
 import com.sereneoasis.listeners.SereneNPCsListener;
-import com.sereneoasis.npc.random.types.NPCMaster;
+import com.sereneoasis.npc.random.types.BasicNPC;
 import com.sereneoasis.npc.storyline.StorylineLocations;
+import com.sereneoasis.utils.NPCUtils;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,6 +26,13 @@ public class SereneNPCs extends JavaPlugin {
     public static SereneNPCs plugin;
 
     private static FileManager fileManager;
+    private static Economy econ = null;
+    //Used to keep our NPCs to be accessed in other classes
+    private final Set<BasicNPC> npcs = new HashSet<>();
+
+    private HashMap<UUID, ChestGui> uuidChestGuiHashMap = new HashMap<>();
+
+    private StorylineLocations storylineLocations;
 
     /***
      * Returns the class used to manage files
@@ -34,31 +42,26 @@ public class SereneNPCs extends JavaPlugin {
         return fileManager;
     }
 
-
-    //Used to keep our NPCs to be accessed in other classes
-    private final Set<NPCMaster> npcs = new HashSet<>();
-
-    private HashMap<UUID, ChestGui> uuidChestGuiHashMap = new HashMap<>();
-
-    private StorylineLocations storylineLocations;
+    public static Economy getEconomy() {
+        return econ;
+    }
 
     public StorylineLocations getStorylineLocations() {
         return storylineLocations;
     }
 
-    public void addNPC(NPCMaster npcMaster){
-        npcs.add(npcMaster);
-    }
-    public Set<NPCMaster> getNpcs() {
-        return npcs;
+    public void addNPC(BasicNPC basicNpc) {
+        npcs.add(basicNpc);
     }
 
-    private static Economy econ = null;
+    public Set<BasicNPC> getNpcs() {
+        return npcs;
+    }
 
     @Override
     public void onEnable() {
 
-        if (!setupEconomy() ) {
+        if (!setupEconomy()) {
             getLogger().severe(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
             getServer().getPluginManager().disablePlugin(this);
             return;
@@ -73,6 +76,7 @@ public class SereneNPCs extends JavaPlugin {
         new ChatConfiguration();
         storylineLocations = new StorylineLocations();
 
+        NPCUtils.initUUID(0, this);
 //        NPCUtils.initSkins(0);
     }
 
@@ -86,10 +90,6 @@ public class SereneNPCs extends JavaPlugin {
         }
         econ = rsp.getProvider();
         return econ != null;
-    }
-
-    public static Economy getEconomy() {
-        return econ;
     }
 
     @Override

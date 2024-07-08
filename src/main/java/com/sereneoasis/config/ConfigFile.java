@@ -12,18 +12,12 @@ import java.io.File;
  */
 public class ConfigFile {
 
-    private SereneNPCs plugin;
-
-    private File file;
-
-    public File getFile() {
-        return file;
-    }
-
     public FileConfiguration config;
+    private final SereneNPCs plugin;
+    private final File file;
 
     public ConfigFile(String name) {
-        this(new File( SereneNPCs.getFileManager().getChatDir(),name + ".yml"));
+        this(new File(SereneNPCs.getFileManager().getChatDir(), name + ".yml"));
     }
 
     public ConfigFile(File file) {
@@ -31,6 +25,10 @@ public class ConfigFile {
         this.file = new File(plugin.getDataFolder() + File.separator + file);
         this.config = YamlConfiguration.loadConfiguration(this.file);
         reloadConfig();
+    }
+
+    public File getFile() {
+        return file;
     }
 
     public void createConfig() {

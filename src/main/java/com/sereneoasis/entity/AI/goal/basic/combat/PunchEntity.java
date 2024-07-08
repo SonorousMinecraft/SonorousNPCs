@@ -9,7 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class PunchEntity extends Combat {
-    
+
 
     public PunchEntity(String name, SereneHumanEntity npc, int priority, LivingEntity Entity) {
         super(name, npc, priority, Entity);
@@ -22,8 +22,8 @@ public class PunchEntity extends Combat {
     }
 
     @Override
-    public void tick(){
-        if ( npc.canPerformAttack(entity)) {
+    public void tick() {
+        if (npc.canPerformAttack(entity)) {
             npc.setItemSlot(EquipmentSlot.MAINHAND, net.minecraft.world.item.ItemStack.fromBukkitCopy(new ItemStack(Material.DIAMOND_SWORD)));
 
             if (entity instanceof Player player) {

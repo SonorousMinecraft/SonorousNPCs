@@ -1,18 +1,15 @@
 package com.sereneoasis.npc.random.types.butcher;
 
 import com.mojang.authlib.GameProfile;
-import com.sereneoasis.entity.AI.goal.complex.combat.KillTargetEntity;
 import com.sereneoasis.items.ItemCategory;
 import com.sereneoasis.items.ItemStacks;
 import com.sereneoasis.npc.random.types.NPCBehaviourUtils;
-import com.sereneoasis.npc.random.types.NPCMaster;
+import com.sereneoasis.npc.random.types.BasicNPC;
 import com.sereneoasis.npc.random.types.NPCTypes;
-import com.sereneoasis.utils.Vec3Utils;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -24,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ButcherEntity extends NPCMaster {
+public class ButcherEntity extends BasicNPC {
 
 
     public ButcherEntity(MinecraftServer server, ServerLevel world, GameProfile profile, ClientInformation clientOptions) {
@@ -37,6 +34,7 @@ public class ButcherEntity extends NPCMaster {
     public NPCTypes getNPCType() {
         return NPCTypes.BUTCHER;
     }
+
     @Override
     public void tick() {
         super.tick();

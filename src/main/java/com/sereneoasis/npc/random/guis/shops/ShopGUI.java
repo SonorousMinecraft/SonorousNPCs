@@ -17,15 +17,11 @@ import java.util.stream.Collectors;
 
 public class ShopGUI {
 
-    private ChestGui gui;
+    private final ChestGui gui;
 
-    private PaginatedPane pages;
+    private final PaginatedPane pages;
 
-    public void openGUI(Player player) {
-        gui.show(player);
-    }
-
-    public ShopGUI(){
+    public ShopGUI() {
         gui = new ChestGui(6, "Shop");
 
         gui.setOnGlobalClick(event -> event.setCancelled(true));
@@ -65,13 +61,17 @@ public class ShopGUI {
         gui.addPane(navigation);
     }
 
-    public void populateShop(List<ItemStacks>shopItemList){
+    public void openGUI(Player player) {
+        gui.show(player);
+    }
+
+    public void populateShop(List<ItemStacks> shopItemList) {
         pages.populateWithItemStacks(shopItemList.stream().map(itemStacks -> itemStacks.getItemStack()).collect(Collectors.toList()));
         pages.setOnClick(event -> {
             if (ItemStacks.getByName(event.getCurrentItem().getItemMeta().getDisplayName()) != null) {
                 Player player = (Player) event.getWhoClicked();
                 int price = ItemStacks.getByName(event.getCurrentItem().getItemMeta().getDisplayName()).getSellPrice();
-                if (EconUtils.withdrawPlayer(player, price)){
+                if (EconUtils.withdrawPlayer(player, price)) {
                     player.getInventory().addItem(event.getCurrentItem());
                 }
             }

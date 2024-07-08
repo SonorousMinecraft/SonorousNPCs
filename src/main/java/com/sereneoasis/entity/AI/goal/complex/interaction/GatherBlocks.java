@@ -8,7 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 
-public class GatherBlocks extends MasterInteraction{
+public class GatherBlocks extends MasterInteraction {
 
     private int requiredAmount;
     private Block block;
@@ -30,11 +30,10 @@ public class GatherBlocks extends MasterInteraction{
     @Override
     public void tick() {
 
-        if ( npc.getInventory().getContents().stream().filter(itemStack -> itemStack.is(block.asItem()))
-                .map(ItemStack::getCount).mapToInt(Integer::intValue).sum() >= requiredAmount ){
+        if (npc.getInventory().getContents().stream().filter(itemStack -> itemStack.is(block.asItem()))
+                .map(ItemStack::getCount).mapToInt(Integer::intValue).sum() >= requiredAmount) {
             finished = true;
-        }
-        else {
+        } else {
 
             super.tick();
 

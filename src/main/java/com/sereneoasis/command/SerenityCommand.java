@@ -2,18 +2,13 @@ package com.sereneoasis.command;
 
 import com.sereneoasis.SereneNPCs;
 import com.sereneoasis.chat.ChatMaster;
-import com.sereneoasis.entity.AI.goal.basic.movement.MoveToBlock;
 import com.sereneoasis.entity.AI.goal.complex.MasterGoal;
 import com.sereneoasis.entity.AI.goal.complex.movement.NavigateToLocation;
-import com.sereneoasis.npc.storyline.Guide;
-import com.sereneoasis.npc.storyline.StorylineLocations;
 import com.sereneoasis.npc.storyline.StorylineNPC;
 import com.sereneoasis.utils.NPCUtils;
-import com.sereneoasis.utils.Vec3Utils;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.minecraft.core.BlockPos;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,12 +16,11 @@ import org.bukkit.entity.Player;
 
 public class SerenityCommand implements CommandExecutor {
 
-//    private static final Set<ChatMaster> chatMasters = new HashSet<>();
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (commandSender instanceof Player player){
+        if (commandSender instanceof Player player) {
 
-            if (strings.length == 0){
+            if (strings.length == 0) {
                 SereneNPCs.plugin.addNPC(NPCUtils.spawnNPC(player.getLocation(), player, "noob"));
 
             } else {
@@ -42,7 +36,7 @@ public class SerenityCommand implements CommandExecutor {
                         player.spigot().sendMessage(bye);
                     }
                     case "walk_to" -> {
-                        BlockPos goalPos = SereneNPCs.plugin.getStorylineLocations().getBlockPos( strings[1]);
+                        BlockPos goalPos = SereneNPCs.plugin.getStorylineLocations().getBlockPos(strings[1]);
                         StorylineNPC storylineNPC = ChatMaster.getNPC(player);
 
                         MasterGoal navigateToLocation = new NavigateToLocation("navigate", storylineNPC, blockPos -> goalPos.distSqr(blockPos) < 4, goalPos);
@@ -53,7 +47,7 @@ public class SerenityCommand implements CommandExecutor {
 
                     }
                     case "spawn" -> {
-                        switch (strings[1]){
+                        switch (strings[1]) {
                             case "guide" -> {
                                 NPCUtils.spawnGuideNPC(player.getLocation(), player, "Guide", "Notch");
                             }

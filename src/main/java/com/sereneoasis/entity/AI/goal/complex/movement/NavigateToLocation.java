@@ -4,10 +4,11 @@ import com.sereneoasis.entity.AI.goal.basic.look.PeriodicallyRotate;
 import com.sereneoasis.entity.AI.goal.basic.movement.MoveToBlock;
 import com.sereneoasis.entity.SereneHumanEntity;
 import net.minecraft.core.BlockPos;
+import org.bukkit.Bukkit;
 
 import java.util.function.Predicate;
 
-public class NavigateToLocation extends MasterMovement{
+public class NavigateToLocation extends MasterMovement {
 
     private MoveToBlock moveToBlock;
     private PeriodicallyRotate periodicallyRotate;
@@ -18,16 +19,17 @@ public class NavigateToLocation extends MasterMovement{
         this.moveToBlock = new MoveToBlock("move", npc, blockPos);
         movementGoalSelector.addGoal(moveToBlock);
 
-        this.periodicallyRotate = new PeriodicallyRotate("rotate", npc, 1, 40, 60);
-        //lookGoalSelector.addGoal(periodicallyRotate);
+//        this.periodicallyRotate = new PeriodicallyRotate("rotate", npc, 1, 40, 60);
+//        lookGoalSelector.addGoal(periodicallyRotate);
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (moveToBlock.isFinished()){
+        if (moveToBlock.isFinished()) {
+            Bukkit.broadcastMessage("finished");
             this.setFinished(true);
         }
-        }
     }
+}
 

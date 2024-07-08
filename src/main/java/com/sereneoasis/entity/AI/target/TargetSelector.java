@@ -18,63 +18,63 @@ public class TargetSelector {
     private PriorityQueue<Player> players;
 
     private SereneHumanEntity npc;
+    private long time = 0;
 
     public TargetSelector(SereneHumanEntity owner) {
         this.npc = owner;
-        this.hostileEntityStack = new PriorityQueue<>((a,b ) -> (int) (npc.distanceToSqr(a) - npc.distanceToSqr(b)));
-        this.peacefulEntityStack = new PriorityQueue<>((a,b ) -> (int) (npc.distanceToSqr(a) - npc.distanceToSqr(b)));
-        this.players = new PriorityQueue<>((a,b ) -> (int) (npc.distanceToSqr(a) - npc.distanceToSqr(b)));
+        this.hostileEntityStack = new PriorityQueue<>((a, b) -> (int) (npc.distanceToSqr(a) - npc.distanceToSqr(b)));
+        this.peacefulEntityStack = new PriorityQueue<>((a, b) -> (int) (npc.distanceToSqr(a) - npc.distanceToSqr(b)));
+        this.players = new PriorityQueue<>((a, b) -> (int) (npc.distanceToSqr(a) - npc.distanceToSqr(b)));
     }
 
-    public boolean noHostile(){
+    public boolean noHostile() {
         return hostileEntityStack.isEmpty();
     }
 
-    public Entity retrieveTopHostile(){
-        if (noHostile()){
+    public Entity retrieveTopHostile() {
+        if (noHostile()) {
             return null;
         }
         return hostileEntityStack.poll();
     }
 
-    public boolean noPeaceful(){
+    public boolean noPeaceful() {
         return peacefulEntityStack.isEmpty();
 
     }
-    public Entity retrieveTopPeaceful(){
-        if (noPeaceful()){
+
+    public Entity retrieveTopPeaceful() {
+        if (noPeaceful()) {
             return null;
         }
         return peacefulEntityStack.poll();
     }
 
-    public boolean noPlayer(){
+    public boolean noPlayer() {
         return players.isEmpty();
     }
 
-    public Player retrieveTopPlayer(){
-        if (noPlayer()){
+    public Player retrieveTopPlayer() {
+        if (noPlayer()) {
             return null;
         }
         return players.poll();
     }
 
-    private long time = 0;
+    public void tick() {
+        if (System.currentTimeMillis() - time > 1000) {
+            time = System.currentTimeMillis();
+            for (Entity entity : npc.level().getEntities(npc, new AABB(npc.getOnPos()).inflate(30))) {
 
-    public void tick(){
-            if (System.currentTimeMillis() - time > 1000){
-                time = System.currentTimeMillis();
-                for (Entity entity : npc.level().getEntities(npc,new AABB(npc.getOnPos()).inflate(30))) {
-
-                    if (entity instanceof Player player) {
-                        players.add(player);
-                    } else if (entity instanceof Monster monster) {
-                        hostileEntityStack.add(monster);
-                    } else if (entity instanceof Animal animal) {
-                        peacefulEntityStack.add(animal);
-                    }
+                if (entity instanceof Player player) {
+                    players.add(player);
+                } else if (entity instanceof Monster monster) {
+                    hostileEntityStack.add(monster);
+                } else if (entity instanceof Animal animal) {
+                    peacefulEntityStack.add(animal);
                 }
             }
+        }
 
     }
 }

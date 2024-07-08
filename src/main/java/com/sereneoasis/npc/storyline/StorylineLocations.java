@@ -8,11 +8,11 @@ public class StorylineLocations {
 
     private FileConfiguration fileConfiguration;
 
-    public StorylineLocations(){
+    public StorylineLocations() {
         fileConfiguration = new ConfigFile("StorylineLocations").getConfig();
     }
 
-    public BlockPos getBlockPos(String name){
+    public BlockPos getBlockPos(String name) {
         int x = fileConfiguration.getInt(name + ".X");
         int y = fileConfiguration.getInt(name + ".Y");
         int z = fileConfiguration.getInt(name + ".Z");

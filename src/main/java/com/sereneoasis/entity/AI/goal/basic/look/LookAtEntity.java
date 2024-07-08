@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 public class LookAtEntity extends BasicGoal implements EntityInteraction {
 
     private LivingEntity entity;
+
     public LookAtEntity(String name, SereneHumanEntity npc, int priority, LivingEntity entity) {
         super(name, npc, priority);
         this.entity = entity;

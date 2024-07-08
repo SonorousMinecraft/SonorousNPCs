@@ -13,11 +13,15 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.HashMap;
 import java.util.UUID;
 
+/***
+ * More complex versions of BasicNPC
+ * These have a pivotal role in the storyline of the Server
+ */
 public abstract class StorylineNPC extends SereneHumanEntity {
 
 
-    private static final HashMap<UUID, ChatBuilder>UUID_CHAT_BUILDER_HASH_MAP = new HashMap<>();
-    private static final HashMap<UUID, StorylineNPC>UUID_STORYLINE_NPC_HASH_MAP = new HashMap<>();
+    private static final HashMap<UUID, ChatBuilder> UUID_CHAT_BUILDER_HASH_MAP = new HashMap<>();
+    private static final HashMap<UUID, StorylineNPC> UUID_STORYLINE_NPC_HASH_MAP = new HashMap<>();
 
     public StorylineNPC(MinecraftServer server, ServerLevel world, GameProfile profile, ClientInformation clientOptions, String conversationFile) {
         super(server, world, profile, clientOptions);
@@ -54,42 +58,24 @@ public abstract class StorylineNPC extends SereneHumanEntity {
 
             }
             currentIndex += 1;
-        };
+        }
+        ;
         UUID_CHAT_BUILDER_HASH_MAP.put(this.getUUID(), chatBuilder);
         UUID_STORYLINE_NPC_HASH_MAP.put(this.getUUID(), this);
+    }
+
+    public static ChatBuilder getChat(UUID uuid) {
+        return UUID_CHAT_BUILDER_HASH_MAP.get(uuid);
+    }
+
+    public static StorylineNPC getInstance(UUID uuid) {
+        return UUID_STORYLINE_NPC_HASH_MAP.get(uuid);
     }
 
     @Override
     public void tick() {
         super.tick();
 
-//        if (!masterGoalSelector.doingGoal("kill hostile entity")) {
-//            if (targetSelector.retrieveTopHostile() instanceof LivingEntity hostile && (!Vec3Utils.isObstructed(this.getPosition(0), hostile.getPosition(0), this.level()))) {
-//                masterGoalSelector.addMasterGoal(new KillTargetEntity("kill hostile entity", this, hostile));
-//            } else {
-////                if (!masterGoalSelector.doingGoal("roam")) {
-////                    masterGoalSelector.addMasterGoal(new RandomExploration("roam", this, null));
-////                }
-//                if (!inventoryTracker.hasEnoughFood()) {
-//                    if (!masterGoalSelector.doingGoal("kill food entity")) {
-//                        if (targetSelector.retrieveTopPeaceful() instanceof LivingEntity peaceful) {
-//                            masterGoalSelector.addMasterGoal(new KillTargetEntity("kill food entity", this, peaceful));
-//                        }
-//                    }
-//                } else if (inventoryTracker.hasFood()) {
-//                    this.eat(this.level(), inventoryTracker.getMostAppropriateFood());
-//                }
-//            }
-//        }
-    }
-
-
-    public static ChatBuilder getChat(UUID uuid){
-        return UUID_CHAT_BUILDER_HASH_MAP.get(uuid);
-    }
-
-    public static StorylineNPC getInstance(UUID uuid){
-        return UUID_STORYLINE_NPC_HASH_MAP.get(uuid);
     }
 }
 

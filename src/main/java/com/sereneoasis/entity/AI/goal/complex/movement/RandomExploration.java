@@ -7,7 +7,7 @@ import net.minecraft.core.BlockPos;
 
 import java.util.function.Predicate;
 
-public class RandomExploration extends MasterMovement{
+public class RandomExploration extends MasterMovement {
 
     private MoveForward moveForward;
     private PeriodicallyRotate periodicallyRotate;

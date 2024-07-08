@@ -21,10 +21,10 @@ import java.util.*;
 
 public class PathFinder {
     private static final float FUDGING = 1.5F;
+    private static final boolean DEBUG = false;
+    public final NodeEvaluator nodeEvaluator;
     private final Node[] neighbors = new Node[32];
     private final int maxVisitedNodes;
-    public final NodeEvaluator nodeEvaluator;
-    private static final boolean DEBUG = false;
     private final BinaryHeap openSet = new BinaryHeap();
 
     public PathFinder(NodeEvaluator pathNodeMaker, int range) {
@@ -43,12 +43,12 @@ public class PathFinder {
             List<Map.Entry<Target, BlockPos>> map = Lists.newArrayList();
             Iterator var9 = positions.iterator();
 
-            while(var9.hasNext()) {
-                BlockPos pos = (BlockPos)var9.next();
-                map.add(new AbstractMap.SimpleEntry(this.nodeEvaluator.getGoal((double)pos.getX(), (double)pos.getY(), (double)pos.getZ()), pos));
+            while (var9.hasNext()) {
+                BlockPos pos = (BlockPos) var9.next();
+                map.add(new AbstractMap.SimpleEntry(this.nodeEvaluator.getGoal((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()), pos));
             }
 
-            Path path = this.findPath((ProfilerFiller)world.getProfiler(), (Node)node, (List)map, followRange, distance, rangeMultiplier);
+            Path path = this.findPath((ProfilerFiller) world.getProfiler(), (Node) node, (List) map, followRange, distance, rangeMultiplier);
             this.nodeEvaluator.done();
             return path;
         }
@@ -65,9 +65,9 @@ public class PathFinder {
         this.openSet.insert(startNode);
         int i = 0;
         List<Map.Entry<Target, BlockPos>> entryList = Lists.newArrayListWithExpectedSize(positions.size());
-        int j = (int)((float)this.maxVisitedNodes * rangeMultiplier);
+        int j = (int) ((float) this.maxVisitedNodes * rangeMultiplier);
 
-        while(!this.openSet.isEmpty()) {
+        while (!this.openSet.isEmpty()) {
             ++i;
             if (i >= j) {
                 break;
@@ -77,10 +77,10 @@ public class PathFinder {
             node.closed = true;
 
             int k;
-            for(k = 0; k < positions.size(); ++k) {
-                Map.Entry<Target, BlockPos> entry = (Map.Entry)positions.get(k);
-                Target target = (Target)entry.getKey();
-                if (node.distanceManhattan(target) <= (float)distance) {
+            for (k = 0; k < positions.size(); ++k) {
+                Map.Entry<Target, BlockPos> entry = (Map.Entry) positions.get(k);
+                Target target = (Target) entry.getKey();
+                if (node.distanceManhattan(target) <= (float) distance) {
                     target.setReached();
                     entryList.add(entry);
                 }
@@ -93,7 +93,7 @@ public class PathFinder {
             if (!(node.distanceTo(startNode) >= followRange)) {
                 k = this.nodeEvaluator.getNeighbors(this.neighbors, node);
 
-                for(int l = 0; l < k; ++l) {
+                for (int l = 0; l < k; ++l) {
                     Node node2 = this.neighbors[l];
                     float f = this.distance(node, node2);
                     node2.walkedDistance = node.walkedDistance + f;
@@ -116,18 +116,18 @@ public class PathFinder {
         Path best = null;
         boolean entryListIsEmpty = entryList.isEmpty();
         Comparator<Path> comparator = entryListIsEmpty ? Comparator.comparingInt(Path::getNodeCount) : Comparator.comparingDouble(Path::getDistToTarget).thenComparingInt(Path::getNodeCount);
-        Iterator var21 = ((List)(entryListIsEmpty ? positions : entryList)).iterator();
+        Iterator var21 = ((List) (entryListIsEmpty ? positions : entryList)).iterator();
 
-        while(true) {
+        while (true) {
             Path path;
             do {
                 if (!var21.hasNext()) {
                     return best;
                 }
 
-                Map.Entry<Target, BlockPos> entry = (Map.Entry)var21.next();
-                path = this.reconstructPath(((Target)entry.getKey()).getBestNode(), (BlockPos)entry.getValue(), !entryListIsEmpty);
-            } while(best != null && comparator.compare(path, best) >= 0);
+                Map.Entry<Target, BlockPos> entry = (Map.Entry) var21.next();
+                path = this.reconstructPath(((Target) entry.getKey()).getBestNode(), (BlockPos) entry.getValue(), !entryListIsEmpty);
+            } while (best != null && comparator.compare(path, best) >= 0);
 
             best = path;
         }
@@ -141,8 +141,8 @@ public class PathFinder {
         float f = Float.MAX_VALUE;
         int i = 0;
 
-        for(int targetsSize = targets.size(); i < targetsSize; ++i) {
-            Target target = (Target)((Map.Entry)targets.get(i)).getKey();
+        for (int targetsSize = targets.size(); i < targetsSize; ++i) {
+            Target target = (Target) ((Map.Entry) targets.get(i)).getKey();
             float g = node.distanceTo(target);
             target.updateBest(g, node);
             f = Math.min(g, f);
@@ -156,7 +156,7 @@ public class PathFinder {
         Node node = endNode;
         list.add(0, endNode);
 
-        while(node.cameFrom != null) {
+        while (node.cameFrom != null) {
             node = node.cameFrom;
             list.add(0, node);
         }

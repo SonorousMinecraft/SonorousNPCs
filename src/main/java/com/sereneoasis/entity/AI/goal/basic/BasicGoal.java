@@ -8,7 +8,7 @@ public abstract class BasicGoal extends BaseGoal {
 
     private int priority;
 
-    public BasicGoal(String name, SereneHumanEntity npc, int priority){
+    public BasicGoal(String name, SereneHumanEntity npc, int priority) {
         super(name, npc);
         this.priority = priority;
     }

@@ -11,7 +11,7 @@ import net.minecraft.world.item.Items;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class BowRangedAttackEntity extends Combat{
+public class BowRangedAttackEntity extends Combat {
     public BowRangedAttackEntity(String name, SereneHumanEntity npc, int priority, LivingEntity entity) {
         super(name, npc, priority, entity);
 
@@ -23,12 +23,12 @@ public class BowRangedAttackEntity extends Combat{
 //        player.getEquipment().setItemInMainHand(new ItemStack(Material.BOW));
 
 
-         npc.setItemSlot(EquipmentSlot.MAINHAND, net.minecraft.world.item.ItemStack.fromBukkitCopy(new ItemStack(Material.BOW)));
-         npc.getInventory().setItem(npc.getInventory().getFreeSlot(), net.minecraft.world.item.ItemStack.fromBukkitCopy(new ItemStack(Material.ARROW, 1)));
+        npc.setItemSlot(EquipmentSlot.MAINHAND, net.minecraft.world.item.ItemStack.fromBukkitCopy(new ItemStack(Material.BOW)));
+        npc.getInventory().setItem(npc.getInventory().getFreeSlot(), net.minecraft.world.item.ItemStack.fromBukkitCopy(new ItemStack(Material.ARROW, 1)));
 
-         if (entity instanceof Player player) {
-             player.displayClientMessage(Component.literal("dodge this arrow fat nerd"), true);
-         }
+        if (entity instanceof Player player) {
+            player.displayClientMessage(Component.literal("dodge this arrow fat nerd"), true);
+        }
     }
 
     @Override

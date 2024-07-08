@@ -10,10 +10,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.ai.control.Control;
 
 public class BodyRotationControl implements Control {
-    private final SereneHumanEntity mob;
     private static final int HEAD_STABLE_ANGLE = 15;
     private static final int DELAY_UNTIL_STARTING_TO_FACE_FORWARD = 10;
     private static final int HOW_LONG_IT_TAKES_TO_FACE_FORWARD = 10;
+    private final SereneHumanEntity mob;
     private int headStableTime;
     private float lastStableYHeadRot;
 
@@ -45,17 +45,17 @@ public class BodyRotationControl implements Control {
     }
 
     private void rotateBodyIfNecessary() {
-        this.mob.yBodyRot = Mth.rotateIfNecessary(this.mob.yBodyRot, this.mob.yHeadRot, (float)this.mob.getMaxHeadYRot());
+        this.mob.yBodyRot = Mth.rotateIfNecessary(this.mob.yBodyRot, this.mob.yHeadRot, (float) this.mob.getMaxHeadYRot());
     }
 
     private void rotateHeadIfNecessary() {
-        this.mob.yHeadRot = Mth.rotateIfNecessary(this.mob.yHeadRot, this.mob.yBodyRot, (float)this.mob.getMaxHeadYRot());
+        this.mob.yHeadRot = Mth.rotateIfNecessary(this.mob.yHeadRot, this.mob.yBodyRot, (float) this.mob.getMaxHeadYRot());
     }
 
     private void rotateHeadTowardsFront() {
         int i = this.headStableTime - 10;
-        float f = Mth.clamp((float)i / 10.0F, 0.0F, 1.0F);
-        float g = (float)this.mob.getMaxHeadYRot() * (1.0F - f);
+        float f = Mth.clamp((float) i / 10.0F, 0.0F, 1.0F);
+        float g = (float) this.mob.getMaxHeadYRot() * (1.0F - f);
         this.mob.yBodyRot = Mth.rotateIfNecessary(this.mob.yBodyRot, this.mob.yHeadRot, g);
     }
 

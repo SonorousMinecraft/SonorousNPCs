@@ -15,15 +15,11 @@ import java.util.ArrayList;
 
 public class MainGUI {
 
-    private ChestGui gui;
+    private final ChestGui gui;
 
-    public void openGUI(Player player) {
-        gui.show(player);
-    }
+    public MainGUI(ShopGUI shopGUI, QuestGUI questGUI) {
 
-    public MainGUI(ShopGUI shopGUI, QuestGUI questGUI){
-
-         gui = new ChestGui(3, "NPC");
+        gui = new ChestGui(3, "NPC");
 
         gui.setOnGlobalClick(event -> event.setCancelled(true));
 
@@ -72,5 +68,9 @@ public class MainGUI {
         }));
 
         gui.addPane(navigationPane);
+    }
+
+    public void openGUI(Player player) {
+        gui.show(player);
     }
 }

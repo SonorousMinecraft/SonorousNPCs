@@ -18,8 +18,8 @@ public class PeriodicallyRotate extends BasicGoal {
         this.maxRotateRange = maxRotateRange;
     }
 
-    public void prematureRotate(double temporaryMaxRotateRange){
-        npc.setYRot((float) (npc.getBukkitYaw() +  (Math.random()-0.5) * temporaryMaxRotateRange));
+    public void prematureRotate(double temporaryMaxRotateRange) {
+        npc.setYRot((float) (npc.getBukkitYaw() + (Math.random() - 0.5) * temporaryMaxRotateRange));
         sinceLastRotate = npc.tickCount;
     }
 
@@ -27,7 +27,7 @@ public class PeriodicallyRotate extends BasicGoal {
     public void tick() {
         if (npc.tickCount - sinceLastRotate > rotateCounter) {
             //Bukkit.broadcastMessage("rotating head");
-            npc.setYRot((float) (npc.getBukkitYaw() +  (Math.random()-0.5) * maxRotateRange));
+            npc.setYRot((float) (npc.getBukkitYaw() + (Math.random() - 0.5) * maxRotateRange));
             sinceLastRotate = npc.tickCount;
         }
     }
