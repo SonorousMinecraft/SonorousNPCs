@@ -1,6 +1,127 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7647925f-e22d-439b-8ee3-701ca68c1b78" name="Changes" comment="Re-introduce damage taking">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="3d2f9251-4a4f-4407-b3b3-a347ab8e5497" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="2iyJQzCcxEIyGP4tyCU00nwx3Ug" />
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;fixes&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/sujan/IdeaProjects/AvatarDuels&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7647925f-e22d-439b-8ee3-701ca68c1b78" name="Changes" comment="" />
+      <created>1720456871378</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1720456871378</updated>
+      <workItem from="1720456872399" duration="632000" />
+      <workItem from="1720633442944" duration="4000" />
+      <workItem from="1721911855677" duration="5000" />
+      <workItem from="1721938523291" duration="5000" />
+      <workItem from="1722259452753" duration="5000" />
+      <workItem from="1722330925716" duration="10000" />
+      <workItem from="1722611781092" duration="344000" />
+      <workItem from="1722614783551" duration="1389000" />
+      <workItem from="1722755114939" duration="38000" />
+      <workItem from="1724702911329" duration="3000" />
+      <workItem from="1724933259390" duration="2343000" />
+      <workItem from="1726667638397" duration="261000" />
+      <workItem from="1726668538659" duration="1341000" />
+      <workItem from="1726670343548" duration="30000" />
+      <workItem from="1726670525702" duration="1207000" />
+      <workItem from="1726753026065" duration="2000" />
+      <workItem from="1728233618224" duration="608000" />
+      <workItem from="1728504589137" duration="640000" />
+      <workItem from="1728506052534" duration="4000" />
+      <workItem from="1728506173989" duration="4000" />
+      <workItem from="1728506298839" duration="5000" />
+      <workItem from="1728571012846" duration="5000" />
+      <workItem from="1728673481388" duration="16000" />
+      <workItem from="1729095671191" duration="708000" />
+      <workItem from="1729180298879" duration="427000" />
+      <workItem from="1729947496712" duration="140000" />
+    </task>
+    <task id="LOCAL-00001" summary="Update gitignore">
+      <option name="closed" value="true" />
+      <created>1720456902902</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1720456902902</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Re-introduce damage taking">
+      <option name="closed" value="true" />
+      <created>1724934522467</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1724934522467</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Update gitignore" />
+    <MESSAGE value="Re-introduce damage taking" />
+    <option name="LAST_COMMIT_MESSAGE" value="Re-introduce damage taking" />
   </component>
 </project>
