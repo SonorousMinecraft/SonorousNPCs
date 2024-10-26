@@ -50,6 +50,7 @@ import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.boss.EnderDragonPart;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.vehicle.Boat;
@@ -1236,21 +1237,21 @@ public class SereneHumanEntity extends ServerPlayer {
 
                 this.walkAnimation.setSpeed(1.5F);
                 boolean flag1 = true;
-                if ((float) this.invulnerableTime > (float) this.invulnerableDuration / 2.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN)) {
+                if ((float)this.invulnerableTime > (float)this.invulnerableDuration / 2.0F && !source.is(DamageTypeTags.BYPASSES_COOLDOWN)) {
                     if (amount <= this.lastHurt) {
                         return false;
                     }
 
-//                    if (!this.damageEntity0(source, amount - this.lastHurt)) {
-//                        return false;
-//                    }
+                    if (!this.actuallyHurt(source, amount - this.lastHurt)) {
+                        return false;
+                    }
 
                     this.lastHurt = amount;
                     flag1 = false;
                 } else {
-//                    if (!this.damageEntity0(source, amount)) {
-//                        return false;
-//                    }
+                    if (!this.actuallyHurt(source, amount)) {
+                        return false;
+                    }
 
                     this.lastHurt = amount;
                     this.invulnerableTime = this.invulnerableDuration;
@@ -1261,23 +1262,23 @@ public class SereneHumanEntity extends ServerPlayer {
                 Entity entity1 = source.getEntity();
                 if (entity1 != null) {
                     if (entity1 instanceof LivingEntity) {
-                        LivingEntity entityliving1 = (LivingEntity) entity1;
+                        LivingEntity entityliving1 = (LivingEntity)entity1;
                         if (!source.is(DamageTypeTags.NO_ANGER)) {
                             this.setLastHurtByMob(entityliving1);
                         }
                     }
 
-                    if (entity1 instanceof net.minecraft.world.entity.player.Player) {
-                        net.minecraft.world.entity.player.Player entityhuman = (net.minecraft.world.entity.player.Player) entity1;
+                    if (entity1 instanceof Player) {
+                        Player entityhuman = (Player)entity1;
                         this.lastHurtByPlayerTime = 100;
                         this.lastHurtByPlayer = entityhuman;
                     } else if (entity1 instanceof Wolf) {
-                        Wolf entitywolf = (Wolf) entity1;
+                        Wolf entitywolf = (Wolf)entity1;
                         if (entitywolf.isTame()) {
                             this.lastHurtByPlayerTime = 100;
                             LivingEntity entityliving2 = entitywolf.getOwner();
-                            if (entityliving2 instanceof net.minecraft.world.entity.player.Player) {
-                                net.minecraft.world.entity.player.Player entityhuman1 = (net.minecraft.world.entity.player.Player) entityliving2;
+                            if (entityliving2 instanceof Player) {
+                                Player entityhuman1 = (Player)entityliving2;
                                 this.lastHurtByPlayer = entityhuman1;
                             } else {
                                 this.lastHurtByPlayer = null;
@@ -1289,7 +1290,7 @@ public class SereneHumanEntity extends ServerPlayer {
                 boolean flag2;
                 if (flag1) {
                     if (flag) {
-                        this.level().broadcastEntityEvent(this, (byte) 29);
+                        this.level().broadcastEntityEvent(this, (byte)29);
                     } else {
                         this.level().broadcastDamageEvent(this, source);
                     }
@@ -1303,42 +1304,42 @@ public class SereneHumanEntity extends ServerPlayer {
                         double d0 = flag2 ? Math.random() - Math.random() : entity1.getX() - this.getX();
 
                         double d1;
-                        for (d1 = flag2 ? Math.random() - Math.random() : entity1.getZ() - this.getZ(); d0 * d0 + d1 * d1 < 1.0E-4; d1 = (Math.random() - Math.random()) * 0.01) {
+                        for(d1 = flag2 ? Math.random() - Math.random() : entity1.getZ() - this.getZ(); d0 * d0 + d1 * d1 < 1.0E-4; d1 = (Math.random() - Math.random()) * 0.01) {
                             d0 = (Math.random() - Math.random()) * 0.01;
                         }
 
-//                        this.knockback(0.4000000059604645, d0, d1, entity1);
+                        this.knockback(0.4000000059604645, d0, d1, entity1, entity1 == null ? EntityKnockbackEvent.KnockbackCause.DAMAGE : EntityKnockbackEvent.KnockbackCause.ENTITY_ATTACK);
                         if (!flag) {
-                            //  this.indicateDamage(d0, d1);
+                            this.indicateDamage(d0, d1);
                         }
                     }
                 }
 
                 if (this.isDeadOrDying()) {
 //                    if (!this.checkTotemDeathProtection(source)) {
-                    this.silentDeath = !flag1;
-                    this.die(source);
-                    this.silentDeath = false;
+//                        this.silentDeath = !flag1;
+//                        this.die(source);
+//                        this.silentDeath = false;
 //                    }
                 } else if (flag1) {
                     this.playHurtSound(source);
                 }
 
                 flag2 = !flag || amount > 0.0F;
-                if (flag2) {
+//                if (flag2) {
 //                    this.lastDamageSource = source;
 //                    this.lastDamageStamp = this.level().getGameTime();
-                }
+//                }
 
                 if (this instanceof ServerPlayer) {
-                    CriteriaTriggers.ENTITY_HURT_PLAYER.trigger((ServerPlayer) this, source, f1, amount, flag);
+                    CriteriaTriggers.ENTITY_HURT_PLAYER.trigger((ServerPlayer)this, source, f1, amount, flag);
                     if (f2 > 0.0F && f2 < 3.4028235E37F) {
-                        ((ServerPlayer) this).awardStat(Stats.DAMAGE_BLOCKED_BY_SHIELD, Math.round(f2 * 10.0F));
+                        ((ServerPlayer)this).awardStat(Stats.DAMAGE_BLOCKED_BY_SHIELD, Math.round(f2 * 10.0F));
                     }
                 }
 
                 if (entity1 instanceof ServerPlayer) {
-                    CriteriaTriggers.PLAYER_HURT_ENTITY.trigger((ServerPlayer) entity1, this, source, f1, amount, flag);
+                    CriteriaTriggers.PLAYER_HURT_ENTITY.trigger((ServerPlayer)entity1, this, source, f1, amount, flag);
                 }
 
                 return flag2;
